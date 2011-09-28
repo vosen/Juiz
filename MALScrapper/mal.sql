@@ -1,0 +1,3 @@
+﻿CREATE TABLE [Users] (
+  [Id] INTEGER NOT NULL PRIMARY KEY, 
+  [Name] TEXT );
