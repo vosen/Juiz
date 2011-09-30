@@ -17,9 +17,12 @@ namespace Vosen.MAL
     {
         static void Main(string[] args)
         {
-            bool help = false;
+            bool range = false;
             bool fill = false;
+            bool repair = false;
+            bool cont = false;
             int start = 0, end = 0, limit = -1;
+            bool help = false;
             string db = null;
             OptionSet op = new OptionSet()
             {
@@ -39,16 +42,26 @@ namespace Vosen.MAL
                     s => fill = s != null
                 },
                 {
+                    "r|repair",
+                    "rescan ids that failed last scan.",
+                    s => repair = s != null
+                },
+                {
+                    "c|continue",
+                    "continue scanning ids, starting from the highest.",
+                    s => cont = s != null
+                },
+                {
                     "l|limit=",
                     "limit amount of concurrent mapping tasks.",
                     s => limit = Int32.Parse(s, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite)
                 },
-                { 
+                {
                     "d|db=",
                     "database name, default is mal.db.",
                     s => db = s 
                 },
-                { 
+                {
                     "h|help",
                     "show this message.",
                     s => help = s != null
@@ -71,7 +84,11 @@ namespace Vosen.MAL
                 return;
             }
 
-            if ((start == 0 && !fill) || end < start || (start != 0 && fill) || limit == 0)
+            // validate args
+            if (start > 0 && end > start)
+                range = true;
+
+            if (new bool[] { range, fill, repair, cont }.Count(b => b) != 1 || limit == 0)
             {
                 ShowError("incorrect arguments.");
                 return;
@@ -80,6 +97,10 @@ namespace Vosen.MAL
             Mapper mapper;
             if (fill)
                 mapper = new FillingMapper() { ConcurrencyLimit = limit };
+            else if(repair)
+                mapper = new RepairMapper() { ConcurrencyLimit = limit };
+            else if (cont)
+                mapper = new ContinueMapper() { ConcurrencyLimit = limit };
             else
                 mapper = new Mapper(start, end) { ConcurrencyLimit = limit };
             if (db != null)

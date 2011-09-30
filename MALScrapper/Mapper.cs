@@ -39,41 +39,44 @@ namespace Vosen.MAL
 
         protected virtual void ScanAndFill(IEnumerable<int> ids)
         {
-            Parallel.ForEach(ids, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, (idx) =>
+            Parallel.ForEach(ids, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, idx =>  SingleQuery(idx));
+        }
+
+        protected bool SingleQuery(int idx)
+        {
+            string site;
+            using (var client = new WebClient() { Proxy = null })
             {
-                string site;
-                using (var client = new WebClient() { Proxy = null })
+                try
                 {
-                    try
-                    {
-                        site = client.DownloadString("http://www.myanimelist.net/comments.php?id=" + idx);
-                    }
-                    catch (WebException ex)
-                    {
-                        using (var conn = OpenConnection())
-                        {
-                            conn.Execute(addUserCommand, new { id = idx, name = (string)null });
-                        }
-                        Console.WriteLine("{0}\terror\t{1}\t{2}\t{3}", idx, ex.Response, ex.Status, ex.Message);
-                        return;
-                    }
+                    site = client.DownloadString("http://www.myanimelist.net/comments.php?id=" + idx);
                 }
-                var match = Regex.Match(site, Regex.Escape("http://www.myanimelist.net/profile.php?username=") + @"(?<name>.+?)" + Regex.Escape("\""));
-                if (match.Success)
+                catch (WebException ex)
                 {
-                    var login = match.Groups["name"].Captures[0].Value;
                     using (var conn = OpenConnection())
                     {
-                        conn.Execute(addUserCommand, new { id = idx, name = login });
+                        conn.Execute(addUserCommand, new { id = idx, name = (string)null });
                     }
-                    Console.WriteLine("{0}\tsuccess", idx);
+                    Console.WriteLine("{0}\terror\t{1}\t{2}\t{3}", idx, ex.Status, ex.Message);
+                    return true;
                 }
-                else
+            }
+            var match = Regex.Match(site, Regex.Escape("http://www.myanimelist.net/profile.php?username=") + @"(?<name>.+?)" + Regex.Escape("\""));
+            if (match.Success)
+            {
+                var login = match.Groups["name"].Captures[0].Value;
+                using (var conn = OpenConnection())
                 {
-                    Console.WriteLine("{0}\tinvalid", idx);
+                    conn.Execute(addUserCommand, new { id = idx, name = login });
                 }
-                
-            });
+                Console.WriteLine("{0}\tsuccess", idx);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("{0}\tinvalid", idx);
+                return false;
+            }
         }
 
         protected SQLiteConnection OpenConnection()
