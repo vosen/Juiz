@@ -57,7 +57,7 @@ namespace Vosen.MAL
                     {
                         conn.Execute(addUserCommand, new { id = idx, name = (string)null });
                     }
-                    Console.WriteLine("{0}\terror\t{1}\t{2}\t{3}", idx, ex.Status, ex.Message);
+                    Console.WriteLine("{0}\terror\t{1}\t{2}", idx, ex.Status, ex.Message);
                     return true;
                 }
             }
