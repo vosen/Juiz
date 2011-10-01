@@ -17,7 +17,6 @@ namespace Vosen.MAL
 
         private int start;
         private int stop;
-        private static string addUserCommand = @"INSERT OR REPLACE INTO Users (Id, Name) VALUES  (@id, @name)";
 
         protected Mapper() 
         {
@@ -55,7 +54,7 @@ namespace Vosen.MAL
                 {
                     using (var conn = OpenConnection())
                     {
-                        conn.Execute(addUserCommand, new { id = idx, name = (string)null });
+                        conn.Execute(@"INSERT OR REPLACE INTO Users (Id, Name) VALUES  (@id, @name)", new { id = idx, name = (string)null });
                     }
                     Console.WriteLine("{0}\terror\t{1}\t{2}", idx, ex.Status, ex.Message);
                     return true;
@@ -67,13 +66,17 @@ namespace Vosen.MAL
                 var login = match.Groups["name"].Captures[0].Value;
                 using (var conn = OpenConnection())
                 {
-                    conn.Execute(addUserCommand, new { id = idx, name = login });
+                    conn.Execute(@"INSERT OR REPLACE INTO Users (Id, Name) VALUES  (@id, @name)", new { id = idx, name = login });
                 }
                 Console.WriteLine("{0}\tsuccess", idx);
                 return true;
             }
             else
             {
+                using (var conn = OpenConnection())
+                {
+                    conn.Execute(@"DELETE FROM Users WHERE Id = @id", new { id = idx });
+                }
                 Console.WriteLine("{0}\tinvalid", idx);
                 return false;
             }
