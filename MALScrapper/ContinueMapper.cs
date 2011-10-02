@@ -10,13 +10,18 @@ namespace Vosen.MAL
 {
     internal class ContinueMapper : Mapper
     {
-        protected const int blockSize = 32;
-        protected const int threshold = 32;
+        protected int blockSize = 32;
+        protected int threshold = 32;
 
         public ContinueMapper() : base() { }
 
         public override void Run()
         {
+            if (ConcurrencyLimit != -1)
+            {
+                blockSize = ConcurrencyLimit;
+                threshold = ConcurrencyLimit;
+            }
             int offset = 0;
             using (var conn = OpenConnection())
             {
