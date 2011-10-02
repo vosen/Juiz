@@ -11,17 +11,22 @@ namespace Vosen.MAL
     {
         static void Main(string[] args)
         {
+            bool fill = false;
             string db;
             bool help = false;
             int limit = -1;
             OptionSet op = new OptionSet()
             {
                 { 
+                    "f|fill",
+                    "filling mode, scrap all not yet scrapped profiles.",
+                    s => fill = s != null
+                },
+                { 
                     "d|db=",
                     "database name, default is mal.db.",
                     s => db = s 
                 },
-                
                 {
                     "l|limit=",
                     "limit amount of concurrent scrapping tasks.",
@@ -50,13 +55,13 @@ namespace Vosen.MAL
                 return;
             }
 
-            if (limit == 0)
+            if (limit == 0 || !fill)
             {
                 ShowError("incorrect arguments.");
                 return;
             }
 
-            new Scrapper(){ }.Run();
+            new Scrapper(){ ConcurrencyLimit = limit }.Run();
             Console.WriteLine("Finished querying.");
         }
 
