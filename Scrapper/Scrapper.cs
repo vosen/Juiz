@@ -28,7 +28,7 @@ namespace Vosen.MAL
 
         protected SQLiteConnection OpenConnection()
         {
-            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 16384, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = true, DataSource = "mal.db" }.ToString());
+            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 32768, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = true, DataSource = "mal.db" }.ToString());
             conn.Open();
             return conn;
         }
