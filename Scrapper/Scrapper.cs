@@ -75,6 +75,7 @@ namespace Vosen.MAL
                         conn.Execute(@"UPDATE Users SET Watchlist_Id = -1 WHERE Name = @nick", new { nick = name });
                     }
                     Console.WriteLine("{0}\tsuccess", name);
+                    return;
                 }
 
                 // Check for private profile
@@ -88,6 +89,7 @@ namespace Vosen.MAL
                                                    SELECT last_insert_rowid();", new { nick = name });
                     }
                     Console.WriteLine("{0}\tsuccess", name);
+                    return;
                 }
 
 
