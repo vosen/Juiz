@@ -8,6 +8,7 @@ using Dapper;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Vosen.MAL
 {
@@ -64,6 +65,32 @@ namespace Vosen.MAL
                         return;
                     }
                 }
+
+                // Check for MAL fuckups
+                if (site.Contains("There was a MySQL Error."))
+                {
+                    using (var conn = OpenConnection())
+                    {
+                        // add empty watchlist
+                        conn.Execute(@"UPDATE Users SET Watchlist_Id = -1 WHERE Name = @nick", new { nick = name });
+                    }
+                    Console.WriteLine("{0}\tsuccess", name);
+                }
+
+                // Check for private profile
+                if(site.Contains("This list has been made private by the owner."))
+                {
+                    using (var conn = OpenConnection())
+                    {
+                        // add empty watchlist
+                        conn.Execute(@"INSERT INTO Watchlist VALUES (NULL);
+                                                   UPDATE Users SET Watchlist_Id = last_insert_rowid() WHERE Name = @nick;
+                                                   SELECT last_insert_rowid();", new { nick = name });
+                    }
+                    Console.WriteLine("{0}\tsuccess", name);
+                }
+
+
                 var doc = new HtmlDocument();
                 doc.LoadHtml(site);
                 var tableNode = doc.GetElementbyId("list_surround");
@@ -117,11 +144,13 @@ namespace Vosen.MAL
 
         protected static Tuple<int, int> ParseRatings(HtmlNode animeLink, HtmlNode ratingCell)
         {
-            int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, Regex.Escape(@"http://myanimelist.net/anime/") + @"(?<id>[0-9]+?)").Groups["id"].Captures[0].Value);
-            string rating = ratingCell.InnerText;
-            if (rating == "-")
-                return null;
-            return Tuple.Create(id, Int32.Parse(rating));
+            int rating;
+            if(ratingCell.InnerText != null && Int32.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
+            {
+                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, Regex.Escape(@"http://myanimelist.net/anime/") + @"(?<id>[0-9]+?)").Groups["id"].Captures[0].Value);
+                return Tuple.Create(id, rating);
+            }
+            return null;
         }
 
     }
