@@ -11,6 +11,6 @@ CREATE TABLE [Watchlist] (
 CREATE TABLE [Users] (
   [Id] INTEGER NOT NULL PRIMARY KEY, 
   [Name] TEXT, 
-  [Watchlist_Id] INTEGER CONSTRAINT [User_Watchlist] REFERENCES [Watchlist]([Id]));
+  [Watchlist_Id] INTEGER);
 
   CREATE UNIQUE INDEX [Name_Unique] ON [Users] ([Name]);

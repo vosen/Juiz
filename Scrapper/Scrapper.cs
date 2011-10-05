@@ -59,7 +59,7 @@ namespace Vosen.MAL
                     {
                         using (var conn = OpenConnection())
                         {
-                            conn.Execute(@"UPDATE Users SET Watchlist_Id = NULL WHERE Name = @nick)", new { nick = name });
+                            conn.Execute(@"UPDATE Users SET Watchlist_Id = NULL WHERE Name = @nick", new { nick = name });
                         }
                         Console.WriteLine("{0}\terror\t{1}\t{2}", name, ex.Status, ex.Message);
                         return;
