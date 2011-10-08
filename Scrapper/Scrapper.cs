@@ -66,18 +66,6 @@ namespace Vosen.MAL
                     }
                 }
 
-                // Check if user exists
-                if (site.Contains("Invalid Username Supplied"))
-                {
-                    using (var conn = OpenConnection())
-                    {
-                        // add empty watchlist
-                        conn.Execute(@"DELETE FROM Users WHERE Name = @nick", new { nick = name });
-                    }
-                    Console.WriteLine("{0}\tsuccess", name);
-                    return;
-                }
-
                 // Check for MAL fuckups
                 if (site.Contains("There was a MySQL Error."))
                 {
@@ -85,6 +73,18 @@ namespace Vosen.MAL
                     {
                         // add empty watchlist
                         conn.Execute(@"UPDATE Users SET Watchlist_Id = -1 WHERE Name = @nick", new { nick = name });
+                    }
+                    Console.WriteLine("{0}\tsuccess", name);
+                    return;
+                }
+
+                // Check if user exists
+                if (site.Contains("Invalid Username Supplied"))
+                {
+                    using (var conn = OpenConnection())
+                    {
+                        // add empty watchlist
+                        conn.Execute(@"DELETE FROM Users WHERE Name = @nick", new { nick = name });
                     }
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
