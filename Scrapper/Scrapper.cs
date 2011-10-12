@@ -29,7 +29,12 @@ namespace Vosen.MAL
 
         protected SQLiteConnection OpenConnection()
         {
-            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 32768, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = true, DataSource = "mal.db" }.ToString());
+            return OpenConnection(DbName);
+        }
+
+        private static SQLiteConnection OpenConnection(string path)
+        {
+            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 32768, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = true, DataSource = path }.ToString());
             conn.Open();
             return conn;
         }
@@ -161,10 +166,21 @@ namespace Vosen.MAL
             int rating;
             if(ratingCell.InnerText != null && Int32.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
             {
-                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, Regex.Escape(@"http://myanimelist.net/anime/") + @"(?<id>[0-9]+?)").Groups["id"].Captures[0].Value);
+                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, @"http://myanimelist\.net/anime/(?<id>[0-9]+?)/").Groups["id"].Captures[0].Value);
                 return Tuple.Create(id, rating);
             }
             return null;
+        }
+
+        public static void CleanDB(string path)
+        {
+            string dbname = path ?? "mal.db";
+            using (var db = OpenConnection(dbname))
+            {
+                db.Execute(@"UPDATE [Users] SET [Watchlist_Id] = NULL;
+                             DELETE FROM Seen;
+                             DELETE FROM Watchlist;");
+            }
         }
 
     }

@@ -11,12 +11,18 @@ namespace Vosen.MAL
     {
         static void Main(string[] args)
         {
+            bool clean = false;
             bool fill = false;
-            string db;
+            string db = null;
             bool help = false;
             int limit = -1;
             OptionSet op = new OptionSet()
             {
+                { 
+                    "clean",
+                    "delete all entries from db.",
+                    s => clean = s != null
+                },
                 { 
                     "f|fill",
                     "filling mode, scrap all not yet scrapped profiles.",
@@ -55,14 +61,21 @@ namespace Vosen.MAL
                 return;
             }
 
-            if (limit == 0 || !fill)
+            if (limit == 0 || !fill && !clean || clean && fill)
             {
                 ShowError("incorrect arguments.");
                 return;
             }
-
-            new Scrapper(){ ConcurrencyLimit = limit }.Run();
-            Console.WriteLine("Finished querying.");
+            if (fill)
+            {
+                new Scrapper() { ConcurrencyLimit = limit }.Run();
+                Console.WriteLine("Finished querying.");
+            }
+            else if (clean)
+            {
+                Scrapper.CleanDB(db);
+                Console.WriteLine("Finished cleaning.");
+            }
         }
 
         private static void ShowHelp(OptionSet p)
@@ -78,5 +91,6 @@ namespace Vosen.MAL
             Console.WriteLine(message);
             Console.WriteLine("Try `Scrapper --help' for more information.");
         }
+
     }
 }
