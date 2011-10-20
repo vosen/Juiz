@@ -201,9 +201,9 @@ namespace Vosen.MAL
                         rating = i;
                 }
                 if (title != -1 && rating != -1)
-                    break;
+                    return Tuple.Create(title, rating);
             }
-            return Tuple.Create(title, rating);
+            return null;
         }
 
         protected static Tuple<HtmlNode, HtmlNode> ExtractPayload(HtmlNode tableNode, int titleIndex, int ratingIndex)
@@ -214,20 +214,13 @@ namespace Vosen.MAL
             var cells = row.Elements("td").ToList();
             if(cells.Count < 2)
                 return null;
-            var linkNode = cells.Select(n => n.Element("a")).First(n => n != null);
+            var linkNode = cells[titleIndex].ChildNodes.FirstOrDefault(n => n.Name == "a");
             if (linkNode == null)
                 return null;
             var linkNodeClass = linkNode.Attributes["class"];
             if (linkNodeClass == null || linkNodeClass.Value != "animetitle")
                 return null;
-            var scoreNode = linkNode.ParentNode.NextSibling;
-            while (scoreNode.Name != "td")
-            {
-                scoreNode = scoreNode.NextSibling;
-                if (scoreNode == null)
-                    return null;
-            }
-            return Tuple.Create(linkNode, scoreNode);
+            return Tuple.Create(linkNode, cells[ratingIndex]);
 
         }
 
