@@ -86,11 +86,7 @@ namespace Vosen.MAL
                 // Check if user exists
                 if (site.Contains("Invalid Username Supplied"))
                 {
-                    using (var conn = OpenConnection())
-                    {
-                        // add empty watchlist
-                        conn.Execute(@"DELETE FROM Users WHERE Name = @nick", new { nick = name });
-                    }
+                    CreateEmptyWatchlist(name);
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -113,9 +109,17 @@ namespace Vosen.MAL
                 var doc = new HtmlDocument();
                 doc.LoadHtml(site);
                 var tableNode = doc.GetElementbyId("list_surround");
+                var mainIndices = FindTitleRatingIndices(tableNode);
+                // check for people who don't put ratings on their profiles
+                if (mainIndices == null)
+                {
+                    CreateEmptyWatchlist(name);
+                    Console.WriteLine("{0}\tsuccess", name);
+                    return;
+                }
                 var ratings = tableNode.ChildNodes
                     .Where(n => n.Name == "table" && !n.Attributes.Contains("class"))
-                    .Select(ExtractPayload)
+                    .Select(n => ExtractPayload(n, mainIndices.Item1, mainIndices.Item2))
                     .Where(t => t != null)
                     .Select(t => ParseRatings(t.Item1, t.Item2))
                     .Where(t => t != null).ToList();
@@ -136,7 +140,70 @@ namespace Vosen.MAL
             }
         }
 
-        protected static Tuple<HtmlNode, HtmlNode> ExtractPayload(HtmlNode tableNode)
+        protected  static bool IsHeadCell(HtmlNode node)
+        {
+            if (node.Name != "td")
+                return false;
+            var headerAttrib = node.Attributes["class"];
+            if (headerAttrib == null)
+                return false;
+            return headerAttrib.Value == "table_header";
+        }
+
+        protected void CreateEmptyWatchlist(string name)
+        {
+            using (var conn = OpenConnection())
+            {
+                // add empty watchlist
+                conn.Execute(@"INSERT INTO Watchlist VALUES (NULL);
+                                                   UPDATE Users SET Watchlist_Id = last_insert_rowid() WHERE Name = @nick;
+                                                   SELECT last_insert_rowid();", new { nick = name });
+            }
+        }
+
+        protected static IList<HtmlNode> ExtractHeadCells(HtmlNode node)
+        {
+            if (node.Name != "table")
+                return null;
+            var row = node.ChildNodes.FirstOrDefault(n => n.Name == "tr");
+            if (row == null)
+                return null;
+            var headNodes = row.ChildNodes.Where(IsHeadCell).ToList();
+            if (headNodes.Count == 0)
+                return null;
+            return headNodes;
+        }
+
+        protected static Tuple<int, int> FindTitleRatingIndices(HtmlNode outerNode)
+        {
+            var headNodes = outerNode.ChildNodes.Select(ExtractHeadCells).FirstOrDefault(e => e != null);
+            if (headNodes == null)
+                return null;
+            int title = -1;
+            int rating = -1;
+            // we've got <td> nodes containing titles
+            for (int i = 0; i < headNodes.Count; i++)
+            {
+                // strip whitespace
+                string innerText = Regex.Replace(headNodes[i].InnerText, @"\s+", " ", RegexOptions.Compiled);
+                if (innerText == "Anime Title")
+                {
+                    title = i;
+                }
+                else
+                {
+                    // look for a <strong> child
+                    var strongNode = headNodes[i].ChildNodes.FirstOrDefault(n => n.Name == "strong");
+                    if (strongNode != null && strongNode.InnerText == "Score")
+                        rating = i;
+                }
+                if (title != -1 && rating != -1)
+                    break;
+            }
+            return Tuple.Create(title, rating);
+        }
+
+        protected static Tuple<HtmlNode, HtmlNode> ExtractPayload(HtmlNode tableNode, int titleIndex, int ratingIndex)
         {
             var row = tableNode.Element("tr");
             if (row == null)
@@ -166,7 +233,7 @@ namespace Vosen.MAL
             int rating;
             if(ratingCell.InnerText != null && Int32.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
             {
-                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, @"http://myanimelist\.net/anime/(?<id>[0-9]+?)/").Groups["id"].Captures[0].Value);
+                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, @"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.Compiled).Groups["id"].Captures[0].Value);
                 return Tuple.Create(id, rating);
             }
             return null;
