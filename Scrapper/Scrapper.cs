@@ -14,6 +14,9 @@ namespace Vosen.MAL
 {
     class Scrapper
     {
+        private static Regex trimWhitespace = new Regex(@"\s+", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
         public int ConcurrencyLimit { get; set; }
         public string DbName { get; set; }
 
@@ -185,7 +188,7 @@ namespace Vosen.MAL
             for (int i = 0; i < headNodes.Count; i++)
             {
                 // strip whitespace
-                string innerText = Regex.Replace(headNodes[i].InnerText, @"\s+", " ", RegexOptions.Compiled);
+                string innerText = trimWhitespace.Replace(headNodes[i].InnerText, " ");
                 if (innerText == "Anime Title")
                 {
                     title = i;
@@ -233,7 +236,7 @@ namespace Vosen.MAL
             int rating;
             if(ratingCell.InnerText != null && Int32.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
             {
-                int id = Int32.Parse(Regex.Match(animeLink.Attributes["href"].Value, @"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.Compiled).Groups["id"].Captures[0].Value);
+                int id = Int32.Parse(captureRating.Match(animeLink.Attributes["href"].Value).Groups["id"].Captures[0].Value);
                 return Tuple.Create(id, rating);
             }
             return null;
