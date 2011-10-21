@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>pick_test_database.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <AssemblyName>SVD-Test</AssemblyName>
+    <Name>SVD-Test</Name>
+    <RootNamespace>SVD-Test</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>"C:\\Users\\vosen\\Documents\\Visual Studio 2010\\Projects\\MALScrapper\\remote\\mal-WIP.db"</CommandLineArguments>
+    <InterpreterPath />
+    <InterpreterArguments />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="matrix_type_benchmark.py" />
+    <Compile Include="pick_test_database.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="matrix_type_benchmark.txt" />
+  </ItemGroup>
+</Project>

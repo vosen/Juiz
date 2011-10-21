@@ -1,0 +1,20 @@
+run #1
+bsr: 4.08s 54.68MB
+coo: 9.66s 56.34MB
+csc: 3.22s 55.88MB
+csr: 3.71s 56.71MB
+
+run #2
+bsr: 3.78s 54.64MB
+coo: 3.49s 56.30MB
+csc: 3.13s 55.91MB
+csr: 5.23s 56.88MB
+
+run #3
+bsr: 3.11s 54.65MB
+coo: 6.31s 56.32MB
+csc: 2.53s 55.92MB
+csr: 2.73s 56.89MB
+
+---
+bootom line is: use csc
