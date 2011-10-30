@@ -65,10 +65,7 @@ namespace Vosen.MAL
                     }
                     catch (WebException ex)
                     {
-                        using (var conn = OpenConnection())
-                        {
-                            conn.Execute(@"UPDATE Users SET Watchlist_Id = NULL WHERE Name = @nick", new { nick = name });
-                        }
+                        MarkAsQueried(name, false);
                         Console.WriteLine("{0}\terror\t{1}\t{2}", name, ex.Status, ex.Message);
                         return;
                     }
@@ -77,11 +74,7 @@ namespace Vosen.MAL
                 // Check for MAL fuckups
                 if (site.Contains("There was a MySQL Error."))
                 {
-                    using (var conn = OpenConnection())
-                    {
-                        // add empty watchlist
-                        conn.Execute(@"UPDATE Users SET Watchlist_Id = -1 WHERE Name = @nick", new { nick = name });
-                    }
+                    MarkAsQueried(name, false);
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -89,7 +82,11 @@ namespace Vosen.MAL
                 // Check if user exists
                 if (site.Contains("Invalid Username Supplied"))
                 {
-                    CreateEmptyWatchlist(name);
+                    // remove the user
+                    using (var conn = OpenConnection())
+                    {
+                        conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
+                    }
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -97,13 +94,7 @@ namespace Vosen.MAL
                 // Check for private profile
                 if(site.Contains("This list has been made private by the owner."))
                 {
-                    using (var conn = OpenConnection())
-                    {
-                        // add empty watchlist
-                        conn.Execute(@"INSERT INTO Watchlist VALUES (NULL);
-                                                   UPDATE Users SET Watchlist_Id = last_insert_rowid() WHERE Name = @nick;
-                                                   SELECT last_insert_rowid();", new { nick = name });
-                    }
+                    MarkAsQueried(name, true);
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -116,7 +107,7 @@ namespace Vosen.MAL
                 // check for people who don't put ratings on their profiles
                 if (mainIndices == null)
                 {
-                    CreateEmptyWatchlist(name);
+                    MarkAsQueried(name, false);
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -127,13 +118,11 @@ namespace Vosen.MAL
                     .Select(t => ParseRatings(t.Item1, t.Item2))
                     .Where(t => t != null).ToList();
 
-                long watchlist_id = 0;
+                long user_id = 0;
                 using (var conn = OpenConnection())
                 {
-                    watchlist_id = conn.Query<long>(@"INSERT INTO Watchlist VALUES (NULL);
-                                               UPDATE Users SET Watchlist_Id = last_insert_rowid() WHERE Name = @nick;
-                                               SELECT last_insert_rowid();", new { nick = name }).First();
-                    conn.Execute(@"INSERT INTO Seen VALUES (@watchlist, @anime, @score)", ratings.Select(t => new { watchlist = watchlist_id, anime = t.Item1, score = t.Item2 }));
+                    user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }).First();
+                    conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user)", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }));
                 }
                 Console.WriteLine("{0}\tsuccess", name);
             }
@@ -153,14 +142,15 @@ namespace Vosen.MAL
             return headerAttrib.Value == "table_header";
         }
 
-        protected void CreateEmptyWatchlist(string name)
+        protected void MarkAsQueried(string name, bool success)
         {
             using (var conn = OpenConnection())
             {
                 // add empty watchlist
-                conn.Execute(@"INSERT INTO Watchlist VALUES (NULL);
-                                                   UPDATE Users SET Watchlist_Id = last_insert_rowid() WHERE Name = @nick;
-                                                   SELECT last_insert_rowid();", new { nick = name });
+                if(success)
+                    conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+                else
+                    conn.Execute(@"UPDATE Users SET Result = 0 WHERE Name = @nick;", new { nick = name });
             }
         }
 
@@ -240,9 +230,8 @@ namespace Vosen.MAL
             string dbname = path ?? "mal.db";
             using (var db = OpenConnection(dbname))
             {
-                db.Execute(@"UPDATE [Users] SET [Watchlist_Id] = NULL;
-                             DELETE FROM Seen;
-                             DELETE FROM Watchlist;");
+                db.Execute(@"UPDATE [Users] SET [Result] = NULL;
+                             DELETE FROM Seen;");
             }
         }
 

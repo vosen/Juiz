@@ -1,19 +1,15 @@
-﻿CREATE TABLE [Watchlist] (
-  [Id] INTEGER NOT NULL PRIMARY KEY);
-
-
-CREATE TABLE [Seen] (
-  [Watchlist_Id] INTEGER NOT NULL CONSTRAINT [Seen_Watchlist] REFERENCES [Watchlist]([Id]) ON DELETE CASCADE, 
-  [Anime_Id] INTEGER NOT NULL, 
-  [Score] SMALLINT NOT NULL, 
-  CONSTRAINT [Score_Correct_Rage] CHECK(Score >=0 AND Score <=10));
-
-
-CREATE TABLE [Users] (
+﻿CREATE TABLE [Users] (
   [Id] INTEGER NOT NULL PRIMARY KEY, 
-  [Name] TEXT, 
-  [Watchlist_Id] INTEGER);
+  [Name] TEXT NOT NULL, 
+  -- 0 - not queried / got error, 1 - queried and succeeded
+  [Result] BOOLEAN NOT NULL DEFAULT (0));
 
 CREATE UNIQUE INDEX [Name_Unique] ON [Users] ([Name]);
 
 
+CREATE TABLE [Seen] (
+  [Anime_Id] INTEGER NOT NULL, 
+  [Score] SMALLINT NOT NULL, 
+  [User_Id] INTEGER NOT NULL CONSTRAINT [User_Id] REFERENCES [Users]([Id]), 
+  CONSTRAINT [Score_Correct_Rage] CHECK(Score >=0 AND Score <=10), 
+  CONSTRAINT [] PRIMARY KEY ([Anime_Id], [User_Id]));
