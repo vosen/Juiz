@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>pick_test_database.py</StartupFile>
+    <StartupFile>graph_svd_performance.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -26,6 +26,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="graph_svd_performance.py" />
     <Compile Include="matrix_type_benchmark.py" />
     <Compile Include="pick_test_database.py" />
   </ItemGroup>

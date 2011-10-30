@@ -1,6 +1,6 @@
 import sys, sqlite3, random, scipy, numpy
 from scipy.sparse import lil_matrix
-from scipy.io import loadmat, savemat
+from scipy.io import loadmat, savemat, mmwrite
 from collections import defaultdict
 
 # returns anime_id, score, user_id tuple
@@ -44,4 +44,6 @@ train_matrix = data_to_matrix(db, train_ids)
 test_matrix = data_to_matrix(db, test_ids)
 
 savemat(sys.argv[2], {'train' : train_matrix,'test' : test_matrix}, oned_as = 'row')
+mmwrite(sys.argv[2] + '.train', train_matrix)
+mmwrite(sys.argv[2] + '.test', test_matrix)
 print("Done!")
