@@ -11,5 +11,5 @@ CREATE TABLE [Seen] (
   [Anime_Id] INTEGER NOT NULL, 
   [Score] SMALLINT NOT NULL, 
   [User_Id] INTEGER NOT NULL CONSTRAINT [User_Id] REFERENCES [Users]([Id]), 
-  CONSTRAINT [Score_Correct_Rage] CHECK(Score >=0 AND Score <=10), 
+  CONSTRAINT [Score_Correct_Range] CHECK(Score >=0 AND Score <=10), 
   CONSTRAINT [] PRIMARY KEY ([Anime_Id], [User_Id]));

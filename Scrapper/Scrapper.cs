@@ -47,7 +47,7 @@ namespace Vosen.MAL
             IEnumerable<string> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Watchlist_Id IS NULL");
+                ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0");
             }
             Parallel.ForEach(ids, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, SingleQuery);
         }
