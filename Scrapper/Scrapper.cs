@@ -121,8 +121,13 @@ namespace Vosen.MAL
                 long user_id = 0;
                 using (var conn = OpenConnection())
                 {
-                    user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }).First();
-                    conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user)", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }));
+                    using (var dbtrans = conn.BeginTransaction())
+                    {
+                        user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, dbtrans).First();
+                        conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }), dbtrans);
+                        conn.Execute(@"UPDATE [Users] SET [Result] = 0;");
+                        dbtrans.Commit();
+                    }
                 }
                 Console.WriteLine("{0}\tsuccess", name);
             }
@@ -230,7 +235,7 @@ namespace Vosen.MAL
             string dbname = path ?? "mal.db";
             using (var db = OpenConnection(dbname))
             {
-                db.Execute(@"UPDATE [Users] SET [Result] = NULL;
+                db.Execute(@"UPDATE [Users] SET [Result] = 0;
                              DELETE FROM Seen;");
             }
         }
