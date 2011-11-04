@@ -1,0 +1,5 @@
+bsr: 6.86s 28.39MB
+coo: 4.83s 28.39MB
+csc: 4.27s 28.42MB
+csr: 3.47s 28.42MB
+lil: 0.98s 29.35MB

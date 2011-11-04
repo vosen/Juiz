@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>graph_svd_performance.py</StartupFile>
+    <StartupFile>benchmarks\getrow.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,9 +13,11 @@
     <Name>SVD-Test</Name>
     <RootNamespace>SVD-Test</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"C:\\Users\\vosen\\Documents\\Visual Studio 2010\\Projects\\MALScrapper\\remote\\mal-WIP.db"</CommandLineArguments>
+    <CommandLineArguments>
+    </CommandLineArguments>
     <InterpreterPath />
     <InterpreterArguments />
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,11 +28,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="benchmarks\getrow.py" />
+    <Compile Include="benchmarks\matrix_type.py" />
     <Compile Include="graph_svd_performance.py" />
-    <Compile Include="matrix_type_benchmark.py" />
     <Compile Include="pick_test_database.py" />
+    <Compile Include="rmse-self.py" />
+    <Compile Include="rmse.py" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="matrix_type_benchmark.txt" />
+    <Content Include="benchmarks\getrow.txt" />
+    <Content Include="benchmarks\matrix_type.txt" />
+    <Content Include="benchmarks\matrix_type_benchmark.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="benchmarks" />
   </ItemGroup>
 </Project>
