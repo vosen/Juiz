@@ -120,7 +120,7 @@ namespace Vosen.MAL
                 // check for people who don't put ratings on their profiles
                 if (mainIndices == null)
                 {
-                    Console.WriteLine("{0}\tsuccess", name);
+                    PrintSuccess(name);
                     return;
                 }
                 var ratings = tableNode.ChildNodes
@@ -152,7 +152,7 @@ namespace Vosen.MAL
             }
             catch (Exception ex)
             {
-                Console.WriteLine("{0}\terror\t\t{1}\t{2}", name, ex.Message, ex.StackTrace);
+                PrintError(name, ex);
             }
         }
 
