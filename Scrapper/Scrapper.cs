@@ -65,8 +65,7 @@ namespace Vosen.MAL
                     }
                     catch (WebException ex)
                     {
-                        MarkAsQueried(name, false);
-                        Console.WriteLine("{0}\terror\t{1}\t{2}", name, ex.Status, ex.Message);
+                        PrintError(name, ex);
                         return;
                     }
                 }
@@ -74,8 +73,7 @@ namespace Vosen.MAL
                 // Check for MAL fuckups
                 if (site.Contains("There was a MySQL Error."))
                 {
-                    MarkAsQueried(name, false);
-                    Console.WriteLine("{0}\tsuccess", name);
+                    PrintSuccess(name);
                     return;
                 }
 
@@ -83,19 +81,34 @@ namespace Vosen.MAL
                 if (site.Contains("Invalid Username Supplied"))
                 {
                     // remove the user
-                    using (var conn = OpenConnection())
+                    var conn = OpenConnection();
+                    try
                     {
                         conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
+                        PrintSuccess(name);
                     }
-                    Console.WriteLine("{0}\tsuccess", name);
+                    catch(Exception ex)
+                    {
+                        PrintError(name, ex);
+                    }
+                    conn.Close();
                     return;
                 }
 
                 // Check for private profile
                 if(site.Contains("This list has been made private by the owner."))
                 {
-                    MarkAsQueried(name, true);
-                    Console.WriteLine("{0}\tsuccess", name);
+                    var conn = OpenConnection();
+                    try
+                    {
+                        conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+                        PrintSuccess(name);
+                    }
+                    catch (Exception ex)
+                    {
+                        PrintError(name, ex);
+                    }
+                    conn.Close();
                     return;
                 }
 
@@ -107,7 +120,6 @@ namespace Vosen.MAL
                 // check for people who don't put ratings on their profiles
                 if (mainIndices == null)
                 {
-                    MarkAsQueried(name, false);
                     Console.WriteLine("{0}\tsuccess", name);
                     return;
                 }
@@ -123,13 +135,20 @@ namespace Vosen.MAL
                 {
                     using (var dbtrans = conn.BeginTransaction())
                     {
-                        user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, dbtrans).First();
-                        conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }), dbtrans);
-                        conn.Execute(@"UPDATE [Users] SET [Result] = 0;");
-                        dbtrans.Commit();
+                        try
+                        {
+                            user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, dbtrans).First();
+                            conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }), dbtrans);
+                            conn.Execute(@"UPDATE [Users] SET [Result] = 0;");
+                            dbtrans.Commit();
+                            PrintSuccess(name);
+                        }
+                        catch (Exception ex)
+                        {
+                            PrintError(name, ex);
+                        }
                     }
                 }
-                Console.WriteLine("{0}\tsuccess", name);
             }
             catch (Exception ex)
             {
@@ -145,18 +164,6 @@ namespace Vosen.MAL
             if (headerAttrib == null)
                 return false;
             return headerAttrib.Value == "table_header";
-        }
-
-        protected void MarkAsQueried(string name, bool success)
-        {
-            using (var conn = OpenConnection())
-            {
-                // add empty watchlist
-                if(success)
-                    conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
-                else
-                    conn.Execute(@"UPDATE Users SET Result = 0 WHERE Name = @nick;", new { nick = name });
-            }
         }
 
         protected static IList<HtmlNode> ExtractHeadCells(HtmlNode node)
@@ -240,5 +247,14 @@ namespace Vosen.MAL
             }
         }
 
+        private static void PrintError(string name, Exception ex)
+        {
+            Console.WriteLine("{0}\terror\t{1}\t{2}", name, ex.Message, ex.StackTrace);
+        }
+
+        private static void PrintSuccess(string name)
+        {
+            Console.WriteLine("{0}\tsuccess", name);
+        }
     }
 }
