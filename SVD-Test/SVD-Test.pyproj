@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>benchmarks\getrow.py</StartupFile>
+    <StartupFile>pick_test_db.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,8 +13,7 @@
     <Name>SVD-Test</Name>
     <RootNamespace>SVD-Test</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>
-    </CommandLineArguments>
+    <CommandLineArguments>0.005 mal-WIP.db exp.mat</CommandLineArguments>
     <InterpreterPath />
     <InterpreterArguments />
     <IsWindowsApplication>False</IsWindowsApplication>
@@ -31,14 +30,15 @@
     <Compile Include="benchmarks\getrow.py" />
     <Compile Include="benchmarks\matrix_type.py" />
     <Compile Include="graph_svd_performance.py" />
-    <Compile Include="pick_test_database.py" />
+    <Compile Include="pick_test_db.py" />
+    <Compile Include="pick_test_db_test.py" />
     <Compile Include="rmse-self.py" />
     <Compile Include="rmse.py" />
+    <Compile Include="svd.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="benchmarks\getrow.txt" />
     <Content Include="benchmarks\matrix_type.txt" />
-    <Content Include="benchmarks\matrix_type_benchmark.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="benchmarks" />
