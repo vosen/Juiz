@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>pick_test_db.py</StartupFile>
+    <StartupFile>rmse.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,7 +13,7 @@
     <Name>SVD-Test</Name>
     <RootNamespace>SVD-Test</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>0.005 mal-WIP.db exp.mat</CommandLineArguments>
+    <CommandLineArguments>mal.mat train test</CommandLineArguments>
     <InterpreterPath />
     <InterpreterArguments />
     <IsWindowsApplication>False</IsWindowsApplication>
@@ -30,6 +30,7 @@
     <Compile Include="benchmarks\getrow.py" />
     <Compile Include="benchmarks\matrix_type.py" />
     <Compile Include="graph_svd_performance.py" />
+    <Compile Include="matrix_stats.py" />
     <Compile Include="pick_test_db.py" />
     <Compile Include="pick_test_db_test.py" />
     <Compile Include="rmse-self.py" />

@@ -4,6 +4,7 @@ from scipy.sparse import lil_matrix
 from scipy.io import loadmat, savemat, mmwrite
 from collections import defaultdict
 
+# rows are users, columns are movies
 class PickTrainingMatrices(object):
 
     # returns anime_id, score, user_id tuple
@@ -51,18 +52,16 @@ class PickTrainingMatrices(object):
         return new_matrices
 
     @staticmethod
+    # remove empty (zeroes only) rows
     def trim_rows(*matrices):
-        # check columns
-        nnz_rows = set(reduce(lambda m,n: m.intersection(n), map(lambda m: set(m.nonzero()[0]), matrices)))
-        if len(nnz_rows) == matrices[0].shape[0]:
-            return matrices
         # get cols
         new_matrices = []
         i = 0
         for mat in matrices:
+            nnzs = set(mat.nonzero()[0])
             rows = []
             for j in range(0, mat.shape[0]):
-                if j in nnz_rows:
+                if j in nnzs:
                     rows.append(mat.getrow(j).toarray()[0])
             new_matrices.append(sparse.lil_matrix(rows))
         return new_matrices
