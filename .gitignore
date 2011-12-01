@@ -33,4 +33,4 @@ packages/*
 *.mat
 *.db
 *.pyc
-SVD-Test/*.png
+SVD-Test/pics/*

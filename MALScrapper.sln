@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapper", "Scrapper\Scrapp
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SVD-Test", "SVD-Test\SVD-Test.pyproj", "{3253F5A2-9000-43A9-B03C-C948EA8729E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Site\Site.csproj", "{726524D6-964D-4D40-9684-5877920A1882}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,16 @@ Global
 		{3253F5A2-9000-43A9-B03C-C948EA8729E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3253F5A2-9000-43A9-B03C-C948EA8729E0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3253F5A2-9000-43A9-B03C-C948EA8729E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Release|Any CPU.Build.0 = Release|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{726524D6-964D-4D40-9684-5877920A1882}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
