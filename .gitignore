@@ -27,3 +27,10 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+remote/*
+packages/*
+*.mtx
+*.mat
+*.db
+*.pyc
+SVD-Test/*.png
