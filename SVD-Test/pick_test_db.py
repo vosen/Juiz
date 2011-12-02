@@ -30,9 +30,19 @@ class PickTrainingMatrices(object):
     def trim_matrices(self, *matrices):
         new_matrices = self.trim_cols(*matrices)
         if all(map(lambda x: id(x[0]) == id(x[1]), zip(new_matrices, matrices))):
-            return matrices
+            return (matrices[0], self.filter_singleton_rows(matrices[1]))
         new_matrices = self.trim_rows(*new_matrices)
         return self.trim_matrices(*new_matrices)
+
+    #filter out rows with only one rating
+    @staticmethod
+    def filter_singleton_rows(matrix):
+        rows = []
+        for i in range(0, matrix.shape[0]):
+            row = matrix.getrow(i)
+            if row.nnz > 1:
+                rows.append(row.toarray()[0])
+        return sparse.lil_matrix(rows)
 
     @staticmethod
     def trim_cols(*matrices):
