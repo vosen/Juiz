@@ -35,6 +35,7 @@
     <Compile Include="pick_test_db_test.py" />
     <Compile Include="rmse-self.py" />
     <Compile Include="rmse.py" />
+    <Compile Include="score_matrix.py" />
     <Compile Include="svd.py" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,10 @@
 import numpy, time, sys
-import svd
 from matplotlib import pyplot
 from scipy import sparse
 from scipy.io import loadmat, savemat
 from scipy.sparse import linalg
 from svd import svd
+from score_matrix import score_matrix
 
 # probe list is a test vector from build_probe(...)
 def rmse(func, probe_list):
@@ -39,5 +39,8 @@ if(len(sys.argv) != 4):
 
 train_matrix = loadmat(sys.argv[1])[sys.argv[2]]
 test_matrix = loadmat(sys.argv[1])[sys.argv[3]]
-svd_model = svd(train_matrix, 10)
+scores = score_matrix(train_matrix)
+svd_model = svd(scores, 10)
+r1 = svd_model.predict(1,[(0,9)])
+print r1
 raw_input()
