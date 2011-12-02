@@ -1,19 +1,23 @@
-import numpy
-import math
-import scipy.sparse
+import numpy, math, itertools
+from scipy import sparse
+from scipy.sparse import linalg
 
 class svd:
 
     # k i s number of features avg is either 'movie' or 'user'
-    def __init__(self, matrix, k, avg='movie'):
-        matrix = matrix.astype(int)
-        row_matrix = matrix.tolil()
-        col_matrix = matrix.tocsc()
-        if(k < 1 or (avg != 'movie' and avg != 'user')):
+    # matrix should be sparse
+    def __init__(self, matrix, features, avg='movie'):
+        if(features < 1 or (avg != 'movie' and avg != 'user')):
             raise ValueError()
-        self._calc_user_average_(row_matrix)
+        matrix = matrix.tolil().asfptype()
+        iter_matrix = matrix.tocoo()
+        col_matrix = matrix.tocsc()
+        self._calc_user_average_(matrix)
         self._calc_movie_average_(col_matrix)
-        normalize_matrix(matrix)
+        # fill empty spots
+        self.normalization = avg
+        self._normalize_matrix_(iter_matrix, matrix, avg)
+        self.U, self.E, self.V = linalg.svds(matrix.tocoo(), k = features)
 
     def _calc_user_average_(self, matrix):
         # calc averages of rows
@@ -26,3 +30,21 @@ class svd:
         col_sum = matrix.sum(0)
         col_sum = col_sum.tolist()[0]
         self.movie_averages = [col_sum[i] / float(matrix.getcol(i).nnz) for i in range(0, matrix.shape[1])]
+
+    def _normalize_matrix_(self, iter_matrix, matrix, method):
+        #normalize by movie
+        if method == 'movie':
+            for i,j,v in itertools.izip(iter_matrix.row, iter_matrix.col, iter_matrix.data):
+                matrix[i,j] = v - self.movie_averages[j]
+        #normalize by user
+        else:
+            for i,j,v in itertools.izip(iter_matrix.row, iter_matrix.col, iter_matrix.data):
+                matrix[i,j] = v - self.user_averages[i]
+
+    # receive user vector with non-normalized scores
+    def predict(self, vector):
+        #normalize the vector
+        if self.normalization == 'movie':
+            pass
+        else:
+            pass
