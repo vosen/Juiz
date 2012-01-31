@@ -13,7 +13,7 @@
     <Name>SVD-Test</Name>
     <RootNamespace>SVD-Test</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>mal.mat train test</CommandLineArguments>
+    <CommandLineArguments>mal.mat train test temp</CommandLineArguments>
     <InterpreterPath />
     <InterpreterArguments />
     <IsWindowsApplication>False</IsWindowsApplication>

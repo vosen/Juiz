@@ -35,8 +35,9 @@ class svd:
             for id in vector.nonzero()[0]:
                 vector[id] -= self.source.movie_averages[id]
         else:
-            nnz = vector.nonzero()[0]
-            mean = numpy.mean(nnz)
-            for id in nnz:
+            nnz_ids = vector.nonzero()[0]
+            nnz_values = map(lambda x: vector[x], vector.nonzero()[0])
+            mean = numpy.mean(nnz_values)
+            for id in nnz_ids:
                 vector[id] -= mean
         return numpy.mat(vector).transpose()
