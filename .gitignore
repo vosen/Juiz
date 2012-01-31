@@ -34,3 +34,8 @@ packages/*
 *.db
 *.pyc
 SVD-Test/pics/*
+*.crunchsolution.local.xml
+.nuget/
+*.testsettings
+*.vsmdi
+*.crunchproject.local.xml
