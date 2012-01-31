@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+	<title>aaroncaberte's Anime List - MyAnimeList.net</title>
+    <meta name="Description" content="Start cataloging anime you've watched or manga you've read. Browse through our extensive anime and manga database. Get anime or manga suggestions, recommendations and reviews. View top rated anime and manga. Create anime and manga favorites. Tons more too!" />
+    <meta name="Keywords" content="anime, animelist, myanimelist, anime list, log anime seen, catalog anime watched, anime reviews, top anime, anime characters, favorite anime, anime discussion, anime information, manga series, manga information, top manga, mangalist, manga list, manga, manga reviews, voice actors, seiyuu" />
+    <meta name="Author" content="Garrett Gyssler">
+	
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/hover.v5.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/jquery.fancybox.pack.v1.js"></script>
+	
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/dimensions.js"></script>
+		<style type="text/css">
+
+
+/*
+// Self-explanatory
+*/
+BODY
+        {
+				margin: 0;
+        color: #000000;
+        font-size: 11.00px;
+        font-family: Verdana, Arial;
+        background-color: #FFFFFF;
+        }
+
+/*
+// Determines the positioning of your list
+*/
+
+#list_surround
+{
+	margin: 0 auto;	
+	width: 920px;
+}
+
+/*
+// All links on your list
+*/
+
+    a
+        {
+        color: #51819f;
+        text-decoration: none;
+        }
+
+    a:visited
+        {
+        color: #51819f;
+        text-decoration: none;
+        }
+
+    a:hover
+        {
+        color: #51819f;
+        text-decoration: underline;
+        }
+
+/*
+// Alternating row color 1 
+*/
+
+    .td1
+        {
+				
+        color: #000000;
+        border-width: 0px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        padding: 2px;
+        background-color: #FFFFFF; 
+        }
+   
+/*
+// Alternating row color 2 
+*/
+
+    .td2
+        {
+				
+        color: #000000;
+        border-width: 0px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        padding: 2px;
+        background-color: #F1F1F1; 
+        }
+   
+/*
+// This represents the "Anime Title", "Score", "# Eps" columns 
+*/
+   
+    .table_header
+        {
+				
+        color: #000000;
+        border-width: 1px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        background-color: #E7F1F7;
+        padding: 2px;
+        }
+    
+/*
+// headerLink represents the color of the links inside the table_header 
+*/
+	
+    .table_headerLink
+        {
+        color: ;
+        }
+    
+    .table_headerLink:Visited
+        {
+        color: ;
+        }
+    
+    .table_headerLink:Hover
+        {
+        color: ;
+        }
+
+/*
+// Controls the select form decoration (the drop down select box)
+*/
+
+    .form
+        {
+        border-width: 1px 1px 1px 1px;
+        border-color: #ABABAB;
+        border-style: solid;
+        color: #000000;
+        padding: 2px;
+        font-size: 11.00px;
+		font-family: Verdana, Arial;
+        }
+		
+
+/* Which 'status' up top is selected? */
+
+.status_selected
+{
+
+	color: #000000;
+	border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ABABAB;
+    padding: 2px;
+    background-color: #FFFFFF;
+	}
+
+.status_not_selected
+{
+
+	color: #000000;
+	border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ABABAB;
+    padding: 2px;
+    background-color: #F1F1F1;
+	}
+
+/*
+Header classes for Currently Watching, Completed, Dropped, etc...
+*/
+
+.header_cw
+{
+
+}
+
+.header_completed
+{
+
+}
+
+.header_onhold
+{
+
+}
+
+.header_dropped
+{
+
+}
+
+.header_ptw
+{
+
+}
+
+.header_title {
+	font-size: 14px;
+    font-weight: bold;
+}
+
+
+.category_totals
+{
+
+}
+
+#grand_totals
+{
+	text-align: center;
+}
+
+/* header_al is the div surrounding "User's Anime List" at the top */
+
+.header_al
+{
+	font-weight: bold;
+	font-size: 16px;
+}
+
+/* header_al_links is the div with your "Profile" and "MyAnimeList home" links */
+.header_al_links
+{
+
+}
+
+/* controls what styles you can give to all the anime titles in your list */
+.animetitle
+{
+	font-weight: bold;
+}
+
+/*
+copyright contains the "Producted by Garrett Gyssler" text
+DO NOT REMOVE OR HIDE THIS DIV
+IF FOUND TO BE REMOVED, YOUR LIST WILL BE REMOVED TOO
+*/
+
+#copyright
+{
+	padding-top: 6px;
+	text-align: center;
+	margin: 0 auto;
+	width: 920px;
+}
+
+
+		</style>
+		
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/list.v16.js"></script>
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/list.v5.css" type="text/css" />
+	<script type="text/javascript" src="http://cdn.myanimelist.net/js/myanimelist.v18.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/jquery.fancybox.v3.css" />
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/dialog.v1.css" />
+	<link rel="search" type="application/opensearchdescription+xml" href="http://cdn.myanimelist.net/plugins/myanimelist.xml" title="MyAnimeList" />
+	
+	<link rel="shortcut icon" href="http://cdn.myanimelist.net/images/faviconv5.ico" />
+	
+	<!-- BEGIN TRIGGER TAG INITIALIZATION -->
+	<script type="text/javascript" src="http://cdn.triggertag.gorillanation.com/js/triggertag.js"></script>
+	<script type="text/javascript">getTrigger('4834');</script>
+	<!-- END TRIGGER TAG INITIALIZATION -->
+	<!-- GAM HEADER SCRIPT -->
+		<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+		</script>
+		<script type="text/javascript">
+		GS_googleAddAdSenseService("ca-pub-1304704158939332");
+		GS_googleEnableAllServices();
+		</script>
+		<script type="text/javascript">
+		GA_googleUseIframeRendering();
+		</script>
+	<!-- END OF GAM HEADER SCRIPT -->
+	
+</head>
+
+<body onload="">
+<table id="mal_control_strip" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+			<td id="mal_cs_pic"><a href="http://myanimelist.net"><img src="http://cdn.myanimelist.net/images/list-top-logo.gif"></a></td>
+			<td id="mal_cs_otherlinks">
+				<div><strong>You are viewing <a href="http://myanimelist.net/profile/aaroncaberte">aaroncaberte</a>'s Anime List</strong></div>
+				<div><a href="http://myanimelist.net/login.php">Log in</a>&nbsp;&nbsp;<a href="http://myanimelist.net/register.php">Create an Anime List</a>&nbsp;&nbsp;<a href="http://myanimelist.net/modules.php?go=faq">Learn more</a></div>
+			</td>
+			
+	<td id="mal_cs_powered" valign="top" align="right"><a href="http://myanimelist.net"><img src="http://cdn.myanimelist.net/images/list-top-powered.gif"></a>
+		<div id="search"><input id="searchBox" value="Search" type="textbox"/>  <img src="http://cdn.myanimelist.net/images/magnify.gif" id="searchListButton" /></div>
+	</td>
+	</tr>
+	</table>
+	
+<div id="list_surround">
+<br>
+	<table border="0" cellpadding="0" cellspacing="0" width="920" align="center">
+	<tr><td class="status_not_selected" style="border-width: 1px 1px 1px 1px;" width="165" nowrap align="center"><a href="/animelist/aaroncaberte&status=1&order=0" title="0 Entries">Currently Watching</td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/aaroncaberte&status=2&order=0" title="0 Entries">Completed</a></td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/aaroncaberte&status=3&order=0" title="0 Entries">On Hold</a></td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/aaroncaberte&status=4&order=0" title="0 Entries">Dropped</a></td><td width="115" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/aaroncaberte&status=6&order=0" title="0 Entries">Plan to Watch</a></td><td width="115" class="status_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/aaroncaberte&status=7&order=0" title"Show All Entries">All Anime</a></td></tr>
+	</table>
+	<br><br>
+	
+	<div id="inlineContent" style="display: none;"></div>
+	<div id="grand_totals">TV: , 
+					OVA: , 
+					Movies: ,
+					<span title="Specials">Spcl.</span>: ,
+					Eps: 0,
+					<span title="Downloaded Episodes">DL Eps</span>: 0,
+					Days: , 
+					Mean Score: 0.0, 
+					Score <span title="Deviation">Dev.</span>: 
+	</div>
+<div id="copyright" style="text-align: center; margin-top: 10px;">
+&copy; 2011 All Rights Reserved. MyAnimeList.net is a property of <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC.<br /> <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC is a division of <a href="http://www.atomiconline.com">AtomicOnline</a>, LLC, an <a href="http://www.evolvemediacorp.com">Evolve Media</a> Corp. company.</div>
+</div>
+<input type="hidden" id="listUserId" value="1125785"/>
+<input type="hidden" id="listUserName" value="aaroncaberte"/>
+<input type="hidden" id="listType" value="anime"/>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-369102-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+<!-- Begin comScore Tag -->
+<script>
+    document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js' %3E%3C/script%3E"));
+</script>
+
+<script>
+  COMSCORE.beacon({
+    c1:2,
+    c2:6036161,
+    c3:"",
+    c4:"",
+    c5:"",
+    c6:"",
+    c15:""
+  });
+</script>
+<noscript>
+  <img src="http://b.scorecardresearch.com/p?c1=2&c2=6036161&c3=&c4=&c5=&c6=&c15=&cj=1" />
+</noscript>
+<!-- End comScore Tag -->
+
+<!-- start Vibrant Media IntelliTXT script section -->
+<script type="text/javascript" src="http://myanimelist.us.intellitxt.com/intellitxt/front.asp?ipid=30532"></script>
+<!-- end Vibrant Media IntelliTXT script section -->
+	</body>
+</html>
