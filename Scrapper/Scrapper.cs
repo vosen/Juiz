@@ -31,7 +31,6 @@ namespace Vosen.MAL
                 log = SetupLogger();
             else
                 log = new NullLog();
-            log.Info("Scrapping started");
         }
 
         public void Run()
@@ -107,7 +106,7 @@ namespace Vosen.MAL
 
         private void ProcessException(string name, Exception ex)
         {
-            log.Error(String.Format("<0> exception when processing",name), ex);
+            log.Error(String.Format("<{0}> exception when processing", name), ex);
         }
 
         private void ProcessPrivate(string name)
@@ -139,7 +138,7 @@ namespace Vosen.MAL
                 {
                     long user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, transaction:dbtrans).First();
                     conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.AnimeId, score = t.Rating, user = user_id}), transaction:dbtrans);
-                    conn.Execute(@"UPDATE [Users] SET [Result] = 0;", transaction:dbtrans);
+                    conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name }, transaction:dbtrans);
                     dbtrans.Commit();
                 }
             }
