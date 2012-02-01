@@ -11,9 +11,9 @@ namespace MALContent
 {
     public static class Extract
     {
-        private static Regex extractName = new Regex("myanimelist.net/profile/(?<name>.+?)\"", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static Regex extractName = new Regex("myanimelist.net/profile/(.+?)\"", RegexOptions.CultureInvariant | RegexOptions.Compiled);
         private static Regex trimWhitespace = new Regex(@"\s+", RegexOptions.CultureInvariant | RegexOptions.Compiled);
-        private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/([0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
 
         public static string DownloadName (int id)
@@ -246,7 +246,7 @@ namespace MALContent
 
         private static AnimeRating ParseRatings(HtmlNode animeLink, HtmlNode ratingCell)
         {
-            int id = Int32.Parse(captureRating.Match(animeLink.Attributes["href"].Value).Groups["id"].Captures[0].Value);
+            int id = Int32.Parse(captureRating.Match(animeLink.Attributes["href"].Value).Groups[1].Value);
             byte rating;
             if (ratingCell.InnerText != null && Byte.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
             {
