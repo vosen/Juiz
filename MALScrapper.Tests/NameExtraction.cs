@@ -23,24 +23,33 @@ namespace MALScrapper.Tests
         public void ExtractClubsPlain()
         {
             string site = LoadFile(@"sites\clubs\EinLawliet.html");
-            string name = Extract.NameFromClublist(site);
-            Assert.AreEqual("EinLawliet", name);
+            var nameResult = Extract.NameFromClublist(site);
+            Assert.AreEqual(NameResponse.Success, nameResult.Response);
+            Assert.AreEqual("EinLawliet", nameResult.Name);
         }
 
         [Test]
         public void ExtractClubsEmpty()
         {
             string site = LoadFile(@"sites\clubs\DeusOmega.html");
-            string name = Extract.NameFromClublist(site);
-            Assert.AreEqual("DeusOmega", name);
+            var nameResult = Extract.NameFromClublist(site);
+            Assert.AreEqual(NameResponse.Success, nameResult.Response);
+            Assert.AreEqual("DeusOmega", nameResult.Name);
         }
 
         [Test]
         public void ExtractClubsIvalid()
         {
             string site = LoadFile(@"sites\clubs\Invalid id.html");
-            string name = Extract.NameFromClublist(site);
-            Assert.AreEqual(null, name);
+            var nameResult = Extract.NameFromClublist(site);
+            Assert.AreEqual(NameResponse.InvalidId, nameResult.Response);
+        }
+
+        [Test]
+        public void ExtractClubsMalformed()
+        {
+            var nameResult = Extract.NameFromClublist("");
+            Assert.AreEqual(NameResponse.Unknown, nameResult.Response);
         }
     }
 }

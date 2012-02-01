@@ -78,22 +78,22 @@ namespace Vosen.MAL
         {
             try
             {
-                ExtractionResult result = Extract.DownloadRatedAnime(name);
+                AnimelistResult result = Extract.DownloadRatedAnime(name);
                 switch (result.Response)
                 {
-                    case ExtractionResultType.Unknown:
+                    case AnimelistResponse.Unknown:
                         ProcessUnknownResult(name);
                         break;
-                    case ExtractionResultType.Successs:
+                    case AnimelistResponse.Successs:
                         ProcessSuccess(name, result.Ratings);
                         break;
-                    case ExtractionResultType.MySQLError:
+                    case AnimelistResponse.MySQLError:
                         ProcessMySQLError(name);
                         break;
-                    case ExtractionResultType.InvalidUsername:
+                    case AnimelistResponse.InvalidUsername:
                         ProcessInvalidUser(name);
                         break;
-                    case ExtractionResultType.ListIsPrivate:
+                    case AnimelistResponse.ListIsPrivate:
                         ProcessPrivate(name);
                         break;
                 }

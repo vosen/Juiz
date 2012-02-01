@@ -46,13 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NameResponse.cs" />
+    <Compile Include="NameResult.cs" />
     <Compile Include="ScrappingWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AnimeRating.cs" />
-    <Compile Include="ExtractionResult.cs" />
+    <Compile Include="AnimelistResult.cs" />
     <Compile Include="Extract.cs" />
-    <Compile Include="ExtractionResultType.cs" />
+    <Compile Include="AnimelistResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

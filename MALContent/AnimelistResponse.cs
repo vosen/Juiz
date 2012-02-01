@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MALContent
 {
-    public enum ExtractionResultType
+    public enum AnimelistResponse
     {
         Unknown = 0,
         Successs,

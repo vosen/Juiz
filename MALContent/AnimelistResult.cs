@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MALContent
 {
-    public class ExtractionResult
+    public class AnimelistResult
     {
-        public ExtractionResultType Response { get; internal set; }
+        public AnimelistResponse Response { get; internal set; }
         public IList<AnimeRating> Ratings { get; internal set; }
     }
 }

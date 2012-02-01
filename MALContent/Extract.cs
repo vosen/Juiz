@@ -16,7 +16,7 @@ namespace MALContent
         private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/([0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
 
-        public static string DownloadName (int id)
+        public static NameResult DownloadName(int id)
         {
             string site;
             using (var client = new ScrappingWebClient())
@@ -26,15 +26,17 @@ namespace MALContent
             return NameFromClublist(site);
         }
 
-        public static string NameFromClublist(string site)
+        public static NameResult NameFromClublist(string site)
         {
+            if (site.Contains("<h1>Invalid</h1>"))
+                return new NameResult() { Response = NameResponse.InvalidId };
             Match match = extractName.Match(site);
-            if (!match.Success)
-                return null;
-            return match.Groups[1].Value;
+            if (match.Success)
+                return new NameResult() { Response = NameResponse.Success, Name = match.Groups[1].Value };
+            return new NameResult() { Response = NameResponse.Unknown };
         }
 
-        public static ExtractionResult DownloadRatedAnime(string name)
+        public static AnimelistResult DownloadRatedAnime(string name)
         {
             string site;
             using (var client = new ScrappingWebClient())
@@ -42,12 +44,12 @@ namespace MALContent
                 site = client.DownloadString("http://myanimelist.net/animelist/" + name + "&status=7");
             }
             var ratingTuple = ExtractionCore(site);
-            if (ratingTuple.Item1 == ExtractionResultType.TooLarge)
+            if (ratingTuple.Item1 == AnimelistResponse.TooLarge)
                 return DownloadRatedAnimeFromSublists(name);
             return RatedAnimeCore(ratingTuple);
         }
 
-        private static ExtractionResult DownloadRatedAnimeFromSublists(string name)
+        private static AnimelistResult DownloadRatedAnimeFromSublists(string name)
         {
             ScrappingWebClient watchingList = new ScrappingWebClient();
             Task<string> watchingTask = watchingList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=1");
@@ -64,25 +66,25 @@ namespace MALContent
             onHoldList.Dispose();
             droppedList.Dispose();
             var allRatedAnime = tasks.Select(task => RatedAnime(task.Result))
-                                     .Where(result => result.Response == ExtractionResultType.Successs)
+                                     .Where(result => result.Response == AnimelistResponse.Successs)
                                      .SelectMany(i => i.Ratings);
-            return new ExtractionResult() { Response = ExtractionResultType.Successs, Ratings = allRatedAnime.ToList() };
+            return new AnimelistResult() { Response = AnimelistResponse.Successs, Ratings = allRatedAnime.ToList() };
         }
 
-        public static ExtractionResult RatedAnime(string site)
+        public static AnimelistResult RatedAnime(string site)
         {
-            Tuple<ExtractionResultType, IEnumerable<AnimeRating>> parseResult = ExtractionCore(site);
+            Tuple<AnimelistResponse, IEnumerable<AnimeRating>> parseResult = ExtractionCore(site);
             return RatedAnimeCore(parseResult);
         }
 
-        private static ExtractionResult RatedAnimeCore(Tuple<ExtractionResultType, IEnumerable<AnimeRating>> parseResult)
+        private static AnimelistResult RatedAnimeCore(Tuple<AnimelistResponse, IEnumerable<AnimeRating>> parseResult)
         {
-            if (parseResult.Item1 == ExtractionResultType.Successs)
-                return new ExtractionResult() { Response = parseResult.Item1, Ratings = parseResult.Item2.Where(anime => anime.rating > 0).ToList() };
-            return new ExtractionResult() { Response = parseResult.Item1 };
+            if (parseResult.Item1 == AnimelistResponse.Successs)
+                return new AnimelistResult() { Response = parseResult.Item1, Ratings = parseResult.Item2.Where(anime => anime.rating > 0).ToList() };
+            return new AnimelistResult() { Response = parseResult.Item1 };
         }
 
-        public static ExtractionResult DownloadAlldAnime(string name)
+        public static AnimelistResult DownloadAlldAnime(string name)
         {
             string site;
             using (var client = new ScrappingWebClient())
@@ -90,12 +92,12 @@ namespace MALContent
                 site = client.DownloadString("http://myanimelist.net/animelist/" + name + "&status=7");
             }
             var ratingTuple = ExtractionCore(site);
-            if (ratingTuple.Item1 == ExtractionResultType.TooLarge)
+            if (ratingTuple.Item1 == AnimelistResponse.TooLarge)
                 return DownloadAllAnimeFromSublists(name);
             return AllAnimeCore(ratingTuple);
         }
 
-        private static ExtractionResult DownloadAllAnimeFromSublists(string name)
+        private static AnimelistResult DownloadAllAnimeFromSublists(string name)
         {
             ScrappingWebClient watchingList = new ScrappingWebClient();
             Task<string> watchingTask = watchingList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=1");
@@ -114,56 +116,56 @@ namespace MALContent
             onHoldList.Dispose();
             droppedList.Dispose();
             var allAnime = tasks.Select(task => AllAnime(task.Result))
-                                .Where(result => result.Response == ExtractionResultType.Successs)
+                                .Where(result => result.Response == AnimelistResponse.Successs)
                                 .SelectMany(i => i.Ratings);
-            return new ExtractionResult() { Response = ExtractionResultType.Successs, Ratings = allAnime.ToList() };
+            return new AnimelistResult() { Response = AnimelistResponse.Successs, Ratings = allAnime.ToList() };
         }
 
-        public static ExtractionResult AllAnime(string site)
+        public static AnimelistResult AllAnime(string site)
         {
-            Tuple<ExtractionResultType, IEnumerable<AnimeRating>> parseResult = ExtractionCore(site);
+            Tuple<AnimelistResponse, IEnumerable<AnimeRating>> parseResult = ExtractionCore(site);
             return AllAnimeCore(parseResult);
         }
 
-        private static ExtractionResult AllAnimeCore(Tuple<ExtractionResultType, IEnumerable<AnimeRating>> parseResult)
+        private static AnimelistResult AllAnimeCore(Tuple<AnimelistResponse, IEnumerable<AnimeRating>> parseResult)
         {
-            if (parseResult.Item1 == ExtractionResultType.Successs)
-                return new ExtractionResult() { Response = parseResult.Item1, Ratings = parseResult.Item2.ToList() };
-            return new ExtractionResult() { Response = parseResult.Item1 };
+            if (parseResult.Item1 == AnimelistResponse.Successs)
+                return new AnimelistResult() { Response = parseResult.Item1, Ratings = parseResult.Item2.ToList() };
+            return new AnimelistResult() { Response = parseResult.Item1 };
         }
 
-        private static Tuple<ExtractionResultType, IEnumerable<AnimeRating>> ExtractionCore(string site)
+        private static Tuple<AnimelistResponse, IEnumerable<AnimeRating>> ExtractionCore(string site)
         {
             if (site.Contains("There was a MySQL Error."))
             {
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.MySQLError, null);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.MySQLError, null);
             }
 
             if (site.Contains("Invalid Username Supplied"))
             {
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.InvalidUsername, null);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.InvalidUsername, null);
             }
 
             if (site.Contains("This list has been made private by the owner."))
             {
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.ListIsPrivate, null);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.ListIsPrivate, null);
             }
 
             if (site.Contains("\"All Anime\" is disabled for lists with greater than 1500 anime entries."))
             {
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.TooLarge, null);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.TooLarge, null);
             }
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(site);
             HtmlNode tableNode = doc.GetElementbyId("list_surround");
             if (tableNode == null)
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.Unknown, null);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.Unknown, null);
             var mainIndices = FindTitleRatingIndices(tableNode);
             // check for people who don't put ratings on their profiles
             if (mainIndices == null)
             {
-                return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.Successs, new AnimeRating[0]);
+                return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.Successs, new AnimeRating[0]);
             }
             // collect ratings
             var ratings = tableNode.ChildNodes
@@ -172,7 +174,7 @@ namespace MALContent
                 .Where(t => t != null)
                 .Select(t => ParseRatings(t.Item1, t.Item2));
             // return our findings
-            return new Tuple<ExtractionResultType, IEnumerable<AnimeRating>>(ExtractionResultType.Successs, ratings);
+            return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.Successs, ratings);
         }
 
         private static Tuple<int, int> FindTitleRatingIndices(HtmlNode outerNode)
