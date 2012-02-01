@@ -30,7 +30,7 @@ namespace MALScrapper.Tests
         [Test]
         public void MySQLError()
         {
-            string site = LoadFile(@"sites\JamesBennitDiver.html");
+            string site = LoadFile(@"sites\animelist\JamesBennitDiver.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.MySQLError, result.Response);
@@ -39,7 +39,7 @@ namespace MALScrapper.Tests
         [Test]
         public void InvalidUser()
         {
-            string site = LoadFile(@"sites\gesla_jazn.html");
+            string site = LoadFile(@"sites\animelist\gesla_jazn.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.InvalidUsername, result.Response);
@@ -48,7 +48,7 @@ namespace MALScrapper.Tests
         [Test]
         public void PrivateList()
         {
-            string site = LoadFile(@"sites\SoiFong.html");
+            string site = LoadFile(@"sites\animelist\SoiFong.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.ListIsPrivate, result.Response);
@@ -57,7 +57,7 @@ namespace MALScrapper.Tests
         [Test]
         public void ListTooLarge()
         {
-            string site = LoadFile(@"sites\DarkLaila.html");
+            string site = LoadFile(@"sites\animelist\DarkLaila.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.TooLarge, result.Response);
@@ -66,7 +66,7 @@ namespace MALScrapper.Tests
         [Test]
         public void EmptyList()
         {
-            string site = LoadFile(@"sites\aaroncaberte.html");
+            string site = LoadFile(@"sites\animelist\aaroncaberte.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -76,7 +76,7 @@ namespace MALScrapper.Tests
         [Test]
         public void UnscoredList()
         {
-            string site = LoadFile(@"sites\htiek359.html");
+            string site = LoadFile(@"sites\animelist\htiek359.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -86,7 +86,7 @@ namespace MALScrapper.Tests
         [Test]
         public void ShortList()
         {
-            string site = LoadFile(@"sites\Ningx.html");
+            string site = LoadFile(@"sites\animelist\Ningx.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -96,7 +96,7 @@ namespace MALScrapper.Tests
         [Test]
         public void CurrentlyWatchingList()
         {
-            string site = LoadFile(@"sites\Aokaado&status=1.html");
+            string site = LoadFile(@"sites\animelist\Aokaado&status=1.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -106,7 +106,7 @@ namespace MALScrapper.Tests
         [Test]
         public void CompletedList()
         {
-            string site = LoadFile(@"sites\Aokaado&status=2.html");
+            string site = LoadFile(@"sites\animelist\Aokaado&status=2.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -116,7 +116,7 @@ namespace MALScrapper.Tests
         [Test]
         public void OnHoldList()
         {
-            string site = LoadFile(@"sites\Aokaado&status=3.html");
+            string site = LoadFile(@"sites\animelist\Aokaado&status=3.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -126,7 +126,7 @@ namespace MALScrapper.Tests
         [Test]
         public void DroppedList()
         {
-            string site = LoadFile(@"sites\Aokaado&status=4.html");
+            string site = LoadFile(@"sites\animelist\Aokaado&status=4.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -136,7 +136,7 @@ namespace MALScrapper.Tests
         [Test]
         public void PlanToWatchList()
         {
-            string site = LoadFile(@"sites\Aokaado&status=6.html");
+            string site = LoadFile(@"sites\animelist\Aokaado&status=6.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -146,7 +146,7 @@ namespace MALScrapper.Tests
         [Test]
         public void LongList()
         {
-            string site = LoadFile(@"sites\Aokaado.html");
+            string site = LoadFile(@"sites\animelist\Aokaado.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);
@@ -156,7 +156,7 @@ namespace MALScrapper.Tests
         [Test]
         public void ComplexList()
         {
-            string site = LoadFile(@"sites\Alfyan.html");
+            string site = LoadFile(@"sites\animelist\Alfyan.html");
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(ExtractionResultType.Successs, result.Response);

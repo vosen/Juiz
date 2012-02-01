@@ -55,54 +55,64 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NameExtraction.cs" />
     <Compile Include="UnratedExtraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatedExtraction.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sites\aaroncaberte.html">
+    <Content Include="sites\animelist\aaroncaberte.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Alfyan.html">
+    <Content Include="sites\animelist\Alfyan.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado&amp;status=1.html">
+    <Content Include="sites\animelist\Aokaado&amp;status=1.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado&amp;status=2.html">
+    <Content Include="sites\animelist\Aokaado&amp;status=2.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado&amp;status=3.html">
+    <Content Include="sites\animelist\Aokaado&amp;status=3.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado&amp;status=4.html">
+    <Content Include="sites\animelist\Aokaado&amp;status=4.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado&amp;status=6.html">
+    <Content Include="sites\animelist\Aokaado&amp;status=6.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Aokaado.html">
+    <Content Include="sites\animelist\Aokaado.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\DarkLaila.html">
+    <Content Include="sites\animelist\DarkLaila.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\gesla_jazn.html">
+    <Content Include="sites\animelist\gesla_jazn.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\htiek359.html">
+    <Content Include="sites\animelist\htiek359.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\JamesBennitDiver.html">
+    <Content Include="sites\animelist\JamesBennitDiver.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Ningx.html">
+    <Content Include="sites\animelist\Ningx.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\SoiFong.html">
+    <Content Include="sites\animelist\SoiFong.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="sites\Yanoflies.html">
+    <Content Include="sites\animelist\Yanoflies.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\clubs\DeusOmega.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\clubs\EinLawliet.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\clubs\Invalid id.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -113,6 +123,7 @@
       <Name>MALContent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

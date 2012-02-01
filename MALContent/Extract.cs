@@ -11,8 +11,28 @@ namespace MALContent
 {
     public static class Extract
     {
+        private static Regex extractName = new Regex("myanimelist.net/profile/(?<name>.+?)\"", RegexOptions.CultureInvariant | RegexOptions.Compiled);
         private static Regex trimWhitespace = new Regex(@"\s+", RegexOptions.CultureInvariant | RegexOptions.Compiled);
         private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
+
+        public static string DownloadName (int id)
+        {
+            string site;
+            using (var client = new ScrappingWebClient())
+            {
+                site = client.DownloadString(@"http://myanimelist.net/showclubs.php?id=" + id);
+            }
+            return NameFromClublist(site);
+        }
+
+        public static string NameFromClublist(string site)
+        {
+            Match match = extractName.Match(site);
+            if (!match.Success)
+                return null;
+            return match.Groups[1].Value;
+        }
 
         public static ExtractionResult DownloadRatedAnime(string name)
         {
