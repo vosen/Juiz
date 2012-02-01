@@ -5,10 +5,13 @@ using System.Text;
 using System.Data.SQLite;
 using System.Net;
 using Dapper;
-using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
+using MALContent;
+using log4net.Repository.Hierarchy;
+using log4net.Appender;
+using log4net;
 
 namespace Vosen.MAL
 {
@@ -19,10 +22,16 @@ namespace Vosen.MAL
 
         public int ConcurrencyLimit { get; set; }
         public string DbName { get; set; }
+        private ILog log;
 
-        public Scrapper()
+        public Scrapper(bool logging=true)
         {
             DbName = "mal.db";
+            if (logging)
+                log = SetupLogger();
+            else
+                log = new NullLog();
+            log.Info("Scrapping started");
         }
 
         public void Run()
@@ -42,6 +51,20 @@ namespace Vosen.MAL
             return conn;
         }
 
+        private static ILog SetupLogger()
+        {
+            FileAppender fileAppender = new FileAppender()
+            {
+                LockingModel = new FileAppender.ExclusiveLock(),
+                AppendToFile = false,
+                File = String.Format("mal.scrapper " + DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH'-'mm") + ".log"),
+                Layout = new log4net.Layout.PatternLayout(@"[%date{yyyy-MM-dd HH:mm:ss}] [%level]: %message%newline%exception")
+            };
+            fileAppender.ActivateOptions();
+            log4net.Config.BasicConfigurator.Configure(fileAppender);
+            return LogManager.GetLogger(typeof(Scrapper));
+        }
+
         protected void ScrapAndFill()
         {
             IEnumerable<string> ids;
@@ -56,185 +79,76 @@ namespace Vosen.MAL
         {
             try
             {
-                string site;
-                using (var client = new WebClient() { Proxy = null })
+                ExtractionResult result = Extract.DownloadRatedAnime(name);
+                switch (result.Response)
                 {
-                    try
-                    {
-                        site = client.DownloadString("http://myanimelist.net/animelist/" + name + "&status=7");
-                    }
-                    catch (WebException ex)
-                    {
-                        PrintError(name, ex);
-                        return;
-                    }
-                }
-
-                // Check for MAL fuckups
-                if (site.Contains("There was a MySQL Error."))
-                {
-                    PrintSuccess(name);
-                    return;
-                }
-
-                // Check if user exists
-                if (site.Contains("Invalid Username Supplied"))
-                {
-                    // remove the user
-                    var conn = OpenConnection();
-                    try
-                    {
-                        conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
-                        PrintSuccess(name);
-                    }
-                    catch(Exception ex)
-                    {
-                        PrintError(name, ex);
-                    }
-                    conn.Close();
-                    return;
-                }
-
-                // Check for private profile
-                if(site.Contains("This list has been made private by the owner."))
-                {
-                    var conn = OpenConnection();
-                    try
-                    {
-                        conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
-                        PrintSuccess(name);
-                    }
-                    catch (Exception ex)
-                    {
-                        PrintError(name, ex);
-                    }
-                    conn.Close();
-                    return;
-                }
-
-
-                var doc = new HtmlDocument();
-                doc.LoadHtml(site);
-                var tableNode = doc.GetElementbyId("list_surround");
-                var mainIndices = FindTitleRatingIndices(tableNode);
-                // check for people who don't put ratings on their profiles
-                if (mainIndices == null)
-                {
-                    PrintSuccess(name);
-                    return;
-                }
-                var ratings = tableNode.ChildNodes
-                    .Where(n => n.Name == "table" && !n.Attributes.Contains("class"))
-                    .Select(n => ExtractPayload(n, mainIndices.Item1, mainIndices.Item2))
-                    .Where(t => t != null)
-                    .Select(t => ParseRatings(t.Item1, t.Item2))
-                    .Where(t => t != null).ToList();
-
-                long user_id = 0;
-                using (var conn = OpenConnection())
-                {
-                    using (var dbtrans = conn.BeginTransaction())
-                    {
-                        try
-                        {
-                            user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, dbtrans).First();
-                            conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.Item1, score = t.Item2, user = user_id }), dbtrans);
-                            conn.Execute(@"UPDATE [Users] SET [Result] = 0;");
-                            dbtrans.Commit();
-                            PrintSuccess(name);
-                        }
-                        catch (Exception ex)
-                        {
-                            PrintError(name, ex);
-                        }
-                    }
+                    case ExtractionResultType.Unknown:
+                        ProcessUnknownResult(name);
+                        break;
+                    case ExtractionResultType.Successs:
+                        ProcessSuccess(name, result.Ratings);
+                        break;
+                    case ExtractionResultType.MySQLError:
+                        ProcessMySQLError(name);
+                        break;
+                    case ExtractionResultType.InvalidUsername:
+                        ProcessInvalidUser(name);
+                        break;
+                    case ExtractionResultType.ListIsPrivate:
+                        ProcessPrivate(name);
+                        break;
                 }
             }
             catch (Exception ex)
             {
-                PrintError(name, ex);
+                ProcessException(name, ex);
             }
         }
 
-        protected  static bool IsHeadCell(HtmlNode node)
+        private void ProcessException(string name, Exception ex)
         {
-            if (node.Name != "td")
-                return false;
-            var headerAttrib = node.Attributes["class"];
-            if (headerAttrib == null)
-                return false;
-            return headerAttrib.Value == "table_header";
+            log.Error(String.Format("<0> exception when processing",name), ex);
         }
 
-        protected static IList<HtmlNode> ExtractHeadCells(HtmlNode node)
+        private void ProcessPrivate(string name)
         {
-            if (node.Name != "table")
-                return null;
-            var row = node.ChildNodes.FirstOrDefault(n => n.Name == "tr");
-            if (row == null)
-                return null;
-            var headNodes = row.ChildNodes.Where(IsHeadCell).ToList();
-            if (headNodes.Count == 0)
-                return null;
-            return headNodes;
+            using (var conn = OpenConnection())
+                conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+            log.InfoFormat("<{0}> list is private", name);
         }
 
-        protected static Tuple<int, int> FindTitleRatingIndices(HtmlNode outerNode)
+        private void ProcessInvalidUser(string name)
         {
-            var headNodes = outerNode.ChildNodes.Select(ExtractHeadCells).FirstOrDefault(e => e != null);
-            if (headNodes == null)
-                return null;
-            int title = -1;
-            int rating = -1;
-            // we've got <td> nodes containing titles
-            for (int i = 0; i < headNodes.Count; i++)
+            using (var conn = OpenConnection())
+                conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
+            log.InfoFormat("<{0}> invalid user", name);
+        }
+
+        private void ProcessMySQLError(string name)
+        {
+            using (var conn = OpenConnection())
+                conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+            log.InfoFormat("<{0}> MySQL error", name);
+        }
+
+        private void ProcessSuccess(string name, IList<AnimeRating> ratings)
+        {
+            using (var conn = OpenConnection())
             {
-                // strip whitespace
-                string innerText = trimWhitespace.Replace(headNodes[i].InnerText, " ");
-                if (innerText == "Anime Title")
+                using (var dbtrans = conn.BeginTransaction())
                 {
-                    title = i;
+                    long user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, transaction:dbtrans).First();
+                    conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.AnimeId, score = t.Rating, user = user_id}), transaction:dbtrans);
+                    conn.Execute(@"UPDATE [Users] SET [Result] = 0;", transaction:dbtrans);
+                    dbtrans.Commit();
                 }
-                else
-                {
-                    // look for a <strong> child
-                    var strongNode = headNodes[i].ChildNodes.FirstOrDefault(n => n.Name == "strong");
-                    if (strongNode != null && strongNode.InnerText == "Score")
-                        rating = i;
-                }
-                if (title != -1 && rating != -1)
-                    return Tuple.Create(title, rating);
             }
-            return null;
+            log.InfoFormat("<{0}> success", name);
         }
 
-        protected static Tuple<HtmlNode, HtmlNode> ExtractPayload(HtmlNode tableNode, int titleIndex, int ratingIndex)
+        private void ProcessUnknownResult(string name)
         {
-            var row = tableNode.Element("tr");
-            if (row == null)
-                return null;
-            var cells = row.Elements("td").ToList();
-            if(cells.Count < 2)
-                return null;
-            var linkNode = cells[titleIndex].ChildNodes.FirstOrDefault(n => n.Name == "a");
-            if (linkNode == null)
-                return null;
-            var linkNodeClass = linkNode.Attributes["class"];
-            if (linkNodeClass == null || linkNodeClass.Value != "animetitle")
-                return null;
-            return Tuple.Create(linkNode, cells[ratingIndex]);
-
-        }
-
-        protected static Tuple<int, int> ParseRatings(HtmlNode animeLink, HtmlNode ratingCell)
-        {
-            int rating;
-            if(ratingCell.InnerText != null && Int32.TryParse(ratingCell.InnerText, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, NumberFormatInfo.InvariantInfo, out rating))
-            {
-                int id = Int32.Parse(captureRating.Match(animeLink.Attributes["href"].Value).Groups["id"].Captures[0].Value);
-                return Tuple.Create(id, rating);
-            }
-            return null;
+            log.WarnFormat("<{0}> result unknown", name);
         }
 
         public static void CleanDB(string path)
@@ -245,16 +159,6 @@ namespace Vosen.MAL
                 db.Execute(@"UPDATE [Users] SET [Result] = 0;
                              DELETE FROM Seen;");
             }
-        }
-
-        private static void PrintError(string name, Exception ex)
-        {
-            Console.WriteLine("{0}\terror\t{1}\t{2}", name, ex.Message, ex.StackTrace);
-        }
-
-        private static void PrintSuccess(string name)
-        {
-            Console.WriteLine("{0}\tsuccess", name);
         }
     }
 }
