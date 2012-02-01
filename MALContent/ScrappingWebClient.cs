@@ -10,6 +10,11 @@ namespace MALContent
 {
     class ScrappingWebClient : WebClient
     {
+        static ScrappingWebClient()
+        {
+            System.Net.ServicePointManager.DefaultConnectionLimit = Int32.MaxValue;
+        }
+
         public ScrappingWebClient()
             : base()
         {
@@ -19,8 +24,7 @@ namespace MALContent
         protected override WebRequest GetWebRequest(Uri address)
         {
             HttpWebRequest req = (HttpWebRequest)base.GetWebRequest(address);
-            req.ServicePoint.ConnectionLimit = Int32.MaxValue;
-            req.Headers.Add("User-Agent", "Mozilla/5.0 (X11; Linux i686; rv:9.0.1) Gecko/20100101 Firefox/9.0.1");
+            req.UserAgent = "Mozilla/5.0 (X11; Linux i686; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
             return (WebRequest)req;
         }
 
