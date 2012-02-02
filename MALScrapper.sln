@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "MALScrapper\Mapper.csproj", "{AC73B6D1-A0DC-44C9-A14A-45B6E704B0E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Mapper", "MAL.Mapper\MAL.Mapper.csproj", "{AC73B6D1-A0DC-44C9-A14A-45B6E704B0E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapper", "Scrapper\Scrapper.csproj", "{1B4C4F9A-10D3-4169-ABE6-1484B9C448D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Scrapper", "MAL.Scrapper\MAL.Scrapper.csproj", "{1B4C4F9A-10D3-4169-ABE6-1484B9C448D9}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SVD-Test", "SVD-Test\SVD-Test.pyproj", "{3253F5A2-9000-43A9-B03C-C948EA8729E0}"
 EndProject
@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{36B2E6
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALScrapper.Tests", "MALScrapper.Tests\MALScrapper.Tests.csproj", "{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Tests", "MAL.Tests\MAL.Tests.csproj", "{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALContent", "MALContent\MALContent.csproj", "{0AF0124F-6948-482C-BFCB-6097BD8291FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Content", "MAL.Content\MAL.Content.csproj", "{0AF0124F-6948-482C-BFCB-6097BD8291FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Shared", "MAL.Shared\MAL.Shared.csproj", "{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,16 @@ Global
 		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
