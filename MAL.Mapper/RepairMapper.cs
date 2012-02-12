@@ -22,7 +22,7 @@ namespace Vosen.MAL
             // we've got a list of indices, now time to run.
             if(start != -1 && stop != -1)
                 ids = ids.Where(id => id>= start && id <= stop);
-            ScanAndFill(ids.ToList());
+            ConcurrentForeach(ids.ToList(), idx => SingleQuery(idx));
         }
     }
 }

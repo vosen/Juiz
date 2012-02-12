@@ -24,11 +24,6 @@ namespace Vosen.MAL
             {
                 {
                     "f|fill",
-                    "use with --start and --end. Scans all ids between those values",
-                    s => mode += 1
-                },
-                {
-                    "g|gaps",
                     "try to fill gaps between scanned ids",
                     s => mode += 2
                 },
@@ -90,9 +85,6 @@ namespace Vosen.MAL
 
             switch (mode)
             {
-                case 1:
-                    new Mapper(start, end, log, limit, db).Run();
-                    return;
                 case 2:
                     new FillingMapper(start, end, log, limit, db).Run();
                     return;

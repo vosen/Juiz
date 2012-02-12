@@ -33,7 +33,7 @@ namespace Vosen.MAL
             int end = ids.Max();
             var range = Enumerable.Range(rangeStart, rangeEnd).Except(ids);
             // we've got a list of indices, now time to run.
-            ScanAndFill(range);
+            ConcurrentForeach(range.ToList(), idx => SingleQuery(idx));
         }
     }
 }

@@ -21,12 +21,10 @@ namespace Vosen.MAL
         private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/(?<id>[0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
         override protected string LogName { get { return "mal.scrapper"; } }
-        private int ConcurrencyLimit { get; set; }
 
         public Scrapper(bool logging, int concLimit, string dbName)
-            :base(logging)
+            :base(logging, concLimit)
         {
-            ConcurrencyLimit = concLimit;
             DbName = dbName;
         }
 
@@ -42,17 +40,10 @@ namespace Vosen.MAL
             {
                 ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0").ToList();
             }
-            var results = new Task[ids.Count];
-            var factory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(ConcurrencyLimit));
-            for(int i =0; i<results.Length; i++)
-            {
-                int index = i;
-                results[index] = factory.StartNew(() => SingleQuery(ids[index]));
-            }
-            Task.WaitAll(results);
+            ConcurrentForeach(ids, SingleQuery);
         }
 
-        protected void SingleQuery(string name)
+        private void SingleQuery(string name)
         {
             try
             {

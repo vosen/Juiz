@@ -11,36 +11,26 @@ using log4net.Appender;
 using Vosen.MAL.Content;
 using Vosen.MAL;
 using System.Data.Common;
+using System.Threading.Tasks.Schedulers;
 
 namespace Vosen.MAL
 {
-    internal class Mapper : Crawler
+    abstract class Mapper : Crawler
     {
         protected override string LogName { get { return "mal.mapper"; } }
-        public int ConcurrencyLimit { get; set; }
 
         protected int start;
         protected int stop;
 
-        public Mapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
-            :base(logging)
+        protected Mapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
+            :base(logging, concLimit)
         {
             start = startIndex;
             stop = stopIndex;
-            ConcurrencyLimit = concLimit;
             DbName = dbname;
         }
 
-        public virtual void Run()
-        {
-            CreateDB();
-            ScanAndFill(Enumerable.Range(start, stop - start + 1));
-        }
-
-        protected virtual void ScanAndFill(IEnumerable<int> ids)
-        {
-            Parallel.ForEach(ids, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, idx =>  SingleQuery(idx));
-        }
+        public abstract void Run();
 
         protected bool SingleQuery(int idx)
         {

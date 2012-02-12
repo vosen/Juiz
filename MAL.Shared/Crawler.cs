@@ -5,6 +5,8 @@ using System.Text;
 using log4net;
 using log4net.Appender;
 using System.Data.SQLite;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 
 namespace Vosen.MAL
 {
@@ -12,14 +14,31 @@ namespace Vosen.MAL
     {
         protected abstract string LogName { get; }
         protected virtual string DbName { get; set; }
+        protected TaskFactory TaskFactory { get; private set; }
         protected ILog log;
 
-        protected Crawler(bool testing)
+        protected Crawler(bool testing, int concLimit)
         {
             if(testing)
                 log = SetupLogger(LogName);
             else
                 log = new NullLog();
+            if (concLimit > 0)
+                TaskFactory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(concLimit));
+            else
+                TaskFactory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(Environment.ProcessorCount * 2));
+
+        }
+
+        protected void ConcurrentForeach<T> (List<T> items, Action<T> func)
+        {
+            var results = new Task[items.Count];
+            for (int i = 0; i < results.Length; i++)
+            {
+                int index = i;
+                results[index] = TaskFactory.StartNew(() => func(items[index]));
+            }
+            Task.WaitAll(results);
         }
 
         private static ILog SetupLogger(string name)

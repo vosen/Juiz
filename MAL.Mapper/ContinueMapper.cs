@@ -10,8 +10,7 @@ namespace Vosen.MAL
 {
     internal class ContinueMapper : Mapper
     {
-        protected int blockSize = 128;
-        protected int threshold = 32;
+        protected int blockSize = 256;
 
         public ContinueMapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
             : base(startIndex, stopIndex, logging, concLimit, dbname) { }
@@ -28,25 +27,15 @@ namespace Vosen.MAL
 
         private void RunFrom(int offset)
         {
-            bool[] block = new bool[blockSize];
-            Parallel.For(0, blockSize, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, (idx) =>
+            Task<bool>[] block = new Task<bool>[blockSize];
+            for (int i = 0; i < block.Length; i++)
             {
-                block[idx] = SingleQuery(offset + idx);
-            });
-            CheckBlock(block, offset);
-        }
-
-        private void CheckBlock(bool[] tasks, int oldOffset)
-        {
-            int invalidCount = tasks.Aggregate(0, (i, task) =>
-            {
-                if (task)
-                    return 0;
-                return ++i;
-            });
-            if (invalidCount >= threshold)
-                return;
-            RunFrom(oldOffset + blockSize);
+                int idx = i;
+                block[idx] = TaskFactory.StartNew(() => SingleQuery(offset + idx));
+            }
+            Task.WaitAll(block);
+            if (block.Any(task => task.Result))
+                RunFrom(offset + blockSize);
         }
     }
 }
