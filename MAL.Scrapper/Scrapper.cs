@@ -35,6 +35,20 @@ namespace Vosen.MAL
             ScrapAndFill();
         }
 
+        private static ILog SetupLogger()
+        {
+            FileAppender fileAppender = new FileAppender()
+            {
+                LockingModel = new FileAppender.ExclusiveLock(),
+                AppendToFile = false,
+                File = String.Format("mal.scrapper " + DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH'-'mm") + ".log"),
+                Layout = new log4net.Layout.PatternLayout(@"[%date{yyyy-MM-dd HH:mm:ss}] [%level]: %message%newline%exception")
+            };
+            fileAppender.ActivateOptions();
+            log4net.Config.BasicConfigurator.Configure(fileAppender);
+            return LogManager.GetLogger(typeof(Scrapper));
+        }
+
         protected void ScrapAndFill()
         {
             List<string> ids;

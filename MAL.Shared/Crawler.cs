@@ -24,12 +24,16 @@ namespace Vosen.MAL
 
         private static ILog SetupLogger(string name)
         {
-            ConsoleAppender consoleAppender = new ConsoleAppender()
+            FileAppender fileAppender = new FileAppender()
             {
+                ImmediateFlush = false,
+                LockingModel = new FileAppender.ExclusiveLock(),
+                AppendToFile = false,
+                File = String.Format(name + " " + DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH'-'mm") + ".log"),
                 Layout = new log4net.Layout.PatternLayout(@"[%date{yyyy-MM-dd HH:mm:ss}] [%level]: %message%newline%exception")
             };
-            consoleAppender.ActivateOptions();
-            log4net.Config.BasicConfigurator.Configure(consoleAppender);
+            fileAppender.ActivateOptions();
+            log4net.Config.BasicConfigurator.Configure(fileAppender);
             return LogManager.GetLogger(typeof(Crawler));
         }
 
