@@ -6,6 +6,7 @@ using System.Net;
 using Dapper;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using System.Globalization;
 using Vosen.MAL.Content;
 using log4net.Repository.Hierarchy;
@@ -42,10 +43,11 @@ namespace Vosen.MAL
                 ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0").ToList();
             }
             var results = new Task[ids.Count];
+            var factory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(ConcurrencyLimit));
             for(int i =0; i<results.Length; i++)
             {
                 int index = i;
-                results[index] = Task.Factory.StartNew(() => SingleQuery(ids[index]));
+                results[index] = factory.StartNew(() => SingleQuery(ids[index]));
             }
             Task.WaitAll(results);
         }

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Crawler.cs" />
     <Compile Include="Dapper-1.8\SqlMapper.cs" />
+    <Compile Include="LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="NullLog.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="ProgramBase.cs" />
