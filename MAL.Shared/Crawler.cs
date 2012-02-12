@@ -33,16 +33,16 @@ namespace Vosen.MAL
             return LogManager.GetLogger(typeof(Crawler));
         }
 
-        protected static System.Data.IDbConnection OpenConnection(string path)
+        protected static System.Data.IDbConnection OpenConnection(string path, bool foreignKeys = true)
         {
-            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 16384, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = true, DataSource = path }.ToString());
+            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 16384, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = foreignKeys, DataSource = path, FailIfMissing = true }.ToString());
             conn.Open();
             return conn;
         }
 
-        protected System.Data.IDbConnection OpenConnection()
+        protected System.Data.IDbConnection OpenConnection(bool foreignKeys = true)
         {
-            return OpenConnection(DbName);
+            return OpenConnection(DbName, foreignKeys);
         }
     }
 }

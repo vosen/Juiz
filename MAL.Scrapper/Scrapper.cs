@@ -88,7 +88,7 @@ namespace Vosen.MAL
 
         private void ProcessInvalidUser(string name)
         {
-            using (var conn = OpenConnection())
+            using (var conn = OpenConnection(false))
                 conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
             log.InfoFormat("<{0}> invalid user", name);
         }
