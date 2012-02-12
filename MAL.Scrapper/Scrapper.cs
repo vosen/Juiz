@@ -36,12 +36,18 @@ namespace Vosen.MAL
 
         protected void ScrapAndFill()
         {
-            IEnumerable<string> ids;
+            List<string> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0");
+                ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0").ToList();
             }
-            Parallel.ForEach(ids, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLimit }, SingleQuery);
+            var results = new Task[ids.Count];
+            for(int i =0; i<results.Length; i++)
+            {
+                int index = i;
+                results[index] = Task.Factory.StartNew(() => SingleQuery(ids[index]));
+            }
+            Task.WaitAll(results);
         }
 
         protected void SingleQuery(string name)
