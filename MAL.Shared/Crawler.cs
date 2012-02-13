@@ -46,7 +46,7 @@ namespace Vosen.MAL
         {
             FileAppender fileAppender = new FileAppender()
             {
-                ImmediateFlush = false,
+                ImmediateFlush = true,
                 LockingModel = new FileAppender.ExclusiveLock(),
                 AppendToFile = false,
                 File = String.Format(name + " " + DateTime.Now.ToString("yyyy'-'MM'-'dd' 'HH'-'mm") + ".log"),
