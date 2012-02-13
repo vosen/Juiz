@@ -32,11 +32,12 @@ namespace Vosen.MAL
 
         protected void ConcurrentForeach<T> (List<T> items, Action<T> func)
         {
+            Action<object> cachedFunc = (obj) => func((T)obj);
             var results = new Task[items.Count];
             for (int i = 0; i < results.Length; i++)
             {
                 int index = i;
-                results[index] = TaskFactory.StartNew(() => func(items[index]));
+                results[index] = TaskFactory.StartNew(cachedFunc, items[index]);
             }
             Task.WaitAll(results);
         }
