@@ -34,8 +34,14 @@ namespace Vosen.MAL
                 block[idx] = TaskFactory.StartNew(() => SingleQuery(offset + idx));
             }
             Task.WaitAll(block);
+            // Help the GC
+            for (int i = 0; i < block.Length; i++)
+                block[i].Dispose();
             if (block.Any(task => task.Result))
+            {
+                block = null;
                 RunFrom(offset + blockSize);
+            }
         }
     }
 }

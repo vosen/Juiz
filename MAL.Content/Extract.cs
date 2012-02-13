@@ -115,6 +115,7 @@ namespace Vosen.MAL.Content
             completedList.Dispose();
             onHoldList.Dispose();
             droppedList.Dispose();
+            plannedList.Dispose();
             var allAnime = tasks.Select(task => AllAnime(task.Result))
                                 .Where(result => result.Response == AnimelistResponse.Successs)
                                 .SelectMany(i => i.Ratings);
