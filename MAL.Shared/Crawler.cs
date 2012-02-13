@@ -14,7 +14,7 @@ namespace Vosen.MAL
     {
         protected abstract string LogName { get; }
         protected virtual string DbName { get; set; }
-        protected TaskFactory TaskFactory { get; private set; }
+        protected int ConcurrencyLevel { get; private set; }
         protected ILog log;
 
         protected Crawler(bool testing, int concLimit)
@@ -24,22 +24,10 @@ namespace Vosen.MAL
             else
                 log = new NullLog();
             if (concLimit > 0)
-                TaskFactory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(concLimit));
+                ConcurrencyLevel = concLimit;
             else
-                TaskFactory = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(Environment.ProcessorCount * 2));
+                ConcurrencyLevel = Environment.ProcessorCount * 2;
 
-        }
-
-        protected void ConcurrentForeach<T> (List<T> items, Action<T> func)
-        {
-            Action<object> cachedFunc = (obj) => func((T)obj);
-            var results = new Task[items.Count];
-            for (int i = 0; i < results.Length; i++)
-            {
-                int index = i;
-                results[index] = TaskFactory.StartNew(cachedFunc, items[index]);
-            }
-            Task.WaitAll(results);
         }
 
         private static ILog SetupLogger(string name)

@@ -27,17 +27,9 @@ namespace Vosen.MAL
 
         private void RunFrom(int offset)
         {
-            Task<bool>[] block = new Task<bool>[blockSize];
-            for (int i = 0; i < block.Length; i++)
-            {
-                int idx = i;
-                block[idx] = TaskFactory.StartNew(() => SingleQuery(offset + idx));
-            }
-            Task.WaitAll(block);
-            // Help the GC
-            for (int i = 0; i < block.Length; i++)
-                block[i].Dispose();
-            if (block.Any(task => task.Result))
+            bool[] block = new bool[blockSize];
+            Parallel.For(0, blockSize, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLevel }, (idx) => block[idx] = SingleQuery(offset + idx));
+            if (block.Any())
             {
                 block = null;
                 RunFrom(offset + blockSize);

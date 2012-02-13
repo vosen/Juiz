@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace Vosen.MAL
 {
@@ -23,17 +24,17 @@ namespace Vosen.MAL
             if(start == -1 || stop == -1)
             {
                 rangeStart = ids.Min();
-                rangeEnd = stop - start + 1;
+                rangeEnd = ids.Max();
             }
             else
             {
-                rangeStart = ids.Min();
-                rangeEnd = ids.Max() - rangeStart;
+                rangeStart = Math.Max(start, ids.Min());
+                rangeEnd = Math.Min(stop, ids.Max());
             }
             int end = ids.Max();
-            var range = Enumerable.Range(rangeStart, rangeEnd).Except(ids);
+            var range = Enumerable.Range(rangeStart, rangeEnd).Except(ids).ToList();
             // we've got a list of indices, now time to run.
-            ConcurrentForeach(range.ToList(), idx => SingleQuery(idx));
+            Parallel.For(0, range.Count, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLevel }, i => SingleQuery(range[i]));
         }
     }
 }
