@@ -11,14 +11,6 @@ namespace Vosen.MAL.Tests
     [TestFixture]
     public class RatedExtraction
     {
-        private static string LoadFile(string path)
-        {
-            using(var stream = new StreamReader(path))
-            {
-                return stream.ReadToEnd();
-            }
-        }
-
         [Test]
         public void EmptySite()
         {
@@ -30,7 +22,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void MySQLError()
         {
-            string site = LoadFile(@"sites\animelist\JamesBennitDiver.html");
+            string site = Helper.LoadFile(@"sites\animelist\JamesBennitDiver.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.MySQLError, result.Response);
@@ -39,7 +31,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void InvalidUser()
         {
-            string site = LoadFile(@"sites\animelist\gesla_jazn.html");
+            string site = Helper.LoadFile(@"sites\animelist\gesla_jazn.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.InvalidUsername, result.Response);
@@ -48,7 +40,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void PrivateList()
         {
-            string site = LoadFile(@"sites\animelist\SoiFong.html");
+            string site = Helper.LoadFile(@"sites\animelist\SoiFong.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.ListIsPrivate, result.Response);
@@ -57,7 +49,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void ListTooLarge()
         {
-            string site = LoadFile(@"sites\animelist\DarkLaila.html");
+            string site = Helper.LoadFile(@"sites\animelist\DarkLaila.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.TooLarge, result.Response);
@@ -66,7 +58,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void EmptyList()
         {
-            string site = LoadFile(@"sites\animelist\aaroncaberte.html");
+            string site = Helper.LoadFile(@"sites\animelist\aaroncaberte.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -76,7 +68,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void UnscoredList()
         {
-            string site = LoadFile(@"sites\animelist\htiek359.html");
+            string site = Helper.LoadFile(@"sites\animelist\htiek359.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -86,7 +78,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void ShortList()
         {
-            string site = LoadFile(@"sites\animelist\Ningx.html");
+            string site = Helper.LoadFile(@"sites\animelist\Ningx.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -96,7 +88,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void CurrentlyWatchingList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado&status=1.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado&status=1.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -106,7 +98,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void CompletedList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado&status=2.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado&status=2.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -116,7 +108,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void OnHoldList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado&status=3.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado&status=3.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -126,7 +118,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void DroppedList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado&status=4.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado&status=4.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -136,7 +128,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void PlanToWatchList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado&status=6.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado&status=6.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -146,7 +138,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void LongList()
         {
-            string site = LoadFile(@"sites\animelist\Aokaado.html");
+            string site = Helper.LoadFile(@"sites\animelist\Aokaado.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
@@ -156,7 +148,7 @@ namespace Vosen.MAL.Tests
         [Test]
         public void ComplexList()
         {
-            string site = LoadFile(@"sites\animelist\Alfyan.html");
+            string site = Helper.LoadFile(@"sites\animelist\Alfyan.html");
             var result = Extract.RatedAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);

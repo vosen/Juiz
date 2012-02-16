@@ -55,7 +55,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimeNamesExtraction.cs" />
     <Compile Include="NameExtraction.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="UnratedExtraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatedExtraction.cs" />
@@ -105,6 +107,18 @@
     </Content>
     <Content Include="sites\animelist\Yanoflies.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\anime\1.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\anime\100.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\anime\112.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sites\anime\2.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="sites\clubs\DeusOmega.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

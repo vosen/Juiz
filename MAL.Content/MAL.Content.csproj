@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimeResult.cs" />
+    <Compile Include="AnimeResponse.cs" />
     <Compile Include="NameResponse.cs" />
     <Compile Include="NameResult.cs" />
     <Compile Include="ScrappingWebClient.cs">

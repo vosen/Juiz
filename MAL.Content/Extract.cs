@@ -14,7 +14,50 @@ namespace Vosen.MAL.Content
         private static Regex extractName = new Regex("myanimelist.net/profile/(.+?)\"", RegexOptions.CultureInvariant | RegexOptions.Compiled);
         private static Regex trimWhitespace = new Regex(@"\s+", RegexOptions.CultureInvariant | RegexOptions.Compiled);
         private static Regex captureRating = new Regex(@"http://myanimelist\.net/anime/([0-9]+?)/", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        
+        public static AnimeResult DownloadAnimeNames(int id)
+        {
+            string site;
+            using(var client = new ScrappingWebClient())
+            {
+                site = client.DownloadString("http://myanimelist.net/anime/" + id);
+            }
+            return AnimeNamesFromSite(site);
+        }
 
+        public static AnimeResult AnimeNamesFromSite(string site)
+        {
+            if (site.Contains("Invalid Request"))
+                return new AnimeResult() { Response = AnimeResponse.InvalidId };
+            HtmlDocument doc = new HtmlDocument() { OptionCheckSyntax = false };
+            doc.LoadHtml(site);
+            HtmlNode contentWrapperNode = doc.GetElementbyId("contentWrapper");
+            if (contentWrapperNode == null)
+                return new AnimeResult() { Response = AnimeResponse.Unknown };
+            string romajiName = GetMainNameFromContent(contentWrapperNode);
+            Tuple<string, string[]> alternatives = ExtractAlternativeNamesFromContent(doc);
+            return new AnimeResult() { Response = AnimeResponse.Successs, RomajiName = romajiName, EnglishName = alternatives.Item1, Synonyms = alternatives.Item2 };
+        }
+
+        private static Tuple<string, string[]> ExtractAlternativeNamesFromContent(HtmlDocument doc)
+        {
+            HtmlNode editdiv = doc.GetElementbyId("editdiv");
+            HtmlNode englishNode = editdiv.NextSibling;
+            while(!englishNode.HasAttributes || englishNode.Attributes["class"].Value != "spaceit_pad")
+                englishNode = englishNode.NextSibling;
+            string englishName = englishNode.ChildNodes[1].InnerText.Trim();
+            HtmlNode synonymsNode = englishNode.NextSibling;
+            while (!synonymsNode.HasAttributes || synonymsNode.Attributes["class"].Value != "spaceit_pad")
+                synonymsNode = synonymsNode.NextSibling;
+            string[] synonyms = synonymsNode.ChildNodes[1].InnerText.Split(',').Select(s => s.Trim()).ToArray();
+            return Tuple.Create(englishName, synonyms);
+        }
+
+        private static string GetMainNameFromContent(HtmlNode contentWrapperNode)
+        {
+            HtmlNode h1Node = contentWrapperNode.ChildNodes.FindFirst("h1");
+            return h1Node.LastChild.InnerText;
+        }
 
         public static NameResult DownloadName(int id)
         {
@@ -157,7 +200,7 @@ namespace Vosen.MAL.Content
                 return new Tuple<AnimelistResponse, IEnumerable<AnimeRating>>(AnimelistResponse.TooLarge, null);
             }
 
-            HtmlDocument doc = new HtmlDocument();
+            HtmlDocument doc = new HtmlDocument() { OptionCheckSyntax = false };
             doc.LoadHtml(site);
             HtmlNode tableNode = doc.GetElementbyId("list_surround");
             if (tableNode == null)

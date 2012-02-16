@@ -1,0 +1,831 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+	<title>Prétear - MyAnimeList.net</title>
+    <meta name="Description" content="Prétear Information, Prétear Reviews,  Synonyms: Shin Shirayuki Hime Densetsu Pretear" />
+    <meta name="Keywords" content="Prétear, Prétear information, Prétear details, Prétear discussion, Prétear characters, Prétear voice actors, Prétear seiyuu" />
+    <meta name="Author" content="Garrett Gyssler">
+	
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/hover.v5.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/jquery.fancybox.pack.v1.js"></script>
+	
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/fav.js"></script>
+		
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/fansubbers.v7.js"></script>
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/fav.js"></script>
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/reviews.v2.js"></script>
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/forum.v12.js"></script>
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/animeinfo.v3.js"></script>
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/forums.v5.css" type="text/css" />
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/reviews.v1.css" type="text/css" />
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/myanimelist.v43.css" type="text/css" />
+			<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/mal.ridlayout.css" />
+	<script type="text/javascript" src="http://cdn.myanimelist.net/js/myanimelist.v18.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/jquery.fancybox.v3.css" />
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/dialog.v1.css" />
+	<link rel="search" type="application/opensearchdescription+xml" href="http://cdn.myanimelist.net/plugins/myanimelist.xml" title="MyAnimeList" />
+	
+	<link rel="shortcut icon" href="http://cdn.myanimelist.net/images/faviconv5.ico" />
+	
+	<!-- BEGIN TRIGGER TAG INITIALIZATION -->
+	<script type="text/javascript" src="http://cdn.triggertag.gorillanation.com/js/triggertag.js"></script>
+	<script type="text/javascript">getTrigger('4834');</script>
+	<!-- END TRIGGER TAG INITIALIZATION -->
+	<!-- GAM HEADER SCRIPT -->
+		<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+		</script>
+		<script type="text/javascript">
+		GS_googleAddAdSenseService("ca-pub-1304704158939332");
+		GS_googleEnableAllServices();
+		</script>
+		<script type="text/javascript">
+		GA_googleUseIframeRendering();
+		</script>
+	<!-- END OF GAM HEADER SCRIPT -->
+	
+</head>
+
+<body onload="">
+<div id="myanimelist">
+
+
+	<div id="headerSmall">
+		<a href="/">MyAnimeList.net</a>
+	</div>
+	
+<div id="menu">
+    
+    <div id="menu_right">
+    	
+        <div id="searchBar">
+
+        <input type="text" class="inputtext" id="topSearchText" value="Search" onkeydown="return ts_checkEnter(event);" size="30" /> 
+        <select id="topSearchValue" class="inputtext" onchange="ts_selection();">
+        <option value="0">Anime</option>
+        <option value="1">Manga</option>
+        <option value="2">Characters</option>
+        <option value="6">People</option>
+        <option value="3">Fansub Groups</option>
+        <option value="4">Clubs</option>
+        <option value="5">Users</option>
+        </select>
+        
+        <input type="image" src="http://cdn.myanimelist.net/images/magnify.gif" value="Search" onclick="ts_subSearch(5);" />
+        
+        </div>
+        
+	</div>
+	
+	<div id="menu_left">
+		<ul id="nav">
+						<li class="small"><a href="/anime.php">Anime</a>
+				<ul class="wider">
+										<li><a href="/reviews.php?t=anime">Reviews</a></li>
+					<li><a href="/recommendations.php?s=recentrecs&t=anime">Recommendations</a></li>
+					<li><a href="/topanime.php">Top Anime</a></li>
+					<li><a href="/fansub-groups.php">Fansub Groups</a></li>
+				</ul>
+			</li>
+			<li class="small"><a href="/manga.php">Manga</a>
+				<ul class="wider">
+										<li><a href="/reviews.php?t=manga">Reviews</a></li>
+					<li><a href="/recommendations.php?s=recentrecs&t=manga">Recommendations</a></li>
+					<li><a href="/topmanga.php">Top Manga</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Community</a>
+				<ul>
+					<li><a href="/forum/">Forums</a></li>
+					<li><a href="/clubs.php">Clubs</a></li>
+					<li><a href="/blog.php">Blogs</a></li>
+					<li><a href="/users.php">Users</a></li>
+				</ul>
+			</li>
+			<li class="medium"><a href="#">Industry</a>
+				<ul class="wide">
+					<li><a href="/people.php">People</a></li>
+					<li><a href="/character.php">Characters</a></li>
+					<li><a href="/news.php">News</a></li>
+					<li><a href="/favorites.php">Top Favorites</a></li>
+				</ul>
+			</li>
+			
+			<li class="tiny"><a href="/register.php">Join</a></li>
+			<li class="smaller"><a href="/ajaxtb.php?login" id="malLogin">Login</a></li>
+						</ul>
+	</div>
+</div>
+
+<div id="contentWrapper">
+
+	<div id="roadblock">
+				<div class="ad230">
+						<script type="text/javascript">
+						if ((typeof(f325922)=='undefined' || f325922 > 0) ) {
+						if(typeof(gnm_ord)=='undefined') gnm_ord=Math.random()*10000000000000000; if(typeof(gnm_tile) == 'undefined') gnm_tile=1;
+						document.write('<scr'+'ipt src="http://n4403ad.doubleclick.net/adj/gn.cr.myanimelist.net/ros;sect=ros;sz=230x90,963x90;tile='+(gnm_tile++)+';ord='+gnm_ord+'?" type="text/javascript"></scr'+'ipt>');
+						} else {
+							GA_googleFillSlotWithSize("ca-pub-1304704158939332", "myanimelist_ros_230x90", 230, 90);
+						}
+						</script>
+						</div>
+				<div class="ad728">
+						<!-- 728x90 -->
+						<script type="text/javascript">
+						  if (typeof(gnm_ord)=='undefined' || (typeof(ad963_enabled)!= 'undefined' && ad963_enabled == false)) gnm_ord=Math.random()*10000000000000000;
+						  if (typeof(gnm_tile) == 'undefined') gnm_tile=1;
+						  document.write('<scr'+'ipt src="http://n4403ad.doubleclick.net/adj/gn.cr.myanimelist.net/ros;sect=ros;sz=728x90;dga=;dgg=;tile='+(gnm_tile++)+';ord=' + gnm_ord + ';?" type="text/javascript"></scr' + 'ipt>');
+						</script>
+						</div>
+				</div>
+	<h1><div style="float: right; font-size: 13px;">Ranked #1431</div>Prétear</h1>
+	<div id="content">
+	
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+	 <td class="borderClass" width="225" style="border-width: 0 1px 0 0;" valign="top"><div style="text-align: center;"><a href="http://myanimelist.net/anime/100/Prétear/pic&pid=11709"><img src="http://cdn.myanimelist.net/images/anime/9/11709.jpg" alt="Prétear" align="center"></a></div><div id="profileRows"><a href="#addtolistanchor" onclick="myinfo_toggleAdd();">Add to My List</a><a href="javascript:void(0);" onclick="fav_clicker(1,1,100);" style="font-weight: normal;"><span id="favOutput">Add to Favorites</span></a><a href="javascript:doedit(100);">Edit Anime Information</a></div>
+<div id="editdiv" style="display: none; margin-bottom: 16px;">
+<form method="GET" action="http://myanimelist.net/dbchanges.php" style="display: inline;">
+<input type="hidden" name="aid" value="100">
+<div class="spaceit_pad">What would you like to edit?</div>
+<select name="t" class="inputtext">
+<option value="synopsis">Synopsis<option value="pic">Picture<option value="airingdates">Airing Dates<option value="producers">Producers<option value="relations">Relations<option value="rating">Rating<option value="duration">Duration
+</select> &nbsp;<input type="submit" value="Go" class="inputButton">
+</form>
+</div>
+<h2>Alternative Titles</h2><div class="spaceit_pad"><span class="dark_text">English:</span> Pretear</div><div class="spaceit_pad"><span class="dark_text">Synonyms:</span> Shin Shirayuki Hime Densetsu Pretear</div><div class="spaceit_pad"><span class="dark_text">Japanese:</span> 新白雪姫伝説プリーティア</div><br />
+	<h2>Information</h2>
+	<div><span class="dark_text">Type:</span> TV</div>
+	<div class="spaceit"><span class="dark_text">Episodes:</span> 13
+	</div>
+	<div><span class="dark_text">Status:</span> Finished Airing</div>
+	<div class="spaceit"><span class="dark_text">Aired:</span> Apr  4, 2001 to Jun  21, 2001</div>
+	<div><span class="dark_text">Producers:</span> 
+	<a href="http://myanimelist.net/anime.php?p=34">Hal Film Maker</a>, <a href="http://myanimelist.net/anime.php?p=97">ADV Films</a><sup><small>L</small></sup>, <a href="http://myanimelist.net/anime.php?p=102">FUNimation Entertainment</a><sup><small>L</small></sup>, <a href="http://myanimelist.net/anime.php?p=113">Kadokawa Shoten</a>, <a href="http://myanimelist.net/anime.php?p=160">Rondo Robe</a></div><div class="spaceit"><span class="dark_text">Genres:</span> 
+	  <a href="http://myanimelist.net/anime.php?genre[]=4">Comedy</a>, <a href="http://myanimelist.net/anime.php?genre[]=8">Drama</a>, <a href="http://myanimelist.net/anime.php?genre[]=10">Fantasy</a>, <a href="http://myanimelist.net/anime.php?genre[]=16">Magic</a>, <a href="http://myanimelist.net/anime.php?genre[]=22">Romance</a>, <a href="http://myanimelist.net/anime.php?genre[]=25">Shoujo</a>, <a href="http://myanimelist.net/anime.php?genre[]=31">Super Power</a></div><div><span class="dark_text">Duration:</span> 
+	  23 min. per episode</div><div class="spaceit"><span class="dark_text">Rating:</span> 
+	  PG-13 - Teens 13 or older</div>
+	  <sup><small>L</small></sup><small> represents licensing company</small></div>
+	  <br />
+	  <br />
+		<h2>Statistics</h2><div><span class="dark_text">Score:</span> 7.44<sup><small>1</small></sup> <small>(scored by 9621 users)</small></div>
+		<div class="spaceit"><span class="dark_text">Ranked:</span> #1431<sup><small>2</small></sup></div>
+		<div><span class="dark_text">Popularity:</span> #636</div>
+		
+		<div class="spaceit"><span class="dark_text">Members:</span> 17,165</div>
+		<div><span class="dark_text">Favorites:</span> 232</div><div style="margin-top: 2px;"><small><sup><small>1</small></sup>  indicates a weighted score</small></div>
+		<div><sup><small>2</small></sup><small> based on the <a href="http://myanimelist.net/topanime.php">top anime</a> page.</small></div>
+	<br />
+	<a name="addtolistanchor"></a>
+	<h2>My Info</h2><div><a href="javascript:void(0);" id="addclicker" onclick="myinfo_toggleAdd();">Add to My List</a></div>
+	<div id="addtolist" style="display: none;">
+	<input type="hidden" id="myinfo_anime_id" value="100">
+	<input type="hidden" id="myinfo_curstatus" value="2">
+	
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	<td class="spaceit">Status:</td>
+	<td class="spaceit"><select id="myinfo_status" name="myinfo_status" onchange="checkEps(this);" class="inputtext"><option value="1" >Watching</option><option value="2" >Completed</option><option value="3" >On-Hold</option><option value="4" >Dropped</option><option value="6" >Plan to Watch</option></select></td>
+	</tr>
+	<tr>
+	<td class="spaceit">Eps Seen:</td>
+	<td class="spaceit"><input type="text" id="myinfo_watchedeps" name="myinfo_watchedeps" size="3" class="inputtext" value=""> / <span id="curEps">13</span></td>
+	</tr>
+	<tr>
+	<td class="spaceit">Your Score:</td>
+	<td class="spaceit"><select id="myinfo_score" name="myinfo_score" class="inputtext"><option value="0">Select</option><option value="10" >(10) Masterpiece</option><option value="9" >(9) Great</option><option value="8" >(8) Very Good</option><option value="7" >(7) Good</option><option value="6" >(6) Fine</option><option value="5" >(5) Average</option><option value="4" >(4) Bad</option><option value="3" >(3) Very Bad</option><option value="2" >(2) Horrible</option><option value="1" >(1) Unwatchable</option></select></td>
+	</tr>	
+	<tr>
+	  <td>&nbsp;</td>
+	  <td><input type="button" name="myinfo_submit" value="Add" onclick="myinfo_addtolist(100);" class="inputButton"> <span id="addtolistresult"><a href="http://myanimelist.net/panel.php?go=add&selected_series_id=100">Add Detailed Info</a></span></td>
+	</tr>
+	</table>
+	</div>
+	<div id="myinfoDisplay" style="padding-left: 89px; margin-top: 3px;"></div>
+	<br>
+	  <h2>Popular Tags</h2>
+	  <span style="font-size: 11px;"><a href="http://myanimelist.net/anime.php?tag=comedy" style="font-size: 11px" title="116 people tagged with comedy">comedy</a> <a href="http://myanimelist.net/anime.php?tag=fantasy" style="font-size: 17px" title="138 people tagged with fantasy">fantasy</a> <a href="http://myanimelist.net/anime.php?tag=romance" style="font-size: 24px" title="161 people tagged with romance">romance</a> <a href="http://myanimelist.net/anime.php?tag=shoujo" style="font-size: 13px" title="126 people tagged with shoujo">shoujo</a> </span></td><td valign="top" style="padding: 0;">
+	<a name="lower"></a>
+	<div id="horiznav_nav" style="margin: 5px 0 10px 0;">
+		<ul style="margin-right: 0; padding-right: 0;">
+		<li><a href="http://myanimelist.net/anime/100/Prétear/" class="horiznav_active">Details</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/reviews">Reviews</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/userrecs">Recommendations</a>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/stats">Stats</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/characters">Characters & Staff</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/news">News</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/forum">Forum</a></li>
+		<li><a  href="http://myanimelist.net/anime/100/Prétear/pics">Pictures</a></li>
+		</ul>
+	</div>
+	<div style="padding: 0 7px;"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+	<td valign="top"><h2>Synopsis</h2>A sixteen year old girl is struggling to adjust to a new step-family when seven guys appear on the scene revealing that she possesses a special magical power. Shying away from the strange group, she later joins them when a monster places her friend's life in jeopardy. Without training, she must prove herself capable to take up the sacred duty of the Pretear. They must resolve their differences and work together to defeat the evil princess intent on destruction. <br />
+<br />
+(Source: FUNimation) </td>
+	</tr>
+	<tr>
+	  <td><br><h2>Related Anime</h2>Adaptation: <a href="http://myanimelist.net/manga/1248/Pretear">Pretear</a><br>
+		<br />
+		<h2><div class="floatRightHeader"><a href="http://myanimelist.net/anime/100/Prétear/characters" style="font-weight: normal;">More characters</a></div>Characters & Voice Actors</h2><table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td valign="top" width="27" class="borderClass bgColor2" align="center">
+			<div class="picSurround"><a href="http://myanimelist.net/character/546/Hayate" style="font-weight: normal;"><img src="http://cdn.myanimelist.net/images/characters/8/85544t.jpg" alt="Hayate" vspace="4" hspace="8" border="0"></a></div>
+			</td>
+			<td valign="top" class="borderClass bgColor2">
+			<a href="http://myanimelist.net/character/546/Hayate">Hayate</a>
+			<div class="spaceit_pad"><small>Main</small></div>
+			</td>
+			<td align="right" valign="top" class="borderClass bgColor2">
+				<table border="0" cellpadding="0" cellspacing="0" class="space_table">
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/97/Kousuke_Toriumi">Toriumi, Kousuke</a><br />
+					<small>Japanese</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/97/Kousuke_Toriumi"><img src="http://cdn.myanimelist.net/images/voiceactors/1/10152v.jpg" alt="Toriumi, Kousuke" border="0"></a></div>
+					</td>
+					</tr>
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/282/Illich_Guardiola">Guardiola, Illich</a><br />
+					<small>English</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/282/Illich_Guardiola"><img src="http://cdn.myanimelist.net/images/voiceactors/2/12803v.jpg" alt="Guardiola, Illich" border="0"></a></div>
+					</td>
+					</tr><tr><td align="right" colspan="2">...</td></tr>
+				<tr>
+				</table>
+			</td>
+			</tr>
+			</table><table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td valign="top" width="27" class="borderClass bgColor1" align="center">
+			<div class="picSurround"><a href="http://myanimelist.net/character/547/Sasame" style="font-weight: normal;"><img src="http://cdn.myanimelist.net/images/characters/2/51322t.jpg" alt="Sasame" vspace="4" hspace="8" border="0"></a></div>
+			</td>
+			<td valign="top" class="borderClass bgColor1">
+			<a href="http://myanimelist.net/character/547/Sasame">Sasame</a>
+			<div class="spaceit_pad"><small>Main</small></div>
+			</td>
+			<td align="right" valign="top" class="borderClass bgColor1">
+				<table border="0" cellpadding="0" cellspacing="0" class="space_table">
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/79/Takahiro_Sakurai">Sakurai, Takahiro</a><br />
+					<small>Japanese</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/79/Takahiro_Sakurai"><img src="http://cdn.myanimelist.net/images/voiceactors/1/9651v.jpg" alt="Sakurai, Takahiro" border="0"></a></div>
+					</td>
+					</tr>
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/190/Chris_Patton">Patton, Chris</a><br />
+					<small>English</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/190/Chris_Patton"><img src="http://cdn.myanimelist.net/images/voiceactors/1/15689v.jpg" alt="Patton, Chris" border="0"></a></div>
+					</td>
+					</tr>
+				<tr>
+				</table>
+			</td>
+			</tr>
+			</table><table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td valign="top" width="27" class="borderClass bgColor2" align="center">
+			<div class="picSurround"><a href="http://myanimelist.net/character/553/Takako" style="font-weight: normal;"><img src="http://cdn.myanimelist.net/images/characters/10/47210t.jpg" alt="Takako" vspace="4" hspace="8" border="0"></a></div>
+			</td>
+			<td valign="top" class="borderClass bgColor2">
+			<a href="http://myanimelist.net/character/553/Takako">Takako</a>
+			<div class="spaceit_pad"><small>Main</small></div>
+			</td>
+			<td align="right" valign="top" class="borderClass bgColor2">
+				<table border="0" cellpadding="0" cellspacing="0" class="space_table">
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/28/Yui_Horie">Horie, Yui</a><br />
+					<small>Japanese</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/28/Yui_Horie"><img src="http://cdn.myanimelist.net/images/voiceactors/3/13911v.jpg" alt="Horie, Yui" border="0"></a></div>
+					</td>
+					</tr>
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/6435/Kaytha_Coker">Coker, Kaytha</a><br />
+					<small>English</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/6435/Kaytha_Coker"><img src="http://cdn.myanimelist.net/images/voiceactors/2/11595v.jpg" alt="Coker, Kaytha" border="0"></a></div>
+					</td>
+					</tr>
+				<tr>
+				</table>
+			</td>
+			</tr>
+			</table><table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+			<td valign="top" width="27" class="borderClass bgColor1" align="center">
+			<div class="picSurround"><a href="http://myanimelist.net/character/545/Himeno_Awayuki" style="font-weight: normal;"><img src="http://cdn.myanimelist.net/images/characters/12/118248t.jpg" alt="Awayuki, Himeno" vspace="4" hspace="8" border="0"></a></div>
+			</td>
+			<td valign="top" class="borderClass bgColor1">
+			<a href="http://myanimelist.net/character/545/Himeno_Awayuki">Awayuki, Himeno</a>
+			<div class="spaceit_pad"><small>Main</small></div>
+			</td>
+			<td align="right" valign="top" class="borderClass bgColor1">
+				<table border="0" cellpadding="0" cellspacing="0" class="space_table">
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/189/Luci_Christian">Christian, Luci</a><br />
+					<small>English</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/189/Luci_Christian"><img src="http://cdn.myanimelist.net/images/voiceactors/2/15279v.jpg" alt="Christian, Luci" border="0"></a></div>
+					</td>
+					</tr>
+					<tr>
+					<td valign="top" align="right" style="padding: 0 4px;" nowrap>
+					<a href="http://myanimelist.net/people/5246/Sayuri_Yoshida">Yoshida, Sayuri</a><br />
+					<small>Japanese</small>
+					</td>
+					<td valign="top"><div class="picSurround"><a href="http://myanimelist.net/people/5246/Sayuri_Yoshida"><img src="http://cdn.myanimelist.net/images/voiceactors/2/10861v.jpg" alt="Yoshida, Sayuri" border="0"></a></div>
+					</td>
+					</tr>
+				<tr>
+				</table>
+			</td>
+			</tr>
+			</table>
+	<br><a name="staff"></a>
+	<h2><div class="floatRightHeader"><a href="http://myanimelist.net/anime/100/Prétear/characters#staff">More staff</a></div>Staff</h2>
+	
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		
+			<tr>
+				<td width="25" valign="top" class="borderClass bgColor1"><div class="picSurround"><a href="http://myanimelist.net/people/4002/Satou_Junichi"><img src="http://cdn.myanimelist.net/images/voiceactors/3/9803v.jpg"></a></div></td>
+				<td valign="top" class="borderClass bgColor"><a href="http://myanimelist.net/people/4002/Satou_Junichi">Satou, Junichi</a>
+				<br><small>Director, Original Creator</small></td>
+			</tr>
+			
+			<tr>
+				<td width="25" valign="top" class="borderClass bgColor1"><div class="picSurround"><a href="http://myanimelist.net/people/6064/Sayama_Kiyoko"><img src="http://cdn.myanimelist.net/images/questionmark_23.gif"></a></div></td>
+				<td valign="top" class="borderClass bgColor1"><a href="http://myanimelist.net/people/6064/Sayama_Kiyoko">Sayama, Kiyoko</a>
+				<br><small>Director, Episode Director</small></td>
+			</tr>
+			
+			<tr>
+				<td width="25" valign="top" class="borderClass bgColor1"><div class="picSurround"><a href="http://myanimelist.net/people/7412/Fujimoto_Yoshitaka"><img src="http://cdn.myanimelist.net/images/questionmark_23.gif"></a></div></td>
+				<td valign="top" class="borderClass bgColor2"><a href="http://myanimelist.net/people/7412/Fujimoto_Yoshitaka">Fujimoto, Yoshitaka</a>
+				<br><small>Episode Director</small></td>
+			</tr>
+			
+			<tr>
+				<td width="25" valign="top" class="borderClass bgColor1"><div class="picSurround"><a href="http://myanimelist.net/people/8538/Hiraike_Yoshimasa"><img src="http://cdn.myanimelist.net/images/questionmark_23.gif"></a></div></td>
+				<td valign="top" class="borderClass bgColor1"><a href="http://myanimelist.net/people/8538/Hiraike_Yoshimasa">Hiraike, Yoshimasa</a>
+				<br><small>Episode Director</small></td>
+			</tr>
+			</table>
+		<br />
+		<div style='float:left;'>
+				<div class="ad300">
+				<div class="ad_300">
+						<script type="text/javascript">
+						  if (typeof(gnm_ord)=='undefined') gnm_ord=Math.random()*10000000000000000;
+						  if (typeof(gnm_tile) == 'undefined') gnm_tile=1;
+						  document.write('<scr'+'ipt src="http://n4403ad.doubleclick.net/adj/gn.cr.myanimelist.net/ros;sect=ros;sz=300x250;dga=;dgg=;kw=Comedy,Drama,Fantasy,Magic,Romance,Shoujo,Super Power;pos=btf;tile='+(gnm_tile++)+';ord=' + gnm_ord + ';?" type="text/javascript"></scr' + 'ipt>');
+						</script>
+						</div>
+				</div>
+				</div><div style='float:right;'><script type='text/javascript'>
+var _CI = _CI || {};
+(function() {
+var script = document.createElement('script');
+ref = document.getElementsByTagName('script')[0];
+_CI.counter = (_CI.counter) ? _CI.counter + 1 : 1;
+document.write('<div id="_CI_widget_');
+document.write(_CI.counter+'"></div>');
+script.type = 'text/javascript';
+script.src = 'http://widget.crowdignite.com/widgets/2054?_ci_wid=_CI_widget_'+_CI.counter;
+script.async = true;
+ref.parentNode.insertBefore(script, ref);
+})(); </script></div><br style='clear:both;'><br /><h2><span class="floatRightHeader"><a href="http://myanimelist.net/myreviews.php?seriesid=100&go=write">Write a review</a> | <a href="http://myanimelist.net/anime/100/Prétear/reviews">More reviews</a></span>Reviews</h2>
+				<div class="borderDark" style="padding: 14px 13px;">
+					<div class="spaceit"><div style="text-align: right;">Dec 11, 2008</div>
+					</div>
+					<div class="borderLight reviewDetails">
+					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td valign="top" width="60">
+							<div class="picSurround"><a href="http://myanimelist.net/profile/Retro8bit"><div class="picSurround"><a href="http://myanimelist.net/profile/Retro8bit"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/70369_thumb.jpg" border="0"></a></div></a></div>
+						</td>
+						<td valign="top">
+	<div id="revArea100">
+	<div id="revInfo100" rel="a100" class="hoverinfo">
+	</div>
+	</div>
+	
+							<a href="http://myanimelist.net/profile/Retro8bit">Retro8bit</a><br />
+							<div class="lightLink spaceit"><strong><span id="rhelp10314">56</span></strong> of <strong><span id="rtotal10314">75</span></strong> people found this review helpful</div>
+							<div><a href="http://myanimelist.net/profile/Retro8bit/reviews">Other reviews by this user</a></div>
+						</td>
+						<td style="text-align: right;" valign="top">
+							<div><span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,70369,1); return false;">Add to favorites</a></span></div>
+							<div class="lightLink spaceit">13 of 13 episodes seen</div>
+							<div><a href="javascript:void(0);" onclick="$('#score10314').toggle()">Overall Rating</a>: 8</div>
+						</td>
+					</tr>
+					</table>
+					</div>
+					<div class="spaceit textReadability">
+					
+					<div style="float: left; display: none; margin: 0 10px 10px 0" id="score10314">
+		<table border="0" width="105" cellpadding="0" cellspacing="0" class="borderClass" style="border-width: 1px;">
+		<tr>
+		  <td class="borderClass bgColor1"><strong>Overall</strong></td>
+		  <td class="borderClass bgColor1"><strong>8</strong></td>
+		</tr>
+		<tr>
+		  <td class="borderClass" align="left">Story</td>
+		  <td class="borderClass">8</td>
+		</tr>
+		
+		<tr>
+		  <td class="borderClass" align="left">Animation</td>
+		  <td class="borderClass">7</td>
+		</tr>
+			<tr>
+			  <td class="borderClass" align="left">Sound</td>
+			  <td class="borderClass">8</td>
+			</tr>
+			
+		<tr>
+		  <td class="borderClass" align="left">Character</td>
+		  <td class="borderClass">7</td>
+		</tr>
+		<tr>
+		  <td class="borderClass" style="border-width: 0;" align="left">Enjoyment</td>
+		  <td class="borderClass" style="border-width: 0;">8</td>
+		</tr>
+		</table>
+		</div>Upon first looking at the title you may be thinking to yourself, is this some sort of story about someone about to cry? (Pre-tear) Hahahaha but no, in all seriousness this is actual a magical girl style anime with a more interesting concept.<br />
+<br />
+Story: 8/10<br />
+Basically it follows our main heroine "Himeno" as she tries to stop the evil demons made from the "Princess of disaster." (main villain) But how she does this is pretty interesting, she basically has to merge with these beings called "The Leafe Knights" in order to temporally take control of their powers, and this is quite important as she will need different <span style="display: none;" id="review10314">elements against the right foe. It basically sticks to this the whole way through, all along giving the viewer some pretty nifty plot twists and surprises after the half way point. There is also a nice love story that takes place between Himeno and the main Leafe Knight, (even if it is pretty standard in anime. You know? The whole love--hate relationship) along with other mini plots to help prevent the story from keeping a sort of straight forwardness to the audience. In fact there are a handful of episodes that deal more with personal problems, and take a break from the overall story. The ending itself is by no means anything spectacular, but it does resolve all plot threads and questions, and should make you feel satisfied at the end. The action scenes I must say are a bit more on the shallow side and lack a certain flare and appeal, as some enemies were defeated in a matter of minutes once Himeno transforms, which might disappoint some viewers. This happens on most parts where they usually are involved with side plots, and make you feel like some of the actions scenes play second fiddle in some episodes. Though this is a magical girl style anime, it also has some pretty funny comedy scenes as well, but it’s never over the top and is mostly there to keep the audience into the anime. When they do gear up for battle and/or show more problematic scenes between the characters, the title quickly shifts into the appropriate mood, so you don’t have to worry about the characters acting comical at the wrong time, as it’s balanced with the seriousness.<br />
+<br />
+Pretear does have some content that should be mentioned, for one there are some scenes that show Himeno and the Leafe Knights in a more nude look. It basically happens when they are about to merge with one another. Though they don’t draw any actual detail in the body, and are more just implied (ie Sailor Moon transformations).<br />
+<br />
+Artwork: 7/10<br />
+Well being that this is a 2001 title, it will come as no surprise that it shows age. The character design that went into each is quite nice though, each article of clothing and facial expression is pretty decent to look at with a good scenes of detail and personality, however the backgrounds leave much to be desired, as most come off as a sort of bland watercolor style painting, this is especially true with the more natural environments, (such as the parks and forests) which aren’t the nicest to look at. Though some of the interior (such as Himeko’s house) is pretty detailed and well made with style.<br />
+<br />
+Soundtrack: 8/10<br />
+The opening and closing themes are very pleasing to the ears, the first with a more mature magical girl style up beat theme, and the ending with a much more relaxed yet enthusiastic style. The background music is pretty forgettable though, it does play the right tunes at the right time depending on the situation. But you will most likely forget about it once you finished the series. The character voices are very well done (even in the dub version), and mix well with the character’s persona. An endearing soundtrack overall!<br />
+<br />
+Characters: 7/10<br />
+Well to be quite frank they are very appealing and give off good vibes to the audience, but they lack real depth found on other magical girl series. As this is due to one problem, there are simply too many characters in the overall story that you really never get a chance to learn about any of them. In fact if I was to give number count of how many of them you get actual back story and/or knowledge of, I would say its around 5 or so. Which isn’t much considering there are around 14 characters in this. Still, they do spotlight the appropriate cast members whom of which are indeed important to the storyline.<br />
+<br />
+Bottom Line: 7/10<br />
+All in all Pretear is an endearing tale that should satisfy its audience. Even though it lacks deep character depth found in other titles of this style, it makes up for it nicely with its mix baggage of genres (ie love, action, suspense, comedy). While I am not the biggest fan of magical girl titles, I certainly did have fun with this. And I think you will too!</span> <a href="javascript:void(0);" id="reviewToggle10314" onclick="reviewToggleText(10314)">read more</a></div>
+					<div>
+		<div style="margin-top: 14px; padding: 3px 0;">
+			<div style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportreview&id=10314" class="lightLink"><small>report</small></a></div><span id="revhelp_output_10314">I found this review <a href="javascript:void(0);" onclick="voteReview(10314,1)" class="button_form">Helpful</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="voteReview(10314,0)" class="button_form">Not Helpful</a></span></div></div>
+				</div>
+				
+				<div class="borderDark" style="padding: 14px 13px;">
+					<div class="spaceit"><div style="text-align: right;">Oct 15, 2008</div>
+					</div>
+					<div class="borderLight reviewDetails">
+					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td valign="top" width="60">
+							<div class="picSurround"><a href="http://myanimelist.net/profile/KloverKat"><div class="picSurround"><a href="http://myanimelist.net/profile/KloverKat"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/22825_thumb.jpg" border="0"></a></div></a></div>
+						</td>
+						<td valign="top">
+	<div id="revArea100">
+	<div id="revInfo100" rel="a100" class="hoverinfo">
+	</div>
+	</div>
+	
+							<a href="http://myanimelist.net/profile/KloverKat">KloverKat</a><br />
+							<div class="lightLink spaceit"><strong><span id="rhelp8709">37</span></strong> of <strong><span id="rtotal8709">63</span></strong> people found this review helpful</div>
+							<div><a href="http://myanimelist.net/profile/KloverKat/reviews">Other reviews by this user</a></div>
+						</td>
+						<td style="text-align: right;" valign="top">
+							<div><span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,22825,1); return false;">Add to favorites</a></span></div>
+							<div class="lightLink spaceit">13 of 13 episodes seen</div>
+							<div><a href="javascript:void(0);" onclick="$('#score8709').toggle()">Overall Rating</a>: 10</div>
+						</td>
+					</tr>
+					</table>
+					</div>
+					<div class="spaceit textReadability">
+					
+					<div style="float: left; display: none; margin: 0 10px 10px 0" id="score8709">
+		<table border="0" width="105" cellpadding="0" cellspacing="0" class="borderClass" style="border-width: 1px;">
+		<tr>
+		  <td class="borderClass bgColor1"><strong>Overall</strong></td>
+		  <td class="borderClass bgColor1"><strong>10</strong></td>
+		</tr>
+		<tr>
+		  <td class="borderClass" align="left">Story</td>
+		  <td class="borderClass">10</td>
+		</tr>
+		
+		<tr>
+		  <td class="borderClass" align="left">Animation</td>
+		  <td class="borderClass">9</td>
+		</tr>
+			<tr>
+			  <td class="borderClass" align="left">Sound</td>
+			  <td class="borderClass">9</td>
+			</tr>
+			
+		<tr>
+		  <td class="borderClass" align="left">Character</td>
+		  <td class="borderClass">10</td>
+		</tr>
+		<tr>
+		  <td class="borderClass" style="border-width: 0;" align="left">Enjoyment</td>
+		  <td class="borderClass" style="border-width: 0;">10</td>
+		</tr>
+		</table>
+		</div>At first, I thought Pretear would be some dumb rip off of Sailor Moon using elements instead of planets but man was I wrong. This show was much deeper than I thought it would be and even made me cry at the end! One thing I liked about this anime was that all of the characters developed into likeable people and it also wasnt predictable-- because predictable shows are just plain boring. I couldnt stop watching it and finished the series in one night! So I give this one two thumbs up, although I wish I could have watched it over time other than all <span style="display: none;" id="review8709">at once so I dont reccomend my method haha. Well hoped this helped even though it was written kinda bad :]</span> <a href="javascript:void(0);" id="reviewToggle8709" onclick="reviewToggleText(8709)">read more</a></div>
+					<div>
+		<div style="margin-top: 14px; padding: 3px 0;">
+			<div style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportreview&id=8709" class="lightLink"><small>report</small></a></div><span id="revhelp_output_8709">I found this review <a href="javascript:void(0);" onclick="voteReview(8709,1)" class="button_form">Helpful</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="voteReview(8709,0)" class="button_form">Not Helpful</a></span></div></div>
+				</div>
+				
+		<br />
+		<h2>
+		<div class="floatRightHeader"><a href="http://myanimelist.net/anime/100/Prétear/userrecs">More recommendations</a></div>
+		Recommendations</h2>
+		
+			<div class="borderClass">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td width="60" valign="top">
+				<div class="picSurround"><a href="http://myanimelist.net/anime/721/Princess_Tutu" class="hoverinfo_trigger" id="#raArea1721" rel="#raInfo1721"><img src="http://cdn.myanimelist.net/images/anime/13/32209t.jpg" border="0"></a></div>
+				</td>
+				<td valign="top">
+				
+	<div id="raArea1721">
+	<div id="raInfo1721" rel="a721" class="hoverinfo">
+	</div>
+	</div>
+	
+				<div style="margin-bottom: 2px;"><a href="http://myanimelist.net/anime/721/Princess_Tutu"><strong>Princess Tutu</strong></a> <a href="http://myanimelist.net/panel.php?go=add&selected_series_id=721&hideLayout" title="Quick add anime to my list" class="Lightbox_AddEdit button_add">add</a></div>
+				
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Both series have similar aspects of shoujo: the transforming girl, the attractive guys, the love triangle, etc. The characters and their relationships are also, surprisingly, very similar. Both series have the same kind of feel to them, with the right balance of comedy, drama, and romance. Both are great and worth watching if you're a fan of shoujo. Both are made by the same director and studio as well. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=3982"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/Neko-Hoshishima">Neko-Hoshishima</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,11933,2); return false;">Add to favorites</a></span></div>
+					</div>
+						<div class="spaceit"><a href="javascript:void(0);" onclick="getRecommendation(100,0);">Read recommendations by <strong>6</strong> more users</a></div>
+						<div id="simaid0" style="display: none;">
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Both works of Junichi Sato, each of these are poignant magical girl shows that show the bittersweet nature of love and the importance of fighting for it. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=10415"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/sailor_titan">sailor_titan</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,53531,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Same director, same fairytale-ish feel, both have a love triangle and they are both mahou shoujo anime </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=13017"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/hirahira">hirahira</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,66680,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Magical girls.  </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=31399"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/KawaiiNeko">KawaiiNeko</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,83161,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Transformations<br />
+Based on a fairy tale or book<br />
+Magical<br />
+Romance<br />
+Complicated relationships<br />
+Friendships<br />
+Main character is female </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=22866"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/Raki900">Raki900</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,169690,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Female vs Female! ~Fantasy/Romance<br />
+<br />
+Main characters are the good side, undergoing transformations in order to save the day/world from the dark/evil female character. They're just about always happy, and they're willing to risk just about anything for the ones they care about.<br />
+<br />
+Both evil female characters had some type of relationship/connection with the main male character. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=15163"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/LenDrizzle">LenDrizzle</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,254536,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Main characters are undergoing transformations in order to save the world from the evil female character. They're always happy, and they will risk anything for the ones they care about. Both evil female characters had some type of relationship with the main male character. Both are shoujo and magical girl anime. Both have a very emotional plot with love triangles. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=26747"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/Deer50">Deer50</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,358828,2); return false;">Add to favorites</a></span></div>
+					</div></div>
+				</td>
+			</tr>
+			</table>
+			</div>
+			
+			<div class="borderClass">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td width="60" valign="top">
+				<div class="picSurround"><a href="http://myanimelist.net/anime/530/Sailor_Moon" class="hoverinfo_trigger" id="#raArea1530" rel="#raInfo1530"><img src="http://cdn.myanimelist.net/images/anime/1/530t.jpg" border="0"></a></div>
+				</td>
+				<td valign="top">
+				
+	<div id="raArea1530">
+	<div id="raInfo1530" rel="a530" class="hoverinfo">
+	</div>
+	</div>
+	
+				<div style="margin-bottom: 2px;"><a href="http://myanimelist.net/anime/530/Sailor_Moon"><strong>Sailor Moon</strong></a> <a href="http://myanimelist.net/panel.php?go=add&selected_series_id=530&hideLayout" title="Quick add anime to my list" class="Lightbox_AddEdit button_add">add</a></div>
+				
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Both are about a sixteen year old girl who transforms and has the power of the elements. It's magical! </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=2131"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/bridget_lalala">bridget_lalala</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,7309,2); return false;">Add to favorites</a></span></div>
+					</div>
+						<div class="spaceit"><a href="javascript:void(0);" onclick="getRecommendation(100,1);">Read recommendations by <strong>5</strong> more users</a></div>
+						<div id="simaid1" style="display: none;">
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Like Sailor Moon, Pretear is about a normal everyday girl that gets to do extraordiary things to save those she loves. She fights the forces of evil to save her world, and does it with style of course. Like Sailor Moon, Pretear also has it's share of corny romance, funny name calling, nifty costumes, odd enemies.  </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=10003"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/Cloudsfall">Cloudsfall</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,148889,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Female characters who live a double life. Normal girls who attend school, and then later having the ability to transform into a new outfit and become hero's! They're just about always happy :]]<br />
+<br />
+There's a bit more romance in Sailor Moon then there is in Pretear.<br />
+<br />
+Both of these characters also have the help of their friends when they're fighting. Sailor moon has a group of female girls from school and Pretear has a group of Knights from another world.<br />
+<br />
+Magic/Romance/Fantasy. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=15170"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/LenDrizzle">LenDrizzle</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,254536,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Both feature magical girls trying to save the world. The only difference is pretear is MUCH shorter than the sailormoon series.  </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=19600"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/shootingpandas">shootingpandas</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,334589,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor1" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">Really the whole feel to it felt like some parts belong in Sailor Moon, especially the ending. The whole magical girl has to save the world from the big bad and everyone lending their help that happens a LOT in the Sailor Moon anime. Not only that, it does help that this is also a magical girl anime in a sense, with the main character wearing her color coded companions instead of fighting next to them. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=21727"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/Maverynthia">Maverynthia</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,376199,2); return false;">Add to favorites</a></span></div>
+					</div>
+					<div class="borderClass bgColor2" style="padding: 3px; border-width: 1px 0 0 0; margin: 4px 0;">
+					<div class="spaceit_pad">This is smilar because the story is about a girl who has to save the world from evil. </div>
+					<div class="spaceit_pad"><span style="float: right;"><a href="http://myanimelist.net/dbchanges.php?go=reportanimerecommendation&id=28059"><small>report</small></a></span>Recommended by <a href="http://myanimelist.net/profile/frekazoid12">frekazoid12</a> - <span><a href="javascript:void(0);" onclick="addRemoveFavorite(this,524507,2); return false;">Add to favorites</a></span></div>
+					</div></div>
+				</td>
+			</tr>
+			</table>
+			</div>
+			
+		<div class="spaceit"><a href="http://myanimelist.net/myrecommendations.php?go=make&aid=100">Make a recommendation for Prétear</a></div>
+		<br />
+	<h2><div style="float: right; font-weight: normal;"><a href="http://myanimelist.net/dbchanges.php?aid=100&t=theme">Edit</a></div>Opening Theme</h2>"White destiny" by Ishida Yoko<br>
+	<br />
+	<h2><div style="float: right; font-weight: normal;"><a href="http://myanimelist.net/dbchanges.php?aid=100&t=theme&themetype=2">Edit</a></div>Ending Theme</h2>"Lucky Star" by Yoshida Sayuri<br><br />
+		<h2><div style="float: right; font-weight: normal;"><a href="http://myanimelist.net/anime/100/Prétear/news">See More</a></div>Recent News</h2>
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="forumTopics">
+		<tr>
+		  <td colspan="5" style="padding: 3px;" style="border-width: 0px 1px 1px 1px;">No posts for this board were found</td>
+		</tr></table><br />
+		<h2><div style="float: right; font-weight: normal;"><a href="http://myanimelist.net/forum/?animeid=100">See All</a> | <a href="http://myanimelist.net/anime/100/Prétear/forum">See More</a></div>Recent Forum Discussion</h2>
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="forumTopics">
+			<tr id="topicRow1">
+			  <td class="forum_boardrow2" style="border-width: 0px 1px 1px 1px;" width="25" align="center" id="topicrow1"><img src="http://cdn.myanimelist.net/images/watch_n.gif" title="Topic is not being watched"></td>
+			  <td class="forum_boardrow1" style="border-width: 0px 1px 1px 0px;">Poll:  <a href="http://myanimelist.net/forum/?topicid=203357">Pretear Episode 2 Discussion</a> <small></small><br>
+			  <span class="forum_postusername"><a href="http://myanimelist.net/profile/EuphoricField">EuphoricField</a></span></td>
+			  <td align="center" width="75" class="forum_boardrow2" style="border-width: 0px 1px 1px 0px;">3 replies</td>
+				<td align="right" width="130" class="forum_boardrow1" style="border-width: 0px 1px 1px 0px;" nowrap>by <a href="http://myanimelist.net/profile/Fronzel">Fronzel</a> <a href="http://myanimelist.net/forum/?topicid=203357&goto=lastpost" title="Go to the Last Post">&raquo;&raquo;</a><br>
+01-31-12, 9:59 PM</td>
+			</tr>
+			
+			<tr id="topicRow2">
+			  <td class="forum_boardrow2" style="border-width: 0px 1px 1px 1px;" width="25" align="center" id="topicrow2"><img src="http://cdn.myanimelist.net/images/watch_n.gif" title="Topic is not being watched"></td>
+			  <td class="forum_boardrow1" style="border-width: 0px 1px 1px 0px;">Poll:  <a href="http://myanimelist.net/forum/?topicid=310133">Prétear Episode 9 Discussion</a> <small></small><br>
+			  <span class="forum_postusername"><a href="http://myanimelist.net/profile/BreathOfFire3">BreathOfFire3</a></span></td>
+			  <td align="center" width="75" class="forum_boardrow2" style="border-width: 0px 1px 1px 0px;">0 replies</td>
+				<td align="right" width="130" class="forum_boardrow1" style="border-width: 0px 1px 1px 0px;" nowrap>by <a href="http://myanimelist.net/profile/BreathOfFire3">BreathOfFire3</a> <a href="http://myanimelist.net/forum/?topicid=310133&goto=lastpost" title="Go to the Last Post">&raquo;&raquo;</a><br>
+07-27-11, 10:45 PM</td>
+			</tr>
+			</table>
+		<br />
+		<h2><div class="floatRightHeader"><a href="http://myanimelist.net/panel.php?go=fsg&do=edit">Add a Group</a></div>
+	Fansubbing Groups</h2>
+		<div style="margin-bottom: 6px;">Which fansubbers do you like the best? Click + to approve of their subs for this show. Click - if you don't think they did such a great job.</div>
+		<div style="padding-left: 10px;">
+		<div id="inlineContent" style="visibility: hidden;"></div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=385">KickAssAnime</a> <small>[KAA]</small>  <a href="javascript:void(0);" onclick="showFSGComment(385);" class="lightLink"><small>12 of 13 users approve</small></a>
+			<div id="fsgComments385" class="spaceit_pad" style="display: none;"><div class="bgColor1 spaceit" >The subtitles was quite good.</div><div class="bgColor2 spaceit" >they kick ass Nyaa~ XD</div><div class="bgColor1 spaceit" >always good quality that runs on my old 1.5ghz without stuttering unlike most h264 over 480lines</div><div class="bgColor2 spaceit"  style="background-color: #f7e0e0;">QCer disappeared?</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=2496">RRAnime</a> <small>[RRA]</small>  <small>(Spanish)</small> <a href="javascript:void(0);" onclick="showFSGComment(2496);" class="lightLink"><small>1 of 1 users approve</small></a>
+			<div id="fsgComments2496" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=42">Anime Daisuki</a> <small>[A-D]</small> 
+			<div id="fsgComments42" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=45">Anime-Fansubs</a> <small>[A-F]</small> 
+			<div id="fsgComments45" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div>
+				<div id="fansubTruncated" style="display: none;">
+				<div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=96">Ishin Digital Anime</a> <small>[Ishin]</small> 
+			<div id="fsgComments96" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=739">Exiled-Destiny</a> <small>[E-D]</small> 
+			<div id="fsgComments739" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=877">Blitz-Anime</a> <small>[Blitz]</small> 
+			<div id="fsgComments877" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=2098">AnimeAdvent</a> <small>[]</small>  <small>(Hungarian)</small>
+			<div id="fsgComments2098" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div><div class="spaceit_pad">
+			<a href="http://myanimelist.net/fansub-groups.php?id=2313">Animation Fansub Portugal</a> <small>[AniFsPT]</small>  <small>(Portuguese)</small>
+			<div id="fsgComments2313" class="spaceit_pad" style="display: none;"><div>No comments available.</div></div>
+			</div>
+				</div>
+				<div clas="spaceit">Group list truncated, <a href="javascript:void(0);" onclick="$('#fansubTruncated').toggle('slow');">click to view all</a></div></div><br><h2>Related Clubs</h2><a href="http://myanimelist.net/clubs.php?cid=21174">Hayate and Himeno (Pretear)</a>, <a href="http://myanimelist.net/clubs.php?cid=11810">Romance Anime/Manga Fanatics</a>, <a href="http://myanimelist.net/clubs.php?cid=7322">Magical Girl Romance Club</a>, <a href="http://myanimelist.net/clubs.php?cid=19563">Anime/Manga Mix</a>, <a href="http://myanimelist.net/clubs.php?cid=18325">Inoue Kikuko Fanclub</a>, <a href="http://myanimelist.net/clubs.php?cid=11664">The Awesome Eyebrows FC</a>, <a href="http://myanimelist.net/clubs.php?cid=25798">The Epic Plot Twist Club</a>, <a href="http://myanimelist.net/clubs.php?cid=20892">Purple and Blue Haired Characters</a>, <a href="http://myanimelist.net/clubs.php?cid=2205">Fan Fiction Guild</a>, <a href="http://myanimelist.net/clubs.php?cid=9925">.:: ☆ ::. Romantic &hearts; Historical .:: ☆ ::.  </a>, <a href="http://myanimelist.net/clubs.php?cid=468">Horie Yui Fanclub</a>, <a href="http://myanimelist.net/clubs.php?cid=10089">Chris Pattards</a>, <a href="http://myanimelist.net/clubs.php?cid=5527">Tomboy/ Feminist Anime Girls Club</a>, <a href="http://myanimelist.net/clubs.php?cid=688">Reverse Harem Club</a>, <a href="http://myanimelist.net/clubs.php?cid=3188">Hero tv Anime club!</a>, <a href="http://myanimelist.net/clubs.php?cid=22344"> _DREAMS ALWAYS COME TRUE..._:))</a>, <a href="http://myanimelist.net/clubs.php?cid=5626">Purple Eyes Fanclub</a>, <a href="http://myanimelist.net/clubs.php?cid=14440">Blonde-haired Anime/manga characters</a>, <a href="http://myanimelist.net/clubs.php?cid=15094">Cult of Spike Spencer, FG</a>, <span style="display: none;" id="allclubs"><a href="http://myanimelist.net/clubs.php?cid=1691">Fantasy Anime Club!</a><a href="http://myanimelist.net/clubs.php?cid=1165">Yoko Ishida fan club</a>, <a href="http://myanimelist.net/clubs.php?cid=3966">Secret Identity</a>, <a href="http://myanimelist.net/clubs.php?cid=16384">April Birthdays!!</a>, <a href="http://myanimelist.net/clubs.php?cid=18267">elemental high</a>, <a href="http://myanimelist.net/clubs.php?cid=20097">romance/love triangle anime</a>, <a href="http://myanimelist.net/clubs.php?cid=5153">~ Colorful Hair Club ~</a>, <a href="http://myanimelist.net/clubs.php?cid=5158">HAL Film Maker Fanclub</a>, <a href="http://myanimelist.net/clubs.php?cid=3071">There is nothing wrong with HAREM!!</a>, <a href="http://myanimelist.net/clubs.php?cid=9503">The Angry Characters Club</a>, <a href="http://myanimelist.net/clubs.php?cid=23714">Anime Card Obsession (A.C.O.)</a>, <a href="http://myanimelist.net/clubs.php?cid=702">Tamura Yukari Fans Unite!</a>, <a href="http://myanimelist.net/clubs.php?cid=25925">Deus Ex Machina Anime Club</a>, <a href="http://myanimelist.net/clubs.php?cid=8063">Mole=Moe</a>, <a href="http://myanimelist.net/clubs.php?cid=19237">harem V.S reverse harem</a>, <a href="http://myanimelist.net/clubs.php?cid=2167">Magical Girl Fans Unite!!</a>, <a href="http://myanimelist.net/clubs.php?cid=26373">Shojo Romance </a>, <a href="http://myanimelist.net/clubs.php?cid=689">Shoujo Wonderland-少女アニメと漫画大好き</a>, <a href="http://myanimelist.net/clubs.php?cid=22523">vampireproductions studio</a>, <a href="http://myanimelist.net/clubs.php?cid=14954">Blue/Green Eyes FanClub</a>, <a href="http://myanimelist.net/clubs.php?cid=18112">romance/love anime club</a>, <a href="http://myanimelist.net/clubs.php?cid=23810">Fairy Tales Abound</a>, <a href="http://myanimelist.net/clubs.php?cid=3210">pretear</a>, <a href="http://myanimelist.net/clubs.php?cid=15706">We Luv Anime Guys</a>, <a href="http://myanimelist.net/clubs.php?cid=3924">The ADV fan club</a>, <a href="http://myanimelist.net/clubs.php?cid=9775">The Noble Heroines</a>, <a href="http://myanimelist.net/clubs.php?cid=10414">Bishonen Lovers Club</a>, <a href="http://myanimelist.net/clubs.php?cid=8356">Anime and Manga Romance Club</a>, <a href="http://myanimelist.net/clubs.php?cid=5677">Fantasy Romance</a>, <a href="http://myanimelist.net/clubs.php?cid=12484">Romance Lovers</a>, <a href="http://myanimelist.net/clubs.php?cid=25339">Anime Night</a>, <a href="http://myanimelist.net/clubs.php?cid=1053">Sakuranbo</a>, <a href="http://myanimelist.net/clubs.php?cid=13944">Quotes, Quotes, Quotes!</a>, <a href="http://myanimelist.net/clubs.php?cid=6137">~* KOYASU TAKEHITO FANS *~</a>, <a href="http://myanimelist.net/clubs.php?cid=21780">*Frozen Fighters*</a>, <a href="http://myanimelist.net/clubs.php?cid=25633">anime world </a>, <a href="http://myanimelist.net/clubs.php?cid=5187">Kanda Akemi</a>, <a href="http://myanimelist.net/clubs.php?cid=4221">Magical Mascot/Sidekick Club</a>, <a href="http://myanimelist.net/clubs.php?cid=18359">~~~~talking about beautiful boys~~~~</a>, <a href="http://myanimelist.net/clubs.php?cid=8431">Sakurai Takahiro Fanclub</a>, <a href="http://myanimelist.net/clubs.php?cid=12053">The Luci Christian Fan Club!</a>, <a href="http://myanimelist.net/clubs.php?cid=14358">We love Winter and Snow in Anime</a>, <a href="http://myanimelist.net/clubs.php?cid=17815">Fairy tales in anime</a></span> <a href="javascript:void(0);" onclick="$('#allclubs').toggle()">see all</a><br><br><h2><span class="floatRightHeader"><a href="http://myanimelist.net/anime/100/Prétear/lastusers">See All</a> | <a href="http://myanimelist.net/anime/100/Prétear/viewinfo&m=friends#members">My Friends</a></span>Recently Watched By</h2><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/reiiya">reiiya</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/reiiya"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>28 minutes ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/LoveMi">LoveMi</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/LoveMi"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/1148883_thumb.jpg" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>3 hours ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/RegulusTera">RegulusTera</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/RegulusTera"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>4 hours ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/rarehunter">rarehunter</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/rarehunter"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>6 hours ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/Gargoyle">Gargoyle</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/Gargoyle"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>6 hours ago</small></div></td></tr><tr><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/AllenWalker91">AllenWalker91</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/AllenWalker91"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/311797_thumb.jpg" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>7 hours ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/yoyoyo248">yoyoyo248</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/yoyoyo248"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>8 hours ago</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/homosev">homosev</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/homosev"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/331579_thumb.jpg" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>Yesterday, 11:26 PM</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/mini-woelckchen">mini-woelckchen</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/mini-woelckchen"><img src="http://cdn.myanimelist.net/images/questionmark_50.gif" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>Yesterday, 4:30 PM</small></div></td><td width="20%" align="center" class="borderClass"><div style="margin-bottom: 3px;"><a href="http://myanimelist.net/profile/lucentmemories">lucentmemories</a></div>
+			<div class="picSurround"><a href="http://myanimelist.net/profile/lucentmemories"><img src="http://cdn.myanimelist.net/images/userimages/thumbs/649627_thumb.jpg" border="0"></a></div>
+			<div class="lightLink" style="margin-top: 3px;"><small>Yesterday, 2:11 PM</small></div></td></tr></table>
+		</td>
+		</tr>
+		</table>
+		
+</div>
+</td>
+</tr>
+</table>
+
+</div>
+
+<div id="rightcontentunder">
+
+<a href="http://myanimelist.net/modules.php?go=faq">FAQ</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/about.php">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/about.php?go=contact">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.craveonline.com/termsofuse.php?site=www.MyAnimeList.net" target="_blank">Terms</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.craveonline.com/privacy.php?site=www.MyAnimeList.net" target="_blank">Privacy</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://myanimelist.net/modules.php?go=affiliates">Affiliates</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a id="_bapw-link" href="#" target="_blank" style=""><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important"/> <span style="vertical-align:middle !important">AdChoices</span></a><script>/*<![CDATA[*/(function(){var c=247,g=595,b=false,i=document,f=i.getElementById("_bapw-link"),a=(i.location.protocol=="https:"?"https":"http"),h=(a=="https"?"https://info.evidon.com/c/betrad/pub/":"http://cdn.betrad.com/pub/");function e(j){var d=new Image();d.src=a+"://l.betrad.com/pub/p.gif?pid="+c+"&ocid="+g+"&i"+j+"=1&r="+Math.random()}i.getElementById("_bapw-icon").src=h+"icon1.png";f.onmouseover=function(){if(/#$/.test(f.href)){f.href="http://info.evidon.com/pub_info/"+c+"?v=1"}};f.onclick=function(){var j=window._bap_p_overrides;function d(m,p){var n=i.getElementsByTagName("head")[0]||i.documentElement,l=b,k=i.createElement("script");function o(){k.onload=k.onreadystatechange=null;n.removeChild(k);p()}k.src=m;k.onreadystatechange=function(){if(!l&&(this.readyState=="loaded"||this.readyState=="complete")){l=true;o()}};k.onload=o;n.insertBefore(k,n.firstChild)}if(j&&j.hasOwnProperty(c)){if(j[c].new_window){e("c");return true}}this.onclick="return "+b;d(a+"://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js",function(){d(h+"pub2.js",function(){BAPW.i(f,{pid:c,ocid:g})})});return b};e("i")}());/*]]>*/</script>
+	
+<div id="copyright">
+&copy; 2011 All Rights Reserved. MyAnimeList.net is a property of <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC.<br /> <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC is a division of <a href="http://www.atomiconline.com">AtomicOnline</a>, LLC, an <a href="http://www.evolvemediacorp.com">Evolve Media</a> Corp. company.</div>
+
+</div>
+
+</div>
+
+<!--  control container height -->
+<div style="clear:both;"></div>
+
+<!-- end rightbody -->
+</div>
+
+
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-369102-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+<!-- Begin comScore Tag -->
+<script>
+    document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js' %3E%3C/script%3E"));
+</script>
+
+<script>
+  COMSCORE.beacon({
+    c1:2,
+    c2:6036161,
+    c3:"",
+    c4:"",
+    c5:"",
+    c6:"",
+    c15:""
+  });
+</script>
+<noscript>
+  <img src="http://b.scorecardresearch.com/p?c1=2&c2=6036161&c3=&c4=&c5=&c6=&c15=&cj=1" />
+</noscript>
+<!-- End comScore Tag -->
+
+<!-- start Vibrant Media IntelliTXT script section -->
+<script type="text/javascript" src="http://myanimelist.us.intellitxt.com/intellitxt/front.asp?ipid=30532"></script>
+<!-- end Vibrant Media IntelliTXT script section -->
+	<script type="text/javascript" src="http://s.skimresources.com/js/7138X661721.skimlinks.js"></script>
+</body>
+</html>
