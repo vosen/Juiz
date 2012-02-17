@@ -12,8 +12,8 @@ namespace Vosen.MAL
     {
         protected int blockSize = 256;
 
-        public ContinueMapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
-            : base(startIndex, stopIndex, logging, concLimit, dbname) { }
+        public ContinueMapper(int startIndex, int stopIndex, bool logging, int concLimit)
+            : base(startIndex, stopIndex, logging, concLimit) { }
 
         public override void Run()
         {

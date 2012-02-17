@@ -22,12 +22,11 @@ namespace Vosen.MAL
         protected int start;
         protected int stop;
 
-        protected Mapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
+        protected Mapper(int startIndex, int stopIndex, bool logging, int concLimit)
             :base(logging, concLimit)
         {
             start = startIndex;
             stop = stopIndex;
-            DbName = dbname;
         }
 
         public abstract void Run();
@@ -77,7 +76,7 @@ namespace Vosen.MAL
 
         private void ProcessInvalidResult(int idx)
         {
-            using (var conn = OpenConnection(false))
+            using (var conn = OpenConnection())
             {
                 conn.Execute("DELETE FROM \"Users\" WHERE \"Id\" = @id", new { id =idx });
             }

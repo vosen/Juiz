@@ -10,8 +10,8 @@ namespace Vosen.MAL
 {
     internal class FillingMapper : Mapper
     {
-        public FillingMapper(int startIndex, int stopIndex, bool logging, int concLimit, string dbname)
-            : base(startIndex, stopIndex, logging, concLimit, dbname) { }
+        public FillingMapper(int startIndex, int stopIndex, bool logging, int concLimit)
+            : base(startIndex, stopIndex, logging, concLimit) { }
 
         public override void Run()
         {

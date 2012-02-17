@@ -22,10 +22,9 @@ namespace Vosen.MAL
 
         override protected string LogName { get { return "mal.scrapper"; } }
 
-        public Scrapper(bool logging, int concLimit, string dbName)
+        public Scrapper(bool logging, int concLimit)
             :base(logging, concLimit)
         {
-            DbName = dbName;
         }
 
         public void Run()
@@ -87,7 +86,7 @@ namespace Vosen.MAL
 
         private void ProcessInvalidUser(string name)
         {
-            using (var conn = OpenConnection(false))
+            using (var conn = OpenConnection())
                 conn.Execute("DELETE FROM \"Users\" WHERE \"Name\" = :nick", new { nick = name });
             log.InfoFormat("<{0}> invalid user", name);
         }
@@ -119,10 +118,9 @@ namespace Vosen.MAL
             log.WarnFormat("<{0}> result unknown", name);
         }
 
-        public static void CleanDB(string path)
+        public void CleanDB(string path)
         {
-            string dbname = path ?? "mal.db";
-            using (var db = OpenConnection(dbname))
+            using (var db = OpenConnection())
             {
                 var trans = db.BeginTransaction();
                 db.Execute("UPDATE \"Users\" SET \"Result\" = '0'; DELETE FROM \"Seen\";");

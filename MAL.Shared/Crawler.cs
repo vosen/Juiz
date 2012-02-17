@@ -17,7 +17,6 @@ namespace Vosen.MAL
     public abstract class Crawler
     {
         protected abstract string LogName { get; }
-        protected virtual string DbName { get; set; }
         protected int ConcurrencyLevel { get; private set; }
         protected ILog log;
         private string connectionString;

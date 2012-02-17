@@ -66,10 +66,10 @@ namespace Vosen.MAL
             switch(mode)
             {
                 case 1:
-                    new Scrapper(log, limit, db).Run();
+                    new Scrapper(log, limit).Run();
                     return;
                 case 2:
-                    Scrapper.CleanDB(db);
+                    new Scrapper(false,-1).CleanDB(db);
                     Console.WriteLine("Finished cleaning.");
                     return;
                 case 4:

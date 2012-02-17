@@ -18,7 +18,6 @@ namespace Vosen.MAL
         {
             int mode = 0;
             int start = -1, end = -1, limit = -1;
-            string db = "mal.db";
             bool log = false;
             OptionSet modes = new OptionSet()
             {
@@ -46,11 +45,6 @@ namespace Vosen.MAL
 
             OptionSet options = new OptionSet()
             {
-                { 
-                    "d|db=",
-                    "database name, default is mal.db",
-                    s => db = s 
-                },
                 {
                     "c|concurreny=",
                     "limit amount of concurrent scrapping tasks",
@@ -86,13 +80,13 @@ namespace Vosen.MAL
             switch (mode)
             {
                 case 2:
-                    new FillingMapper(start, end, log, limit, db).Run();
+                    new FillingMapper(start, end, log, limit).Run();
                     return;
                 case 4:
-                    new RepairMapper(start, end, log, limit, db).Run();
+                    new RepairMapper(start, end, log, limit).Run();
                     return;
                 case 8:
-                    new ContinueMapper(start, end, log, limit, db).Run();
+                    new ContinueMapper(start, end, log, limit).Run();
                     return;
                 case 16:
                     ShowHelp(modes, options, "Mapper");
