@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vosen.MAL
 {
-    enum DbProvider
+    public enum DbProvider
     {
         Unknown,
         SQLite,

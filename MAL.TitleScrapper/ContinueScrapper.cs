@@ -20,7 +20,7 @@ namespace Vosen.MAL
             int maxId;
             using (var conn = OpenConnection())
             {
-                maxId = (int)conn.Query<long>("SELECT MAX(\"Id\") FROM \"Anime\"").First();
+                maxId = (int)conn.Query<long>("SELECT CAST(COALESCE((SELECT MAX(\"Id\") FROM \"Anime\"), 0) AS BIGINT);").First();
             }
             RunFrom(maxId + 1);
         }

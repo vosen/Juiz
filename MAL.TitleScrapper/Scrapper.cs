@@ -51,8 +51,7 @@ namespace Vosen.MAL
             {
                 var trans = conn.BeginTransaction();
                 conn.Execute("INSERT INTO \"Anime\" (\"Id\", \"RomajiName\", \"EnglishName\") VALUES (:id, :romajiName, :englishName)", new { id = id, romajiName = result.RomajiName, englishName = result.EnglishName }, trans);
-                int insertId = LastInsertId(conn);
-                conn.Execute("INSERT INTO \"Anime_Synonyms\" (\"Text\", \"Anime_Id\") VALUES (:text, :id)", result.Synonyms.Select(syn => new { text = syn, id = insertId }), trans);
+                conn.Execute("INSERT INTO \"Anime_Synonyms\" (\"Text\", \"Anime_Id\") VALUES (:text, :id)", result.Synonyms.Select(syn => new { text = syn, id = id }), trans);
                 trans.Commit();
             }
             log.InfoFormat("<{0}> success", id);

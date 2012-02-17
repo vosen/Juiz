@@ -10,6 +10,8 @@ using System.Threading.Tasks.Schedulers;
 using Dapper;
 using System.Configuration;
 using Npgsql;
+using System.Data.Common;
+using System.Data;
 
 namespace Vosen.MAL
 {
@@ -20,10 +22,11 @@ namespace Vosen.MAL
         protected int ConcurrencyLevel { get; private set; }
         protected ILog log;
         private string connectionString;
-        private DbProvider provider;
+        protected DbProvider provider { get; private set; }
 
         protected Crawler(bool logging, int concLimit)
         {
+            LoadDbSettings();
             CreateDBIfNotExists();
             if(logging)
                 log = SetupLogger(LogName);
@@ -54,6 +57,8 @@ namespace Vosen.MAL
         private void LoadDbSettings()
         {
             var connStrings = System.Configuration.ConfigurationManager.ConnectionStrings;
+            if (connStrings.Count == 0)
+                throw new ArgumentException("ConnectionString can not be empty.");
             string name = connStrings[0].ProviderName;
             if (name.ToUpperInvariant().Contains("SQLITE"))
                 provider = DbProvider.SQLite;
@@ -61,9 +66,16 @@ namespace Vosen.MAL
                 provider = DbProvider.PostgreSQL;
             else
                 throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
-            if(connStrings[0] == null)
-                throw new ArgumentException("ConnectionString can not be empty.");
             connectionString = connStrings[0].ConnectionString;
+        }
+
+        // sqlite provider returns long as last rowid, npgsql returns int
+        // we can't just cast because that would fuck up unboxing in one of the cases
+        protected static int UnboxIntSafe(object obj)
+        {
+            if (obj is int)
+                return (int)obj;
+            return (int)(long)obj;
         }
 
 
@@ -81,11 +93,11 @@ namespace Vosen.MAL
             return conn;
         }
 
-        protected int LastInsertId(System.Data.IDbConnection connection)
+        protected int LastInsertId(System.Data.IDbConnection connection, IDbTransaction transaction)
         {
             if (provider == DbProvider.SQLite)
                 return (int)((SQLiteConnection)connection).LastInsertRowId;
-            return connection.Execute("SELECT lastval();");
+            return connection.Query<int>("SELECT lastval();", transaction:transaction).First();
         }
 
         protected System.Data.IDbConnection OpenConnection()
@@ -103,7 +115,8 @@ namespace Vosen.MAL
                 CreateDBIfNotExistsSQLite();
             else if (provider == DbProvider.PostgreSQL)
                 CreateDBIfNotExistsPostgres();
-            throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
+            else
+                throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
         }
 
         private void CreateDBFromParts(string commonPart, string providerPart)

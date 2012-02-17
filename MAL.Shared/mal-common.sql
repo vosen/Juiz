@@ -1,13 +1,12 @@
 ﻿BEGIN TRANSACTION;
-CREATE TABLE "Users" (
+CREATE TABLE IF NOT EXISTS "Users" (
   "Id" INTEGER NOT NULL PRIMARY KEY,
   "Name" TEXT NULL, 
   -- 0 - not queried / got error, 1 - queried and succeeded
   "Result" BOOLEAN NOT NULL DEFAULT '0'
 );
-CREATE UNIQUE INDEX "Name_Unique" ON "Users" ("Name");
 
-CREATE TABLE "Seen" (
+CREATE TABLE IF NOT EXISTS "Seen" (
   "Anime_Id" INTEGER NOT NULL, 
   "Score" SMALLINT NOT NULL, 
   "User_Id" INTEGER NOT NULL,
@@ -16,7 +15,7 @@ CREATE TABLE "Seen" (
   FOREIGN KEY("User_Id") REFERENCES "Users"("Id") ON DELETE NO ACTION
 );
 
-CREATE TABLE "Anime" (
+CREATE TABLE IF NOT EXISTS "Anime" (
   "Id" INTEGER NOT NULL PRIMARY KEY,
   "EnglishName" TEXT NULL,
   "RomajiName" TEXT NULL
