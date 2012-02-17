@@ -8,15 +8,20 @@ using System.Data.SQLite;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using Dapper;
+using System.Configuration;
+using Npgsql;
 
 namespace Vosen.MAL
 {
+    [System.ComponentModel.DataObject(true)]
     public abstract class Crawler
     {
         protected abstract string LogName { get; }
         protected virtual string DbName { get; set; }
         protected int ConcurrencyLevel { get; private set; }
         protected ILog log;
+        private string connectionString;
+        private DbProvider provider;
 
         protected Crawler(bool testing, int concLimit)
         {
@@ -47,36 +52,84 @@ namespace Vosen.MAL
             return LogManager.GetLogger(typeof(Crawler));
         }
 
-        protected static System.Data.IDbConnection OpenConnection(string path, bool foreignKeys = true)
+        private void LoadDbSettings()
         {
-            var conn = new SQLiteConnection(new SQLiteConnectionStringBuilder() { CacheSize = 16384, Pooling = true, SyncMode = SynchronizationModes.Off, ForeignKeys = foreignKeys, DataSource = path, FailIfMissing = true }.ToString());
+            var connStrings = System.Configuration.ConfigurationManager.ConnectionStrings;
+            string name = connStrings[0].ProviderName;
+            if (name.ToUpperInvariant().Contains("SQLITE"))
+                provider = DbProvider.SQLite;
+            else if (name.ToUpperInvariant().Contains("POSTGRES"))
+                provider = DbProvider.PostgreSQL;
+            else
+                throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
+            if(connStrings[0] == null)
+                throw new ArgumentException("ConnectionString can not be empty.");
+            connectionString = connStrings[0].ConnectionString;
+        }
+
+
+        protected System.Data.IDbConnection OpenSqliteConnection()
+        {
+            var conn = new SQLiteConnection(connectionString);
             conn.Open();
             return conn;
         }
 
-        protected System.Data.IDbConnection OpenConnection(bool foreignKeys = true)
+        protected System.Data.IDbConnection OpenPostgresConnection()
         {
-            return OpenConnection(DbName, foreignKeys);
+            var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+            return conn;
         }
 
+        protected System.Data.IDbConnection OpenConnection()
+        {
+            if (provider == DbProvider.SQLite)
+                return OpenSqliteConnection();
+            else if (provider == DbProvider.PostgreSQL)
+                return OpenPostgresConnection();
+            throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
+        }
 
         protected void CreateDBIfNotExists()
         {
-            if (!System.IO.File.Exists(DbName))
+            if (provider == DbProvider.SQLite)
+                CreateDBIfNotExistsSQLite();
+            else if (provider == DbProvider.PostgreSQL)
+                CreateDBIfNotExistsPostgres();
+            throw new ArgumentException("Invalid db provider. Supported providers are sqlite and postgresql.");
+        }
+
+        private void CreateDBFromParts(string commonPart, string providerPart)
+        {
+            using (var commonManifest = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(commonPart))
             {
-                System.IO.File.Create(DbName);
-                using (var manifest = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Vosen.MAL.mal.sql"))
+                using (var providerManifest = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(providerPart))
                 {
-                    using (var sreader = new System.IO.StreamReader(manifest))
+                    using (var commonSreader = new System.IO.StreamReader(commonManifest))
                     {
-                        using (var conn = OpenConnection(DbName))
+                        using (var providerSreader = new System.IO.StreamReader(providerManifest))
                         {
-                            string query = sreader.ReadToEnd();
-                            conn.Execute(query);
+                            string commonQuery = commonSreader.ReadToEnd();
+                            string providerQuery = providerSreader.ReadToEnd();
+                            using (var conn = OpenConnection())
+                            {
+                                conn.Execute(commonQuery + providerQuery);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private void CreateDBIfNotExistsPostgres()
+        {
+            CreateDBFromParts("Vosen.MAL.mal-common.sql", "Vosen.MAL.mal-pg.sql");
+        }
+
+        private void CreateDBIfNotExistsSQLite()
+        {
+            CreateDBFromParts("Vosen.MAL.mal-common.sql", "Vosen.MAL.mal-sqlite.sql");
         }
     }
 }
