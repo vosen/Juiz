@@ -22,10 +22,10 @@ namespace Vosen.MAL
         private string connectionString;
         private DbProvider provider;
 
-        protected Crawler(bool testing, int concLimit)
+        protected Crawler(bool logging, int concLimit)
         {
             CreateDBIfNotExists();
-            if(testing)
+            if(logging)
                 log = SetupLogger(LogName);
             else
                 log = new NullLog();
@@ -67,18 +67,25 @@ namespace Vosen.MAL
         }
 
 
-        protected System.Data.IDbConnection OpenSqliteConnection()
+        private System.Data.IDbConnection OpenSqliteConnection()
         {
             var conn = new SQLiteConnection(connectionString);
             conn.Open();
             return conn;
         }
 
-        protected System.Data.IDbConnection OpenPostgresConnection()
+        private System.Data.IDbConnection OpenPostgresConnection()
         {
             var conn = new NpgsqlConnection(connectionString);
             conn.Open();
             return conn;
+        }
+
+        protected int LastInsertId(System.Data.IDbConnection connection)
+        {
+            if (provider == DbProvider.SQLite)
+                return (int)((SQLiteConnection)connection).LastInsertRowId;
+            return connection.Execute("SELECT lastval();");
         }
 
         protected System.Data.IDbConnection OpenConnection()
