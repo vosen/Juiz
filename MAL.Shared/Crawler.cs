@@ -7,6 +7,7 @@ using log4net.Appender;
 using System.Data.SQLite;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using Dapper;
 
 namespace Vosen.MAL
 {
@@ -19,6 +20,7 @@ namespace Vosen.MAL
 
         protected Crawler(bool testing, int concLimit)
         {
+            CreateDBIfNotExists();
             if(testing)
                 log = SetupLogger(LogName);
             else
@@ -55,6 +57,26 @@ namespace Vosen.MAL
         protected System.Data.IDbConnection OpenConnection(bool foreignKeys = true)
         {
             return OpenConnection(DbName, foreignKeys);
+        }
+
+
+        protected void CreateDBIfNotExists()
+        {
+            if (!System.IO.File.Exists(DbName))
+            {
+                System.IO.File.Create(DbName);
+                using (var manifest = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Vosen.MAL.mal.sql"))
+                {
+                    using (var sreader = new System.IO.StreamReader(manifest))
+                    {
+                        using (var conn = OpenConnection(DbName))
+                        {
+                            string query = sreader.ReadToEnd();
+                            conn.Execute(query);
+                        }
+                    }
+                }
+            }
         }
     }
 }

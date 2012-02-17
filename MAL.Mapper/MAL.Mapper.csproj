@@ -73,7 +73,6 @@
     <Compile Include="RepairMapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="mal.sql" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

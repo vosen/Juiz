@@ -101,24 +101,5 @@ namespace Vosen.MAL
             }
             log.WarnFormat("<{0}> unknown result", idx);
         }
-
-        protected void CreateDB()
-        {
-            if (!System.IO.File.Exists(DbName))
-            {
-                System.IO.File.Create(DbName);
-                using (var manifest = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Vosen.MAL.mal.sql"))
-                {
-                    using (var sreader = new System.IO.StreamReader(manifest))
-                    {
-                        using (var conn = OpenConnection(DbName))
-                        {
-                            string query = sreader.ReadToEnd();
-                            conn.Execute(query);
-                        }
-                    }
-                }
-            }
-        }
     }
 }
