@@ -38,7 +38,7 @@ namespace Vosen.MAL
             List<string> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<string>(@"SELECT Name FROM Users WHERE Result = 0").ToList();
+                ids = conn.Query<string>("SELECT \"Name\" FROM \"Users\" WHERE \"Result\" = '0'").ToList();
             }
             Parallel.For(0, ids.Count, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLevel }, (i) => SingleQuery(ids[i]));
         }
@@ -81,21 +81,21 @@ namespace Vosen.MAL
         private void ProcessPrivate(string name)
         {
             using (var conn = OpenConnection())
-                conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+                conn.Execute("UPDATE \"Users\" SET \"Result\" = '1' WHERE \"Name\" = :nick;", new { nick = name });
             log.InfoFormat("<{0}> list is private", name);
         }
 
         private void ProcessInvalidUser(string name)
         {
             using (var conn = OpenConnection(false))
-                conn.Execute("DELETE FROM Users WHERE Name = @nick", new { nick = name });
+                conn.Execute("DELETE FROM \"Users\" WHERE \"Name\" = :nick", new { nick = name });
             log.InfoFormat("<{0}> invalid user", name);
         }
 
         private void ProcessMySQLError(string name)
         {
             using (var conn = OpenConnection())
-                conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name });
+                conn.Execute("UPDATE \"Users\" SET \"Result\" = '1' WHERE \"Name\" = :nick;", new { nick = name });
             log.InfoFormat("<{0}> MySQL error", name);
         }
 
@@ -105,9 +105,9 @@ namespace Vosen.MAL
             {
                 using (var dbtrans = conn.BeginTransaction())
                 {
-                    long user_id = conn.Query<long>(@"SELECT Id FROM USERS WHERE Name = @nick LIMIT 1;", new { nick = name }, transaction:dbtrans).First();
-                    conn.Execute(@"INSERT INTO Seen (Anime_Id, Score, User_Id) VALUES (@anime, @score, @user);", ratings.Select(t => new { anime = t.AnimeId, score = t.Rating, user = user_id}), transaction:dbtrans);
-                    conn.Execute(@"UPDATE Users SET Result = 1 WHERE Name = @nick;", new { nick = name }, transaction:dbtrans);
+                    long user_id = conn.Query<long>("SELECT \"Id\" FROM USERS WHERE \"Name\" = :nick;", new { nick = name }, transaction:dbtrans).First();
+                    conn.Execute("INSERT INTO \"Seen\" (\"Anime_Id\", \"Score\", \"User_Id\") VALUES (:anime, :score, :user);", ratings.Select(t => new { anime = t.AnimeId, score = t.Rating, user = user_id }), transaction: dbtrans);
+                    conn.Execute("UPDATE \"Users\" SET \"Result\" = '1' WHERE \"Name\" = :nick;", new { nick = name }, transaction: dbtrans);
                     dbtrans.Commit();
                 }
             }
@@ -124,8 +124,9 @@ namespace Vosen.MAL
             string dbname = path ?? "mal.db";
             using (var db = OpenConnection(dbname))
             {
-                db.Execute(@"UPDATE [Users] SET [Result] = 0;
-                             DELETE FROM Seen;");
+                var trans = db.BeginTransaction();
+                db.Execute("UPDATE \"Users\" SET \"Result\" = '0'; DELETE FROM \"Seen\";");
+                trans.Commit();
             }
         }
     }

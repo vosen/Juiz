@@ -65,7 +65,7 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection())
             {
-                conn.Execute(@"INSERT INTO Users (Id, Name) VALUES  (@id, NULL)", new { id = idx });
+                conn.Execute("INSERT INTO \"Users\" (\"Id\", \"Name\") VALUES (@id, NULL)", new { id = idx });
             }
             log.Error(String.Format("<{0}> exception when processing", idx), ex);
         }
@@ -79,7 +79,7 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection(false))
             {
-                conn.Execute(@"DELETE FROM Users WHERE Id = @id", new { id =idx });
+                conn.Execute("DELETE FROM \"Users\" WHERE \"Id\" = @id", new { id =idx });
             }
             log.InfoFormat("<{0}> invalid id", idx);
         }
@@ -88,7 +88,7 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection())
             {
-                conn.Execute(@"INSERT INTO Users (Id, Name) VALUES  (@id, @name)", new { id = idx, name = login });
+                conn.Execute("INSERT INTO \"Users\" (\"Id\", \"Name\") VALUES (@id, @name)", new { id = idx, name = login });
             }
             log.InfoFormat("<{0}> success", idx);
         }
@@ -97,7 +97,7 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection())
             {
-                conn.Execute(@"INSERT INTO Users (Id, Name) VALUES  (@id, NULL)", new { id = idx });
+                conn.Execute("INSERT INTO \"Users\" (\"Id\", \"Name\") VALUES  (@id, NULL)", new { id = idx });
             }
             log.WarnFormat("<{0}> unknown result", idx);
         }

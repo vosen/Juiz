@@ -20,7 +20,7 @@ namespace Vosen.MAL
             int offset = 0;
             using (var conn = OpenConnection())
             {
-                offset = (int)conn.Query<long>("SELECT Max(Id) FROM Users").First() + 1;
+                offset = (int)conn.Query<long>("SELECT Max(\"Id\") FROM \"Users\"").First() + 1;
             }
             RunFrom(offset);
         }
