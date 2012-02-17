@@ -40,13 +40,13 @@ namespace Vosen.MAL
             return false;
         }
 
-        private void ProcessException(int name, Exception ex)
+        private void ProcessException(int id, Exception ex)
         {
             using (var conn = OpenConnection())
             {
                 conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id });
             }
-            log.Error(String.Format("<{0}> exception when processing", name), ex);
+            log.Error(String.Format("<{0}> exception when processing", id), ex);
         }
 
         private void ProcessSuccess(int id, AnimeResult result)
