@@ -68,7 +68,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="mal.sql" />
+    <EmbeddedResource Include="mal-common.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="mal-pg.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="mal-sqlite.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
