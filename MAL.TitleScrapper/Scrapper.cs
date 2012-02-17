@@ -42,6 +42,10 @@ namespace Vosen.MAL
 
         private void ProcessException(int name, Exception ex)
         {
+            using (var conn = OpenConnection())
+            {
+                conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id });
+            }
             log.Error(String.Format("<{0}> exception when processing", name), ex);
         }
 
