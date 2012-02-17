@@ -41,15 +41,23 @@ namespace Vosen.MAL.Content
 
         private static Tuple<string, string[]> ExtractAlternativeNamesFromContent(HtmlDocument doc)
         {
+            string englishName = null;
+            string[] synonyms = new string [] { };
             HtmlNode editdiv = doc.GetElementbyId("editdiv");
             HtmlNode englishNode = editdiv.NextSibling;
-            while(!englishNode.HasAttributes || englishNode.Attributes["class"].Value != "spaceit_pad")
+            while (englishNode!= null && (!englishNode.HasAttributes || englishNode.Attributes["class"].Value != "spaceit_pad"))
                 englishNode = englishNode.NextSibling;
-            string englishName = englishNode.ChildNodes[1].InnerText.Trim();
+            if (englishNode == null)
+                return Tuple.Create(englishName, synonyms);
+            if(englishNode.FirstChild.InnerText.ToUpperInvariant().Contains("ENGLISH"))
+                englishName = englishNode.ChildNodes[1].InnerText.Trim();
             HtmlNode synonymsNode = englishNode.NextSibling;
-            while (!synonymsNode.HasAttributes || synonymsNode.Attributes["class"].Value != "spaceit_pad")
+            while (synonymsNode != null && (!synonymsNode.HasAttributes || synonymsNode.Attributes["class"].Value != "spaceit_pad"))
                 synonymsNode = synonymsNode.NextSibling;
-            string[] synonyms = synonymsNode.ChildNodes[1].InnerText.Split(',').Select(s => s.Trim()).ToArray();
+            if(synonymsNode == null)
+                return Tuple.Create(englishName, synonyms);
+            if(synonymsNode.ChildNodes.Count >= 2 && synonymsNode.FirstChild.InnerText.ToUpperInvariant().Contains("SYNONYMS"))
+                synonyms = synonymsNode.ChildNodes[1].InnerText.Split(',').Select(s => s.Trim()).ToArray();
             return Tuple.Create(englishName, synonyms);
         }
 
