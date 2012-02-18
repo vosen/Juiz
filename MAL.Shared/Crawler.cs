@@ -69,16 +69,6 @@ namespace Vosen.MAL
             connectionString = connStrings[0].ConnectionString;
         }
 
-        // sqlite provider returns long as last rowid, npgsql returns int
-        // we can't just cast because that would fuck up unboxing in one of the cases
-        protected static int UnboxIntSafe(object obj)
-        {
-            if (obj is int)
-                return (int)obj;
-            return (int)(long)obj;
-        }
-
-
         private System.Data.IDbConnection OpenSqliteConnection()
         {
             var conn = new SQLiteConnection(connectionString);

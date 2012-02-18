@@ -59,5 +59,19 @@ namespace Vosen.MAL.Tests
             Assert.Contains("Super Transforming Cos ? Prayer", synonyms);
             Assert.Contains("Cho Henshin Cosprayers", synonyms);
         }
+
+        [Test]
+        public void TestEmptySynonyms()
+        {
+            AnimeResult result = Extract.AnimeNamesFromSite(Helper.LoadFile(@"sites\anime\985.html"));
+            Assert.AreEqual(AnimeResponse.Successs, result.Response);
+            Assert.IsNotNull(result.Synonyms);
+            Assert.AreEqual("Dragon Ball Z Special 2: The History of Trunks", result.RomajiName);
+            Assert.AreEqual("Dragon Ball Z Special 2: The History of Trunks", result.EnglishName);
+            Assert.AreEqual(2, result.Synonyms.Count);
+            var synonyms = result.Synonyms.ToList();
+            Assert.Contains("Dragon Ball Z: Zetsubou e no Hankou!! Nokosareta Chousenshi - Gohan to Trunks", synonyms);
+            Assert.Contains("Dragon Ball Z: Resist Despair!! The Surviving Fighters - Gohan and Trunks", synonyms);
+        }
     }
 }

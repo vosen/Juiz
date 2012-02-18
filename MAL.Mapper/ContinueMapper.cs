@@ -29,7 +29,7 @@ namespace Vosen.MAL
         {
             bool[] block = new bool[blockSize];
             Parallel.For(0, blockSize, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLevel }, (idx) => block[idx] = SingleQuery(offset + idx));
-            if (block.Any())
+            if (block.Any(e => e))
             {
                 block = null;
                 RunFrom(offset + blockSize);

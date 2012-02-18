@@ -57,7 +57,7 @@ namespace Vosen.MAL.Content
             if(synonymsNode == null)
                 return Tuple.Create(englishName, synonyms);
             if(synonymsNode.ChildNodes.Count >= 2 && synonymsNode.FirstChild.InnerText.ToUpperInvariant().Contains("SYNONYMS"))
-                synonyms = synonymsNode.ChildNodes[1].InnerText.Split(',').Select(s => s.Trim()).ToArray();
+                synonyms = synonymsNode.ChildNodes[1].InnerText.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
             return Tuple.Create(englishName, synonyms);
         }
 
