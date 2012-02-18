@@ -44,7 +44,10 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection())
             {
-                conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id });
+                var trans = conn.BeginTransaction();
+                conn.Execute("DELETE FROM \"Anime\" WHERE \"Id\" = :id", new { id = id }, trans);
+                conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id }, trans);
+                trans.Commit();
             }
             log.Error(String.Format("<{0}> exception when processing", id), ex);
         }
@@ -54,6 +57,8 @@ namespace Vosen.MAL
             using (var conn = OpenConnection())
             {
                 var trans = conn.BeginTransaction();
+                conn.Execute("DELETE FROM \"Anime\" WHERE \"Id\" = :id;", new { id = id }, trans);
+                conn.Execute("DELETE FROM \"Anime_Synonyms\" WHERE \"Anime_Id\" = :id;", new { id = id }, trans);
                 conn.Execute("INSERT INTO \"Anime\" (\"Id\", \"RomajiName\", \"EnglishName\") VALUES (:id, :romajiName, :englishName)", new { id = id, romajiName = result.RomajiName, englishName = result.EnglishName }, trans);
                 conn.Execute("INSERT INTO \"Anime_Synonyms\" (\"Text\", \"Anime_Id\") VALUES (:text, :id)", result.Synonyms.Select(syn => new { text = syn, id = id }), trans);
                 trans.Commit();
@@ -63,6 +68,10 @@ namespace Vosen.MAL
 
         private void ProcessInvalidResult(int id)
         {
+            using (var conn = OpenConnection())
+            {
+                conn.Execute("DELETE FROM \"Anime\" WHERE \"Id\" = :id", new { id = id });
+            }
             log.WarnFormat("<{0}> invalid id", id);
         }
 
@@ -70,7 +79,10 @@ namespace Vosen.MAL
         {
             using (var conn = OpenConnection())
             {
-                conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id });
+                var trans = conn.BeginTransaction();
+                conn.Execute("DELETE FROM \"Anime\" WHERE \"Id\" = :id", new { id = id }, trans);
+                conn.Execute("INSERT INTO \"Anime\" (\"Id\") VALUES (:id)", new { id = id }, trans);
+                trans.Commit();
             }
             log.WarnFormat("<{0}> result unknown", id);
         }

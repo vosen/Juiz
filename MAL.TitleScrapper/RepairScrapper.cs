@@ -18,7 +18,7 @@ namespace Vosen.MAL
             List<int> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<long>("SELECT \"Id\" FROM \"Anime\" WHERE \"RomajiName\" = NULL").Select(l => (int)l).ToList();
+                ids = conn.Query<long>("SELECT CAST(\"Id\" AS BIGINT) FROM \"Anime\" WHERE \"RomajiName\" IS NULL").Select(l => (int)l).ToList();
             }
             Parallel.For(0, ids.Count, new ParallelOptions() { MaxDegreeOfParallelism = ConcurrencyLevel }, (i) => SingleQuery(ids[i]));
         }

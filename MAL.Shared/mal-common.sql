@@ -20,3 +20,10 @@ CREATE TABLE IF NOT EXISTS "Anime" (
   "EnglishName" TEXT NULL,
   "RomajiName" TEXT NULL
 );
+
+CREATE TABLE IF NOT EXISTS "Anime_Synonyms" (
+  "Text" TEXT NOT NULL,
+  "Anime_Id" INTEGER NOT NULL,
+  FOREIGN KEY("Anime_Id") REFERENCES "Anime"("Id")
+);
+

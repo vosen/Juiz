@@ -1,11 +1,4 @@
-﻿CREATE TABLE IF NOT EXISTS "Anime_Synonyms" (
-  "Id" SERIAL,
-  "Text" TEXT NOT NULL,
-  "Anime_Id" INTEGER NOT NULL,
-  FOREIGN KEY("Anime_Id") REFERENCES "Anime"("Id")
-);
-
-do $$
+﻿do $$
 begin
   CREATE UNIQUE INDEX "Name_Unique" ON "Users" ("Name");
 exception when SQLSTATE '42P07' then
