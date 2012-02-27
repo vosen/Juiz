@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace Vosen.MAL.Content
 {
-    class ScrappingWebClient : WebClient
+    public class ScrappingWebClient : WebClient
     {
 
         public ScrappingWebClient()
@@ -20,8 +20,10 @@ namespace Vosen.MAL.Content
         protected override WebRequest GetWebRequest(Uri address)
         {
             HttpWebRequest req = (HttpWebRequest)base.GetWebRequest(address);
+            req.ContentType = "text/html; charset=utf-8";
             req.ServicePoint.ConnectionLimit = Int32.MaxValue;
             req.UserAgent = "Mozilla/5.0 (X11; Linux i686; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
+            req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             return (WebRequest)req;
         }
 
