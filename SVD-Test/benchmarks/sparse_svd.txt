@@ -1,0 +1,6 @@
+32 bit + atlas 3.8 (1 thread)
+ * arpack: 12.35s, 9.63s, 14.80s, 13.54s // unstable results
+ * svdlibc: 6.67s // stable results
+ 
+64 bit + intel mkl (4 threads)
+ * arpack: 11.45s, 8.90s, 5.35s, 9.53s // stable results

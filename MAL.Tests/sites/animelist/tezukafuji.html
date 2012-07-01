@@ -1,0 +1,969 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+	<title>tezukafuji's Anime List - MyAnimeList.net</title>
+    <meta name="Description" content="Start cataloging anime you've watched or manga you've read. Browse through our extensive anime and manga database. Get anime or manga suggestions, recommendations and reviews. View top rated anime and manga. Create anime and manga favorites. Tons more too!" />
+    <meta name="Keywords" content="anime, animelist, myanimelist, anime list, log anime seen, catalog anime watched, anime reviews, top anime, anime characters, favorite anime, anime discussion, anime information, manga series, manga information, top manga, mangalist, manga list, manga, manga reviews, voice actors, seiyuu" />
+    <meta name="Author" content="Garrett Gyssler">
+	
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/hover.v5.js"></script>
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/jquery.fancybox.pack.v1.js"></script>
+	
+		<script type="text/javascript" src="http://cdn.myanimelist.net/js/dimensions.js"></script>
+		<style type="text/css">
+
+
+/*
+// Self-explanatory
+*/
+BODY
+        {
+				margin: 0;
+        color: #000000;
+        font-size: 11.00px;
+        font-family: Verdana, Arial;
+        background-color: #FFFFFF;
+        }
+
+/*
+// Determines the positioning of your list
+*/
+
+#list_surround
+{
+	margin: 0 auto;	
+	width: 920px;
+}
+
+/*
+// All links on your list
+*/
+
+    a
+        {
+        color: #51819f;
+        text-decoration: none;
+        }
+
+    a:visited
+        {
+        color: #51819f;
+        text-decoration: none;
+        }
+
+    a:hover
+        {
+        color: #51819f;
+        text-decoration: underline;
+        }
+
+/*
+// Alternating row color 1 
+*/
+
+    .td1
+        {
+				
+        color: #000000;
+        border-width: 0px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        padding: 2px;
+        background-color: #FFFFFF; 
+        }
+   
+/*
+// Alternating row color 2 
+*/
+
+    .td2
+        {
+				
+        color: #000000;
+        border-width: 0px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        padding: 2px;
+        background-color: #F1F1F1; 
+        }
+   
+/*
+// This represents the "Anime Title", "Score", "# Eps" columns 
+*/
+   
+    .table_header
+        {
+				
+        color: #000000;
+        border-width: 1px 1px 1px 0px;
+        border-style: solid;
+        border-color: #ABABAB;
+        background-color: #E7F1F7;
+        padding: 2px;
+        }
+    
+/*
+// headerLink represents the color of the links inside the table_header 
+*/
+	
+    .table_headerLink
+        {
+        color: ;
+        }
+    
+    .table_headerLink:Visited
+        {
+        color: ;
+        }
+    
+    .table_headerLink:Hover
+        {
+        color: ;
+        }
+
+/*
+// Controls the select form decoration (the drop down select box)
+*/
+
+    .form
+        {
+        border-width: 1px 1px 1px 1px;
+        border-color: #ABABAB;
+        border-style: solid;
+        color: #000000;
+        padding: 2px;
+        font-size: 11.00px;
+		font-family: Verdana, Arial;
+        }
+		
+
+/* Which 'status' up top is selected? */
+
+.status_selected
+{
+
+	color: #000000;
+	border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ABABAB;
+    padding: 2px;
+    background-color: #FFFFFF;
+	}
+
+.status_not_selected
+{
+
+	color: #000000;
+	border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #ABABAB;
+    padding: 2px;
+    background-color: #F1F1F1;
+	}
+
+/*
+Header classes for Currently Watching, Completed, Dropped, etc...
+*/
+
+.header_cw
+{
+
+}
+
+.header_completed
+{
+
+}
+
+.header_onhold
+{
+
+}
+
+.header_dropped
+{
+
+}
+
+.header_ptw
+{
+
+}
+
+.header_title {
+	font-size: 14px;
+    font-weight: bold;
+}
+
+
+.category_totals
+{
+
+}
+
+#grand_totals
+{
+	text-align: center;
+}
+
+/* header_al is the div surrounding "User's Anime List" at the top */
+
+.header_al
+{
+	font-weight: bold;
+	font-size: 16px;
+}
+
+/* header_al_links is the div with your "Profile" and "MyAnimeList home" links */
+.header_al_links
+{
+
+}
+
+/* controls what styles you can give to all the anime titles in your list */
+.animetitle
+{
+	font-weight: bold;
+}
+
+/*
+copyright contains the "Producted by Garrett Gyssler" text
+DO NOT REMOVE OR HIDE THIS DIV
+IF FOUND TO BE REMOVED, YOUR LIST WILL BE REMOVED TOO
+*/
+
+#copyright
+{
+	padding-top: 6px;
+	text-align: center;
+	margin: 0 auto;
+	width: 920px;
+}
+
+
+		</style>
+		
+				<script type="text/javascript" src="http://cdn.myanimelist.net/js/list.v16.js"></script>
+				<link rel="stylesheet" href="http://cdn.myanimelist.net/css/list.v5.css" type="text/css" />
+	<script type="text/javascript" src="http://cdn.myanimelist.net/js/myanimelist.v18.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/jquery.fancybox.v3.css" />
+	<link rel="stylesheet" type="text/css" href="http://cdn.myanimelist.net/css/dialog.v1.css" />
+	<link rel="search" type="application/opensearchdescription+xml" href="http://cdn.myanimelist.net/plugins/myanimelist.xml" title="MyAnimeList" />
+	
+	<link rel="shortcut icon" href="http://cdn.myanimelist.net/images/faviconv5.ico" />
+	
+	<!-- BEGIN TRIGGER TAG INITIALIZATION -->
+	<script type="text/javascript" src="http://cdn.triggertag.gorillanation.com/js/triggertag.js"></script>
+	<script type="text/javascript">getTrigger('4834');</script>
+	<!-- END TRIGGER TAG INITIALIZATION -->
+	<!-- GAM HEADER SCRIPT -->
+		<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+		</script>
+		<script type="text/javascript">
+		GS_googleAddAdSenseService("ca-pub-1304704158939332");
+		GS_googleEnableAllServices();
+		</script>
+		<script type="text/javascript">
+		GA_googleUseIframeRendering();
+		</script>
+	<!-- END OF GAM HEADER SCRIPT -->
+	
+</head>
+
+<body onload="">
+<table id="mal_control_strip" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+			<td id="mal_cs_pic"><a href="http://myanimelist.net"><img src="http://cdn.myanimelist.net/images/list-top-logo.gif"></a></td>
+			<td id="mal_cs_otherlinks">
+				<div><strong>You are viewing <a href="http://myanimelist.net/profile/tezukafuji">tezukafuji</a>'s Anime List</strong></div>
+				<div><a href="http://myanimelist.net/login.php">Log in</a>&nbsp;&nbsp;<a href="http://myanimelist.net/register.php">Create an Anime List</a>&nbsp;&nbsp;<a href="http://myanimelist.net/modules.php?go=faq">Learn more</a></div>
+			</td>
+			
+	<td id="mal_cs_powered" valign="top" align="right"><a href="http://myanimelist.net"><img src="http://cdn.myanimelist.net/images/list-top-powered.gif"></a>
+		<div id="search"><input id="searchBox" value="Search" type="textbox"/>  <img src="http://cdn.myanimelist.net/images/magnify.gif" id="searchListButton" /></div>
+	</td>
+	</tr>
+	</table>
+	
+<div id="list_surround">
+<br>
+	<table border="0" cellpadding="0" cellspacing="0" width="920" align="center">
+	<tr><td class="status_not_selected" style="border-width: 1px 1px 1px 1px;" width="165" nowrap align="center"><a href="/animelist/tezukafuji&status=1&order=0" title="4 Entries">Currently Watching</td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/tezukafuji&status=2&order=0" title="16 Entries">Completed</a></td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/tezukafuji&status=3&order=0" title="0 Entries">On Hold</a></td><td width="75" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/tezukafuji&status=4&order=0" title="0 Entries">Dropped</a></td><td width="115" class="status_not_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/tezukafuji&status=6&order=0" title="0 Entries">Plan to Watch</a></td><td width="115" class="status_selected" style="border-width: 1px 1px 1px 0;" align="center"><a href="/animelist/tezukafuji&status=7&order=0" title"Show All Entries">All Anime</a></td></tr>
+	</table>
+	<br><br>
+			<table border="0" cellpadding="0" cellspacing="0" width="920"
+			align="center" class="header_cw">
+			<tr>
+		<td>
+			<div class="header_title">
+			<span>Watching</span>
+			</div></td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" cellspacing="0" width="920">
+			<tr>
+			<td class="table_header" width="30"
+			align="center" style="border-width: 1px 1px 1px 1px;"><b><span
+			class="table_headerLink">#</span></b></td>
+					<td class="table_header" style="border-left-width: 0"><a
+			href="/animelist/tezukafuji&status=7&show=0&order=1" class="table_headerLink"><strong>Anime
+		Title</strong></a></td>
+				<td class="table_header" width="45"
+			align="center"><strong><a href="/animelist/tezukafuji&status=7&show=0&order=4"
+			class="table_headerLink" rel="#infoscore">Score</a></strong>
+		<div id="infoscore" style="display: none;">10 - Masterpiece<br>
+		9 - Great<br>
+		8 - Very Good<br>
+		7 - Good<br>
+		6 - Fine<br>
+		5 - Average<br>
+		4 - Bad<br>
+		3 - Very Bad<br>
+		2 - Horrible<br>
+		1 - Unwatchable</div>
+		</td>
+				<td class="table_header" width="50"
+			align="center" nowrap><strong><a href="/animelist/tezukafuji&status=7&show=0&order=6"
+			class="table_headerLink" rel="#infotype">Type</a></strong>
+		<div id="infotype" style="display: none;">TV (Television Series)<br>
+		Movie<br>
+		OVA (Original Video Animation)</div>
+		</td>
+		
+				<td class="table_header" width="70" align="center" nowrap><strong><a href="/animelist/tezukafuji&status=7&show=0&order=12" class="table_headerLink">Progress</a></strong></td>
+						<td class="table_header" width="125"
+			align="center" nowrap><strong>Tags</strong></td>
+				</tr>
+</table>
+		<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">1</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=269&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu269" onclick="getExpand(269,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/269/Bleach" target="_blank" class="animetitle" title="Anime Information"><span>Bleach</span></a>  <small>Airing</small> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">-</span>/-</a></span></td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks269">&nbsp;</span>
+					<span id="tagRow269" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more269" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">2</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=263&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu263" onclick="getExpand(263,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/263/Hajime_no_Ippo" target="_blank" class="animetitle" title="Anime Information"><span>Hajime no Ippo</span></a> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">-</span>/75</a></span></td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks263">&nbsp;</span>
+					<span id="tagRow263" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more263" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">3</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=5028&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu5028" onclick="getExpand(5028,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/5028/Major_S5" target="_blank" class="animetitle" title="Anime Information"><span>Major S5</span></a> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">-</span>/25</a></span></td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks5028">&nbsp;</span>
+					<span id="tagRow5028" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more5028" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">4</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=1735&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu1735" onclick="getExpand(1735,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/1735/Naruto:_Shippuuden" target="_blank" class="animetitle" title="Anime Information"><span>Naruto: Shippuuden</span></a>  <small>Airing</small> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">-</span>/-</a></span></td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks1735">&nbsp;</span>
+					<span id="tagRow1735" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more1735" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				
+		<table border="0" width="920" cellpadding="0" cellspacing="0">
+		<tr>
+		<td class="category_totals"> 
+			TV: 4, 
+			OVA: 0, 
+			Movies: 0,
+			<span title="Specials">Spcl.</span>: 0,
+			Eps: 0,
+			<span title="Downloaded Episodes">DL Eps</span>: 0,
+			Days: 0.00, 
+			Mean Score: 0.0, 
+			Score <span title="Deviation">Dev.</span>: 0
+		</td>
+		</tr>
+		</table>
+		<br />		<table border="0" cellpadding="0" cellspacing="0" width="920"
+			align="center" class="header_completed">
+			<tr>
+		<td>
+			<div class="header_title">
+			<span>Completed</span>
+			</div></td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" cellspacing="0" width="920">
+			<tr>
+			<td class="table_header" width="30"
+			align="center" style="border-width: 1px 1px 1px 1px;"><b><span
+			class="table_headerLink">#</span></b></td>
+					<td class="table_header" style="border-left-width: 0"><a
+			href="/animelist/tezukafuji&status=7&show=0&order=1" class="table_headerLink"><strong>Anime
+		Title</strong></a></td>
+				<td class="table_header" width="45"
+			align="center"><strong><a href="/animelist/tezukafuji&status=7&show=0&order=4"
+			class="table_headerLink" rel="#infoscore">Score</a></strong>
+		<div id="infoscore" style="display: none;">10 - Masterpiece<br>
+		9 - Great<br>
+		8 - Very Good<br>
+		7 - Good<br>
+		6 - Fine<br>
+		5 - Average<br>
+		4 - Bad<br>
+		3 - Very Bad<br>
+		2 - Horrible<br>
+		1 - Unwatchable</div>
+		</td>
+				<td class="table_header" width="50"
+			align="center" nowrap><strong><a href="/animelist/tezukafuji&status=7&show=0&order=6"
+			class="table_headerLink" rel="#infotype">Type</a></strong>
+		<div id="infotype" style="display: none;">TV (Television Series)<br>
+		Movie<br>
+		OVA (Original Video Animation)</div>
+		</td>
+		
+				<td class="table_header" width="70" align="center" nowrap><strong><a href="/animelist/tezukafuji&status=7&show=0&order=12" class="table_headerLink">Progress</a></strong></td>
+						<td class="table_header" width="125"
+			align="center" nowrap><strong>Tags</strong></td>
+				</tr>
+</table>
+		<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">1</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=15&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu15" onclick="getExpand(15,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/15/Eyeshield_21" target="_blank" class="animetitle" title="Anime Information"><span>Eyeshield 21</span></a> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">145</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks15">&nbsp;</span>
+					<span id="tagRow15" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more15" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">2</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=248&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu248" onclick="getExpand(248,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/248/Ichigo_100" target="_blank" class="animetitle" title="Anime Information"><span>Ichigo 100%</span></a> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">12</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks248">&nbsp;</span>
+					<span id="tagRow248" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more248" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">3</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=627&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu627" onclick="getExpand(627,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/627/Major_S1" target="_blank" class="animetitle" title="Anime Information"><span>Major S1</span></a> </td>
+			<td class="td1" align="center" width="45">10</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">26</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks627">&nbsp;</span>
+					<span id="tagRow627" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more627" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">4</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=558&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu558" onclick="getExpand(558,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/558/Major_S2" target="_blank" class="animetitle" title="Anime Information"><span>Major S2</span></a> </td>
+			<td class="td2" align="center" width="45">10</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">26</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks558">&nbsp;</span>
+					<span id="tagRow558" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more558" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">5</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=1842&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu1842" onclick="getExpand(1842,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/1842/Major_S3" target="_blank" class="animetitle" title="Anime Information"><span>Major S3</span></a> </td>
+			<td class="td1" align="center" width="45">10</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">26</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks1842">&nbsp;</span>
+					<span id="tagRow1842" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more1842" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">6</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=3226&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu3226" onclick="getExpand(3226,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/3226/Major_S4" target="_blank" class="animetitle" title="Anime Information"><span>Major S4</span></a> </td>
+			<td class="td2" align="center" width="45">10</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">26</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks3226">&nbsp;</span>
+					<span id="tagRow3226" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more3226" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">7</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=20&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu20" onclick="getExpand(20,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/20/Naruto" target="_blank" class="animetitle" title="Anime Information"><span>Naruto</span></a> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">220</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks20">&nbsp;</span>
+					<span id="tagRow20" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more20" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">8</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=22&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu22" onclick="getExpand(22,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/22/Prince_of_Tennis" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis</span></a> </td>
+			<td class="td2" align="center" width="45">10</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">178</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks22">&nbsp;</span>
+					<span id="tagRow22" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more22" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">9</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=1190&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu1190" onclick="getExpand(1190,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/1190/Prince_of_Tennis:_A_Day_on_Survival_Mountain" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: A Day on Survival Mountain</span></a> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">OVA</td>
+		<td class="td1" align="center" width="70">1</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks1190">&nbsp;</span>
+					<span id="tagRow1190" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more1190" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">10</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=814&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu814" onclick="getExpand(814,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/814/Prince_of_Tennis:_Atobes_Gift" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: Atobe's Gift</span></a> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">Movie</td>
+		<td class="td2" align="center" width="70">1</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks814">&nbsp;</span>
+					<span id="tagRow814" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more814" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">11</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=995&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu995" onclick="getExpand(995,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/995/Prince_of_Tennis:_The_National_Tournament" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: The National Tournament</span></a> </td>
+			<td class="td1" align="center" width="45">10</td>
+					<td class="td1" width="50" align="center">OVA</td>
+		<td class="td1" align="center" width="70">13</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks995">&nbsp;</span>
+					<span id="tagRow995" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more995" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">12</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=4053&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu4053" onclick="getExpand(4053,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/4053/Prince_of_Tennis:_The_National_Tournament_Finals" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: The National Tournament Finals</span></a> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">OVA</td>
+		<td class="td2" align="center" width="70">7</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks4053">&nbsp;</span>
+					<span id="tagRow4053" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more4053" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">13</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=2752&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu2752" onclick="getExpand(2752,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/2752/Prince_of_Tennis:_The_National_Tournament_Semifinals" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: The National Tournament Semifinals</span></a> </td>
+			<td class="td1" align="center" width="45">10</td>
+					<td class="td1" width="50" align="center">OVA</td>
+		<td class="td1" align="center" width="70">6</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks2752">&nbsp;</span>
+					<span id="tagRow2752" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more2752" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">14</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=815&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu815" onclick="getExpand(815,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/815/Prince_of_Tennis:_The_Two_Samurai_The_First_Game" target="_blank" class="animetitle" title="Anime Information"><span>Prince of Tennis: The Two Samurai, The First Game</span></a> </td>
+			<td class="td2" align="center" width="45">5</td>
+					<td class="td2" width="50" align="center">Movie</td>
+		<td class="td2" align="center" width="70">1</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks815">&nbsp;</span>
+					<span id="tagRow815" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more815" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td1"
+			style="border-left-width: 1px;">15</td>
+					<td class="td1" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=1846&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu1846" onclick="getExpand(1846,1);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/1846/Princess_Nine" target="_blank" class="animetitle" title="Anime Information"><span>Princess Nine</span></a> </td>
+			<td class="td1" align="center" width="45">-</td>
+					<td class="td1" width="50" align="center">TV</td>
+		<td class="td1" align="center" width="70">26</td>
+					<td class="td1" width="125" align="left">
+					<span id="tagLinks1846">&nbsp;</span>
+					<span id="tagRow1846" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more1846" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				<table border="0" cellpadding="0" cellspacing="0" width="920">
+	<tr>
+			<td align="center" width="30" class="td2"
+			style="border-left-width: 1px;">16</td>
+					<td class="td2" style="border-left-width: 0">
+		
+		<div style="float: right;">
+		<small>
+		<a href="http://myanimelist.net/panel.php?go=add&selected_series_id=2476&hidenav=true" class="List_LightBox">Add</a> - 
+		<a href="javascript:void(0);" id="xmenu2476" onclick="getExpand(2476,2);" title="View More Information">More</a>
+		</small>
+		</div><a href="http://myanimelist.net/anime/2476/School_Days" target="_blank" class="animetitle" title="Anime Information"><span>School Days</span></a> </td>
+			<td class="td2" align="center" width="45">-</td>
+					<td class="td2" width="50" align="center">TV</td>
+		<td class="td2" align="center" width="70">12</td>
+					<td class="td2" width="125" align="left">
+					<span id="tagLinks2476">&nbsp;</span>
+					<span id="tagRow2476" style="display: none;"></span></td>
+					
+	            </tr>
+				</table>
+				
+				<!-- START HIDDEN -->
+				<div id="more2476" class="hide" style="width:920px"></div>
+				<!-- // END HIDDEN -->
+				
+		<table border="0" width="920" cellpadding="0" cellspacing="0">
+		<tr>
+		<td class="category_totals"> 
+			TV: 10, 
+			OVA: 4, 
+			Movies: 2,
+			<span title="Specials">Spcl.</span>: 0,
+			Eps: 726,
+			<span title="Downloaded Episodes">DL Eps</span>: 0,
+			Days: 11.86, 
+			Mean Score: 9.4, 
+			Score <span title="Deviation">Dev.</span>: 1.11
+		</td>
+		</tr>
+		</table>
+		<br />
+	<div id="inlineContent" style="display: none;"></div>
+	<div id="grand_totals">TV: 14, 
+					OVA: 4, 
+					Movies: 2,
+					<span title="Specials">Spcl.</span>: 0,
+					Eps: 726,
+					<span title="Downloaded Episodes">DL Eps</span>: 0,
+					Days: 11.86, 
+					Mean Score: 9.4, 
+					Score <span title="Deviation">Dev.</span>: 1.11
+	</div>
+<div id="copyright" style="text-align: center; margin-top: 10px;">
+&copy; 2011 All Rights Reserved. MyAnimeList.net is a property of <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC.<br /> <a href="http://www.craveonline.com">CraveOnline Media</a>, LLC is a division of <a href="http://www.atomiconline.com">AtomicOnline</a>, LLC, an <a href="http://www.evolvemediacorp.com">Evolve Media</a> Corp. company.</div>
+</div>
+<input type="hidden" id="listUserId" value="175003"/>
+<input type="hidden" id="listUserName" value="tezukafuji"/>
+<input type="hidden" id="listType" value="anime"/>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-369102-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+<!-- Begin comScore Tag -->
+<script>
+    document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js' %3E%3C/script%3E"));
+</script>
+
+<script>
+  COMSCORE.beacon({
+    c1:2,
+    c2:6036161,
+    c3:"",
+    c4:"",
+    c5:"",
+    c6:"",
+    c15:""
+  });
+</script>
+<noscript>
+  <img src="http://b.scorecardresearch.com/p?c1=2&c2=6036161&c3=&c4=&c5=&c6=&c15=&cj=1" />
+</noscript>
+<!-- End comScore Tag -->
+
+<!-- start Vibrant Media IntelliTXT script section -->
+<script type="text/javascript" src="http://myanimelist.us.intellitxt.com/intellitxt/front.asp?ipid=30532"></script>
+<!-- end Vibrant Media IntelliTXT script section -->
+	</body>
+</html>

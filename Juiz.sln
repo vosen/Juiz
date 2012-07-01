@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Shared", "MAL.Shared\MA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.TitleScrapper", "MAL.TitleScrapper\MAL.TitleScrapper.csproj", "{F0C27DD1-8968-4EAA-BF5B-B8CA9160BDD7}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ModelGenerator", "ModelGenerator\ModelGenerator.pyproj", "{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,12 @@ Global
 		{F0C27DD1-8968-4EAA-BF5B-B8CA9160BDD7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F0C27DD1-8968-4EAA-BF5B-B8CA9160BDD7}.Release|x86.ActiveCfg = Release|x86
 		{F0C27DD1-8968-4EAA-BF5B-B8CA9160BDD7}.Release|x86.Build.0 = Release|x86
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B87DB8BE-91BD-463C-83A3-887FAEAE2E6B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
