@@ -6,7 +6,6 @@ using log4net;
 using log4net.Appender;
 using System.Data.SQLite;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Schedulers;
 using Dapper;
 using System.Configuration;
 using Npgsql;

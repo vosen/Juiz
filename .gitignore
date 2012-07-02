@@ -39,3 +39,7 @@ SVD-Test/pics/*
 *.testsettings
 *.vsmdi
 *.crunchproject.local.xml
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml

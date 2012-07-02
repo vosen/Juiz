@@ -6,7 +6,6 @@ using System.Net;
 using Dapper;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Schedulers;
 using System.Globalization;
 using Vosen.MAL.Content;
 using log4net.Repository.Hierarchy;

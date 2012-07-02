@@ -11,8 +11,6 @@ using log4net.Appender;
 using Vosen.MAL.Content;
 using Vosen.MAL;
 using System.Data.Common;
-using System.Threading.Tasks.Schedulers;
-
 namespace Vosen.MAL
 {
     abstract class Mapper : Crawler
