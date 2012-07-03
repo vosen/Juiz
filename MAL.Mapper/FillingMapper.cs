@@ -18,7 +18,7 @@ namespace Vosen.MAL
             IEnumerable<int> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<long>("SELECT Id FROM Users").Select( l => (int)l);
+                ids = conn.Query<long>("SELECT \"Id\" FROM \"Users\"").Select( l => (int)l);
             }
             int rangeStart, rangeEnd;
             if(start == -1 || stop == -1)
