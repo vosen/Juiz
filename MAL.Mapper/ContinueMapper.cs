@@ -10,7 +10,7 @@ namespace Vosen.MAL
 {
     internal class ContinueMapper : Mapper
     {
-        protected int blockSize = 256;
+        protected int blockSize = 1024;
 
         public ContinueMapper(int startIndex, int stopIndex, bool logging, int concLimit)
             : base(startIndex, stopIndex, logging, concLimit) { }
