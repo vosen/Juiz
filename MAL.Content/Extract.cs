@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Vosen.MAL.Content
 {
@@ -17,12 +18,7 @@ namespace Vosen.MAL.Content
         
         public static AnimeResult DownloadAnimeNames(int id)
         {
-            string site;
-            using(var client = new ScrappingWebClient())
-            {
-                site = client.DownloadString("http://myanimelist.net/anime/" + id);
-            }
-            return AnimeNamesFromSite(site);
+            return AnimeNamesFromSite(GetStringFrom("http://myanimelist.net/anime/" + id));
         }
 
         public static AnimeResult AnimeNamesFromSite(string site)
@@ -67,14 +63,55 @@ namespace Vosen.MAL.Content
             return h1Node.LastChild.InnerText;
         }
 
+        private static string GetStringFrom(string url)
+        {
+            var helper = new HttpHelper(url);
+            helper.HttpWebRequest.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            helper.HttpWebRequest.Proxy = null;
+            helper.HttpWebRequest.ServicePoint.ConnectionLimit = Int32.MaxValue;
+            helper.HttpWebRequest.ContentType = "text/html; charset=utf-8";
+            using (var stream = helper.OpenRead())
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        private static Task<string> GetStringFromAsync(string url)
+        {
+            var helper = new HttpHelper(url);
+            helper.HttpWebRequest.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            helper.HttpWebRequest.Proxy = null;
+            helper.HttpWebRequest.ServicePoint.ConnectionLimit = Int32.MaxValue;
+            helper.HttpWebRequest.ContentType = "text/html; charset=utf-8";
+            var streamTask = helper.OpenReadTaskAsync();
+            return streamTask.ContinueWith((asc) =>
+            {
+                using (var reader = new StreamReader(asc.Result))
+                {
+                    string result = reader.ReadToEnd();
+                    asc.Result.Dispose();
+                    return result;
+                }
+            });
+        }
+
         public static NameResult DownloadName(int id)
         {
             string site;
-            using (var client = new ScrappingWebClient())
+            var helper = new HttpHelper(@"http://myanimelist.net/showclubs.php?id=" + id);
+            helper.HttpWebRequest.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            helper.HttpWebRequest.Proxy = null;
+            helper.HttpWebRequest.ServicePoint.ConnectionLimit = Int32.MaxValue;
+            using (var stream = helper.OpenRead())
             {
-                site = client.DownloadString(@"http://myanimelist.net/showclubs.php?id=" + id);
+                using (var reader = new StreamReader(stream))
+                {
+                    return NameFromClublist(reader.ReadToEnd());
+                }
             }
-            return NameFromClublist(site);
         }
 
         public static NameResult NameFromClublist(string site)
@@ -89,11 +126,7 @@ namespace Vosen.MAL.Content
 
         public static AnimelistResult DownloadRatedAnime(string name)
         {
-            string site;
-            using (var client = new ScrappingWebClient())
-            {
-                site = client.DownloadString("http://myanimelist.net/animelist/" + name + "&status=7");
-            }
+            string site =GetStringFrom("http://myanimelist.net/animelist/" + name + "&status=7");
             var ratingTuple = ExtractionCore(site);
             if (ratingTuple.Item1 == AnimelistResponse.TooLarge)
                 return DownloadRatedAnimeFromSublists(name);
@@ -102,20 +135,16 @@ namespace Vosen.MAL.Content
 
         private static AnimelistResult DownloadRatedAnimeFromSublists(string name)
         {
-            ScrappingWebClient watchingList = new ScrappingWebClient();
-            Task<string> watchingTask = watchingList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=1");
-            ScrappingWebClient completedList = new ScrappingWebClient();
-            Task<string> completedTask = completedList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=2");
-            ScrappingWebClient onHoldList = new ScrappingWebClient();
-            Task<string> onHoldTask = onHoldList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=3");
-            ScrappingWebClient droppedList = new ScrappingWebClient();
-            Task<string> droppedTask = droppedList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=4");
+            Task<string> watchingTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=1");
+            Task<string> completedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=2");
+            Task<string> onHoldTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=3");
+            Task<string> droppedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=4");
             Task<string>[] tasks = new Task<string>[] { watchingTask, completedTask, onHoldTask, droppedTask };
             Task.WaitAll(tasks);
-            watchingList.Dispose();
-            completedList.Dispose();
-            onHoldList.Dispose();
-            droppedList.Dispose();
+            watchingTask.Dispose();
+            completedTask.Dispose();
+            onHoldTask.Dispose();
+            droppedTask.Dispose();
             var allRatedAnime = tasks.Select(task => RatedAnime(task.Result))
                                      .Where(result => result.Response == AnimelistResponse.Successs)
                                      .SelectMany(i => i.Ratings);
@@ -137,11 +166,7 @@ namespace Vosen.MAL.Content
 
         public static AnimelistResult DownloadAlldAnime(string name)
         {
-            string site;
-            using (var client = new ScrappingWebClient())
-            {
-                site = client.DownloadString("http://myanimelist.net/animelist/" + name + "&status=7");
-            }
+            string site= GetStringFrom("http://myanimelist.net/animelist/" + name + "&status=7");
             var ratingTuple = ExtractionCore(site);
             if (ratingTuple.Item1 == AnimelistResponse.TooLarge)
                 return DownloadAllAnimeFromSublists(name);
@@ -150,23 +175,18 @@ namespace Vosen.MAL.Content
 
         private static AnimelistResult DownloadAllAnimeFromSublists(string name)
         {
-            ScrappingWebClient watchingList = new ScrappingWebClient();
-            Task<string> watchingTask = watchingList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=1");
-            ScrappingWebClient completedList = new ScrappingWebClient();
-            Task<string> completedTask = completedList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=2");
-            ScrappingWebClient onHoldList = new ScrappingWebClient();
-            Task<string> onHoldTask = onHoldList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=3");
-            ScrappingWebClient droppedList = new ScrappingWebClient();
-            Task<string> droppedTask = droppedList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=4");
-            ScrappingWebClient plannedList = new ScrappingWebClient();
-            Task<string> plannedTask = plannedList.DownloadStringTask("http://myanimelist.net/animelist/" + name + "&status=6");
+            Task<string> watchingTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=1");
+            Task<string> completedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=2");
+            Task<string> onHoldTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=3");
+            Task<string> droppedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=4");
+            Task<string> plannedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=6");
             Task<string>[] tasks = new Task<string>[] { watchingTask, completedTask, onHoldTask, droppedTask, plannedTask };
             Task.WaitAll(tasks);
-            watchingList.Dispose();
-            completedList.Dispose();
-            onHoldList.Dispose();
-            droppedList.Dispose();
-            plannedList.Dispose();
+            watchingTask.Dispose();
+            completedTask.Dispose();
+            onHoldTask.Dispose();
+            droppedTask.Dispose();
+            plannedTask.Dispose();
             var allAnime = tasks.Select(task => AllAnime(task.Result))
                                 .Where(result => result.Response == AnimelistResponse.Successs)
                                 .SelectMany(i => i.Ratings);
