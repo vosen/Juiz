@@ -12,5 +12,12 @@ exception when SQLSTATE '42P07' then
 end;
 $$ language 'plpgsql';
 
+CREATE OR REPLACE RULE replace_user AS
+	ON INSERT TO "Users"
+	WHERE
+		EXISTS(SELECT 1 FROM "Users" WHERE "Id" = NEW."Id")
+	DO INSTEAD
+		(UPDATE "Users" SET "Name"=NEW."Name" WHERE "Id" = NEW."Id");
+
 
 COMMIT TRANSACTION;

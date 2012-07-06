@@ -18,7 +18,7 @@ namespace Vosen.MAL
             IEnumerable<int> ids;
             using (var conn = OpenConnection())
             {
-                ids = conn.Query<long>("SELECT \"Id\" FROM \"Users\" WHERE \"Name\" IS NULL AND \"Id\" >= :min AND \"Id\" <= :max", new { min = start, max = stop }).Select(l => (int)l);
+                ids = conn.Query<long>("SELECT \"Id\"::bigint FROM \"Users\" WHERE \"Name\" IS NULL;", new { min = start, max = stop }).Select(l => (int)l);
             }
             // we've got a list of indices, now time to run.
             if(start != -1 && stop != -1)
