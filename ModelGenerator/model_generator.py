@@ -63,6 +63,12 @@ def join_old_id_dicts(dict1, dict2):
     result.update(dict1)
     return result
 
+def normalize_matrix(matrix, avgs):
+    iter_matrix = mat.tocoo()
+    for i,j,v in itertools.izip(iter_matrix.row, iter_matrix.col, iter_matrix.data):
+        matrix[i,j] = v - avgs[j]
+    return matrix
+
 # mat is in csr format
 def row_nnz_average(mat, row_idx):
     start = mat.indptr[row_idx]
@@ -98,8 +104,11 @@ def generate_model(in_path, title_limit, user_limit, features, out_path):
     # build compact titleid translation tables
     old_ids = join_old_id_dicts(old_ids_1, old_ids_2)
     (title_to_document, document_to_tile) = build_title_mapping(old_ids, mat.shape[0])
-    # run svd
     print "Built additional data"
+    # normalize data
+    mat = normalize_matrix(mat, averages)
+    print "Normalized data"
+    # run svd
     (ut, s, vt) = sparsesvd(mat.tocsc(), features)
     print "Factorization finished"
     s_sqrt = numpy.diag(numpy.sqrt(s))
