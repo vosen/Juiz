@@ -66,7 +66,7 @@ def join_old_id_dicts(dict1, dict2):
 def normalize_matrix(matrix, avgs):
     iter_matrix = mat.tocoo()
     for i,j,v in itertools.izip(iter_matrix.row, iter_matrix.col, iter_matrix.data):
-        matrix[i,j] = v - avgs[j]
+        matrix[i,j] = v - avgs[i]
     return matrix
 
 # mat is in csr format
