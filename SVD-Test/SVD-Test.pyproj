@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3253f5a2-9000-43a9-b03c-c948ea8729e0}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>benchmarks\sparse_svd_imp.py</StartupFile>
+    <StartupFile>rmse.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,7 +13,7 @@
     <Name>SVD-Test</Name>
     <RootNamespace>SVD-Test</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>mal.db model 5 5 16</CommandLineArguments>
+    <CommandLineArguments>mal.mat train test debug</CommandLineArguments>
     <InterpreterPath />
     <InterpreterArguments />
     <IsWindowsApplication>False</IsWindowsApplication>

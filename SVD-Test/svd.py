@@ -8,19 +8,20 @@ class svd:
         self.source = score_matrix
         u, e, vt = linalg.svds(self.source.raw_matrix.transpose().tocoo(), k = features)
         self.normalization = self.source.normalization
-        self.Ut = numpy.mat(u).transpose()
-        self.E_inv = numpy.mat(numpy.diagflat(e)).getI()
-        self.E_sqrt = numpy.sqrt(numpy.diagflat(e))
-        self.Vt_rolled = self.E_sqrt * numpy.mat(vt) 
+        e_inv = numpy.mat(numpy.diagflat(e)).getI()
+        e_sqrt = numpy.sqrt(numpy.diagflat(e))
+        u_mat = numpy.mat(u)
+        self.terms = u_mat * e_sqrt
+        self.documents = e_sqrt * e_inv * u_mat.transpose()
 
     # receive user vector with non-normalized scores
     def predict(self, id, rankings):
         normal_vector = self.normalize_vector(self.vectorize(rankings))
-        query = (self.E_inv * self.Ut * normal_vector).transpose() * self.E_sqrt
+        query = self.documents * normal_vector
         if self.normalization == 'movie':
-            return numpy.dot(query, self.Vt_rolled[:,2])[0,0] + self.source.movie_averages[id]
+            return numpy.dot(query, self.terms[id,:])[0,0] + self.source.movie_averages[id]
         else:
-            return numpy.dot(query, self.Vt_rolled[:,2])[0,0] + numpy.mean(map(lambda x: x[1], rankings))
+            return numpy.dot(query, self.terms[id,:])[0,0] + numpy.mean(map(lambda x: x[1], rankings))
 
     # we get a list of id and score => [(id, score)]
     # return full list of scores (also filled with zeros)

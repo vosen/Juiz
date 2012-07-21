@@ -9,8 +9,8 @@ from score_matrix import score_matrix
 class rmse_tester:
 
     def __init__(self):
-        self.start = 16
-        self.stop = 17
+        self.start = 1
+        self.stop = 16
         self.step = 1
         train_matrix = loadmat(sys.argv[1])[sys.argv[2]]
         test_matrix = loadmat(sys.argv[1])[sys.argv[3]]
