@@ -2,7 +2,8 @@ import sys, numpy
 import psycopg2 as pg
 from collections import defaultdict
 from scipy import sparse
-from sparsesvd import sparsesvd
+from scipy.sparse import linalg
+#from sparsesvd import sparsesvd
 from scipy.io import savemat
 
 def parse_args():
@@ -63,11 +64,12 @@ def join_old_id_dicts(dict1, dict2):
     result.update(dict1)
     return result
 
-def normalize_matrix(matrix, avgs):
-    iter_matrix = mat.tocoo()
-    for i,j,v in itertools.izip(iter_matrix.row, iter_matrix.col, iter_matrix.data):
-        matrix[i,j] = v - avgs[i]
-    return matrix
+def normalize_matrix(mat, avgs):
+    mat = mat.tocsr()
+    for i in range(0,len(mat.indptr)-1):
+        for j in range(0, mat.indptr[i+1] - mat.indptr[i]):
+            mat.data[mat.indptr[i]+j] -= avgs[i]
+    return mat
 
 # mat is in csr format
 def row_nnz_average(mat, row_idx):
@@ -87,6 +89,15 @@ def build_title_mapping(ids_dict, title_count):
         title_to_doc[val] = idx
     return (title_to_doc, doc_to_title)
 
+def factorize(csc_mat, features):
+    (u, s, vt) = linalg.svds(csc_mat, features)
+    print "Factorization finished"
+    s_sqrt = numpy.diag(numpy.sqrt(s))
+    s_inv = numpy.diag(numpy.power(s,-1))
+    terms = u.dot(s_sqrt)
+    documents = s_sqrt.dot(s_inv).dot(u.transpose())
+    return (terms,documents)
+
 def generate_model(in_path, title_limit, user_limit, features, out_path):
     # connect to db
     db = pg.connect(in_path)
@@ -97,7 +108,7 @@ def generate_model(in_path, title_limit, user_limit, features, out_path):
     # filter insignificant titles/users, second filtering to remove empty cols/rows
     (mat, old_ids_1) = filter_too_small(scores, title_limit, user_limit)
     (mat, old_ids_2) = filter_too_small(mat.tocsc(), 1, 1)
-    print "Filtered insignificant titles and users"
+    print "Filtered insignificant titles and users. Got %d x %d matrix." % (mat.shape[0], mat.shape[1])
     # matrix is in csr format, calc row nnz averages and convert to csc
     averages = map(lambda x: row_nnz_average(mat,x), range(0, mat.shape[0]))
     mat = mat.tocsc()
@@ -109,13 +120,9 @@ def generate_model(in_path, title_limit, user_limit, features, out_path):
     mat = normalize_matrix(mat, averages)
     print "Normalized data"
     # run svd
-    (ut, s, vt) = sparsesvd(mat.tocsc(), features)
-    print "Factorization finished"
-    s_sqrt = numpy.diag(numpy.sqrt(s))
-    s_inv = numpy.diag(numpy.power(s,-1))
-    terms = ut.transpose().dot(s_sqrt)
-    documents = s_sqrt.dot(s_inv).dot(ut)
+    (terms, documents) = factorize(mat, features)
     # dump results
+    savemat(out_path + "_raw", {"Raw": mat}, oned_as='row')
     savemat(out_path, {"Terms": terms, "Documents": documents, "Averages": averages, "TitleMapping": title_to_document, "DocumentMapping" : document_to_tile}, oned_as='row')
     print "Saved generated results"
 

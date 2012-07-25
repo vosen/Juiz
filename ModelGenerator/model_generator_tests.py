@@ -1,5 +1,5 @@
 import unittest, numpy
-from model_generator import filter_too_small, join_old_id_dicts, build_title_mapping
+from model_generator import filter_too_small, join_old_id_dicts, build_title_mapping, factorize, normalize_matrix
 from scipy import sparse
 
 class ModelGeneratorTests(unittest.TestCase):
@@ -69,6 +69,21 @@ class ModelGeneratorTests(unittest.TestCase):
         mat = sparse.csc_matrix(numpy.array([[0,1,0],[1,0,0],[0,0,0]]))
         (mat_reduced, old_ids) = filter_too_small(mat, 1, 1)
         self.assertEqual((2,2), mat_reduced.shape)
+
+    def test_normalization(self):
+        mat = sparse.csc_matrix(numpy.array([[1,2],[2,3],[3,4]]), dtype=numpy.float)
+        mat = normalize_matrix(mat, [1,2,3])
+        self.assertEqual(0, mat[0,0])
+        self.assertEqual(1, mat[0,1])
+        self.assertEqual(0, mat[1,0])
+        self.assertEqual(1, mat[1,1])
+        self.assertEqual(0, mat[2,0])
+        self.assertEqual(1, mat[2,1])
+
+    def test_factorization(self):
+        mat = sparse.csc_matrix(numpy.array([[1,2,3],[2,3,4],[3,4,5]]), dtype=numpy.float)
+        (terms, documents) = factorize(mat,2)
+        pass
 
 if __name__ == '__main__':
     unittest.main()
