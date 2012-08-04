@@ -59,16 +59,17 @@ module FunkSVD =
         let newRatings = Array.map (fun (rating : Rating) -> Rating(rating.Title, rating.User, clamp (movieAverages.[rating.Title] + userDeviations.[rating.User]))) data
         { Ratings = newRatings; MovieCount = movies.Count; UserCount = users.Count }
 
-    let predictRating (selectedMovieFeatures : float[]) (selectedUserFeatures  : float[]) feature =
-        Array.zip selectedMovieFeatures selectedUserFeatures
-        |> Array.sumBy (fun (movieFeature, userfeature) -> movieFeature * userfeature)
+    let predictRating (rating : Rating) movieFeature userFeature feature =
+        rating.Score + movieFeature * userFeature
         |> clamp
         |> (+) (float(features - feature - 1) * defaultFeature * defaultFeature)
         |> clamp
 
     let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) feature =
         for rating in ratings do
-           let predicted = predictRating movieFeatures.[rating.User] userFeatures.[rating.Title] feature
+           let movieFeature = movieFeatures.[feature].[rating.Title]
+           let userFeature = userFeatures.[feature].[rating.User]
+           let predicted = predictRating rating movieFeature userFeature feature
            let error = rating.Score - predicted
            let movieFeature = movieFeatures.[feature].[rating.Title]
            let userFeature = userFeatures.[feature].[rating.User]
