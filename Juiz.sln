@@ -29,6 +29,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunkSVD", "FunkSVD\FunkSVD.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunkSVD.Tests", "FunkSVD.Tests\FunkSVD.Tests.fsproj", "{B4B6300D-01D4-46A5-84DB-BBCC6D9C1B2E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunkSVD.RMSE", "FunkSVD.RMSE\FunkSVD.RMSE.fsproj", "{C1502016-B633-4B85-B9B9-A384B392D4EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,16 @@ Global
 		{B4B6300D-01D4-46A5-84DB-BBCC6D9C1B2E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B4B6300D-01D4-46A5-84DB-BBCC6D9C1B2E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B4B6300D-01D4-46A5-84DB-BBCC6D9C1B2E}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C1502016-B633-4B85-B9B9-A384B392D4EF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

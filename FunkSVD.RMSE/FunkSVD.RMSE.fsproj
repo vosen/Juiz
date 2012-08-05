@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{b4b6300d-01d4-46a5-84db-bbcc6d9c1b2e}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>FunkSVD.Tests</RootNamespace>
-    <AssemblyName>FunkSVD.Tests</AssemblyName>
+    <ProjectGuid>{c1502016-b633-4b85-b9b9-a384b392d4ef}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FunkSVD.RMSE</RootNamespace>
+    <AssemblyName>FunkSVD.RMSE</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>FunkSVD.Tests</Name>
+    <Name>FunkSVD.RMSE</Name>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +22,8 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\FunkSVD.Tests.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\FunkSVD.RMSE.XML</DocumentationFile>
+    <StartArguments>10 5 50 mal.mat train test out</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,36 +32,31 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\FunkSVD.Tests.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\FunkSVD.RMSE.XML</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <Compile Include="FunkSVD.fs" />
+    <Compile Include="rmse.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FsUnit.NUnit">
-      <HintPath>..\packages\FsUnit.1.1.0.1\Lib\Net40\FsUnit.NUnit.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.2.1.2\lib\Net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="zlib.net">
+      <HintPath>..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FunkSVD.RMSE\FunkSVD.RMSE.fsproj">
-      <Name>FunkSVD.RMSE</Name>
-      <Project>{c1502016-b633-4b85-b9b9-a384b392d4ef}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\FunkSVD\FunkSVD.fsproj">
       <Name>FunkSVD</Name>
       <Project>{decb42be-1d4e-4bc5-bc64-02c3e167c02a}</Project>

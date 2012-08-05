@@ -28,3 +28,9 @@ type FunkSVD ()=
         let ratings = [| Rating(0, 1, 5.0) ; Rating(1, 0, 4.0) ; Rating(1, 1, 2.0) ; Rating(2, 1, 4.0) |]
         let results = Vosen.Juiz.FunkSVD.build simplePredictBaseline ratings 20
         ignore()
+
+    [<Test>]
+    member test.``RMSE returns correct result`` () =
+        let fakePredict ratings target = 1.0
+        let probe = [| (0, 0.5, [||]); (0, 2.5, [||]); (0, 10.0, [||]) |]
+        Vosen.Juiz.RMSE.measureRMSE fakePredict probe |> should (equalWithin 0.000001) (sqrt (83.5 / 3.0))
