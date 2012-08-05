@@ -40,9 +40,9 @@ module RMSE =
         let model = OxyPlot.PlotModel("RMSE in relation to features")
         let series = OxyPlot.LineSeries()
         series.Points <- data |> Array.map (fun rating -> OxyPlot.DataPoint(float(fst rating), snd rating) :> OxyPlot.IDataPoint)
-        series.MarkerFill <- OxyPlot.OxyColors.Red
-        series.MarkerType <- OxyPlot.MarkerType.Circle
+        series.MarkerType <- OxyPlot.MarkerType.Cross
         series.StrokeThickness <- 0.0
+        series.MarkerStroke <- OxyPlot.OxyColors.Black;
         series.MarkerSize <- 4.0
         model.Series.Add(series)
         OxyPlot.WindowsForms.PngExporter.Export(model, path + ".png", 800, 600, System.Drawing.Brushes.White)
