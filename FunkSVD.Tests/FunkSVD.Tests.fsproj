@@ -40,6 +40,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Compile Include="FunkSVD.fs" />
+    <None Include="graphing_test.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.NUnit">

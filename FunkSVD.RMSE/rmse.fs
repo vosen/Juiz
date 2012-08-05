@@ -36,14 +36,32 @@ module RMSE =
             count <- count + 1
         sqrt (sum / float(count))
 
+    let exportDataGraph data path =
+        let model = OxyPlot.PlotModel("RMSE in relation to features")
+        let series = OxyPlot.LineSeries()
+        series.Points <- data |> Array.map (fun rating -> OxyPlot.DataPoint(float(fst rating), snd rating) :> OxyPlot.IDataPoint)
+        series.MarkerFill <- OxyPlot.OxyColors.Red
+        series.MarkerType <- OxyPlot.MarkerType.Circle
+        series.StrokeThickness <- 0.0
+        series.MarkerSize <- 4.0
+        model.Series.Add(series)
+        OxyPlot.WindowsForms.PngExporter.Export(model, path + ".png", 800, 600, System.Drawing.Brushes.White)
+
+    let measuresToString measured =
+        measured |> Array.fold (fun acc (features,error) -> acc + (sprintf "%d, %.6f\n" features error)) ""
+
     let run start step stop input train test output =
         let trainMatrix, testMatrix = loadMatrices input train test
         let probeSet = buildProbe testMatrix
         let trainSet = pickRatings trainMatrix
-        [| start .. step .. stop |] 
-        |> Array.Parallel.map (fun features -> (features, FunkSVD.Model(FunkSVD.build FunkSVD.simplePredictBaseline trainSet features |> fst)))
-        |> Array.Parallel.map (fun (features, model) -> (features, measureRMSE model.PredictSingle probeSet))
-        |> Array.map (fun (features, error) -> (printfn "(%d, %f)" features error))
+        let measured =
+            [| start .. step .. stop |] 
+            |> Array.Parallel.map (fun features -> (features, FunkSVD.Model(FunkSVD.build FunkSVD.simplePredictBaseline trainSet features |> fst)))
+            |> Array.Parallel.map (fun (features, model) -> (features, measureRMSE model.PredictSingle probeSet))
+        // dump the data to text file
+        System.IO.File.WriteAllText(output + "-raw.txt", measuresToString measured)
+        // graph measured data
+        exportDataGraph measured
 
 
     [<EntryPoint>]

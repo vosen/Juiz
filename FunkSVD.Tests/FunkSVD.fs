@@ -34,3 +34,8 @@ type FunkSVD ()=
         let fakePredict ratings target = 1.0
         let probe = [| (0, 0.5, [||]); (0, 2.5, [||]); (0, 10.0, [||]) |]
         Vosen.Juiz.RMSE.measureRMSE fakePredict probe |> should (equalWithin 0.000001) (sqrt (83.5 / 3.0))
+
+    [<Test>]
+    member test.``RMSE prints correct mesurements`` () =
+        let results = [| (1, 20.0); (10, 0.1) |]
+        Vosen.Juiz.RMSE.measuresToString results |> should startWith "1, 20.000000\n10, 0.100000\n"
