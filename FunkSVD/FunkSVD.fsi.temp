@@ -9,7 +9,7 @@ namespace Vosen.Juiz
         val User: int
         val Score: float
       end
-    val build : Rating array -> float [] [] * float [] []
+    val build : Rating array -> int -> float [] [] * float [] []
 
     (* internal *)
     type internal Estimates =

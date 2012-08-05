@@ -11,7 +11,6 @@ module FunkSVD =
     let learningRate = 0.001
     let epochs = 100
     let regularization = 0.015
-    let features = 20
 
     type Rating =
         struct
@@ -32,13 +31,25 @@ module FunkSVD =
                 this.[key] <- addFunc()
 
     let initializeFeatures titleCount userCount featCount =
-        let titleFeatures = Array.init featCount (fun idx -> Array.init titleCount (fun _ -> defaultFeature))
-        let userFeatures = Array.init featCount (fun idx -> Array.init userCount (fun _ -> defaultFeature))
+        let titleFeatures = Array.init titleCount (fun idx -> Array.init featCount (fun _ -> defaultFeature))
+        let userFeatures = Array.init userCount (fun idx -> Array.init featCount (fun _ -> defaultFeature))
         (titleFeatures, userFeatures)
 
     let clamp x = max 1.0 (min x 10.0)
 
-    let initializeEstimates (data : Rating array) =
+    let copyBaseline (data : Rating array) =
+        let movies = HashSet<int>()
+        let users = HashSet<int>()
+        for rating in data do
+            movies.Add(rating.Title) |> ignore
+            users.Add(rating.User) |> ignore
+        { Ratings = data; MovieCount = movies.Count; UserCount = users.Count }
+
+    let nullBaseline (data : Rating array) =
+        let copied = copyBaseline data
+        { Ratings = copied.Ratings |> Array.map (fun rating -> Rating(rating.Title, rating.User, 1.0)) ; MovieCount = copied.MovieCount; UserCount = copied.UserCount }
+
+    let simplePredictBaseline (data : Rating array) =
         let movies = Dictionary<int, (int * float)>()
         let users = Dictionary<int, List<int * float>>()
         for i in 0..(data.Length-1) do
@@ -59,26 +70,48 @@ module FunkSVD =
         let newRatings = Array.map (fun (rating : Rating) -> Rating(rating.Title, rating.User, clamp (movieAverages.[rating.Title] + userDeviations.[rating.User]))) data
         { Ratings = newRatings; MovieCount = movies.Count; UserCount = users.Count }
 
-    let predictRating (rating : Rating) movieFeature userFeature feature =
-        rating.Score + movieFeature * userFeature
+    let predictRating score movieFeature userFeature features feature =
+        score + movieFeature * userFeature
         |> clamp
         |> (+) (float(features - feature - 1) * defaultFeature * defaultFeature)
         |> clamp
 
-    let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) feature =
-        for rating in ratings do
-           let movieFeature = movieFeatures.[feature].[rating.Title]
-           let userFeature = userFeatures.[feature].[rating.User]
-           let predicted = predictRating rating movieFeature userFeature feature
-           let error = rating.Score - predicted
-           let movieFeature = movieFeatures.[feature].[rating.Title]
-           let userFeature = userFeatures.[feature].[rating.User]
-           movieFeatures.[feature].[rating.Title] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
-           userFeatures.[feature].[rating.User] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+    let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) features feature =
+        for i in 0..(epochs-1) do
+          for rating in ratings do
+             let movieFeature = movieFeatures.[rating.Title].[feature]
+             let userFeature = userFeatures.[rating.User].[feature]
+             let predicted = predictRating rating.Score movieFeature userFeature features feature
+             let error = rating.Score - predicted
+             movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
+             userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+        // now update ratings based on trained values
+        ratings |> Array.map (fun rating -> Rating(rating.Title, rating.User, clamp (rating.Score + movieFeatures.[rating.Title].[feature] * userFeatures.[rating.User].[feature])))
 
-    let build (data : Rating array) =
-        let userEstimates = initializeEstimates data
+    let build (baseline : Rating array -> Estimates) (data : Rating array) features =
+        let mutable ratings = Array.copy data
+        let userEstimates = baseline ratings
         let movieFeatures, userFeatures = initializeFeatures userEstimates.MovieCount userEstimates.UserCount features
         for i in 0..(features-1) do
-            trainFeature movieFeatures userFeatures data i
+            ratings <- trainFeature movieFeatures userFeatures ratings features i
         (movieFeatures, userFeatures)
+
+    type Model(data : float[][]) =
+        
+        member inline private this.Features = data.[0].Length
+
+        static member dot x y =
+            Array.map2 (fun a b -> a*b) x y |> Array.sum
+
+        member this.PredictSingle (ratings : (int * float) array) target =
+            let userFeatures = Array.init this.Features (fun _ -> defaultFeature)
+            for feature in 0..(this.Features-1) do
+                for e in 0..(epochs-1) do
+                    for rating in ratings do
+                        let movieFeature = data.[fst rating].[feature]
+                        let userFeature = userFeatures.[feature]
+                        let predicted = predictRating (snd rating) movieFeature userFeature this.Features feature
+                        let error = (snd rating) - predicted
+                        userFeatures.[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+            // userFeatures is now features vector for this user
+            Model.dot data.[target] userFeatures
