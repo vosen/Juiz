@@ -78,13 +78,16 @@ module FunkSVD =
 
     let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) features feature =
         for i in 0..(epochs-1) do
-          for rating in ratings do
-             let movieFeature = movieFeatures.[rating.Title].[feature]
-             let userFeature = userFeatures.[rating.User].[feature]
-             let predicted = predictRating rating.Score movieFeature userFeature features feature
-             let error = rating.Score - predicted
-             movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
-             userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+            let mutable sq = 0.0
+            for rating in ratings do
+                let movieFeature = movieFeatures.[rating.Title].[feature]
+                let userFeature = userFeatures.[rating.User].[feature]
+                let predicted = predictRating rating.Score movieFeature userFeature features feature
+                let error = rating.Score - predicted
+                sq <- sq + (error * error)
+                movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
+                userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+            printfn "epoch: %d, rmse: %f" i (sqrt(sq / float(ratings.Length)))
         // now update ratings based on trained values
         ratings |> Array.map (fun rating -> Rating(rating.Title, rating.User, clamp (rating.Score + movieFeatures.[rating.Title].[feature] * userFeatures.[rating.User].[feature])))
 
@@ -100,8 +103,8 @@ module FunkSVD =
         
         member inline private this.Features = data.[0].Length
 
-        static member dot x y =
-            Array.map2 (fun a b -> a*b) x y |> Array.sum
+        static member clampedDot x y =
+            Array.fold2 (fun sum a b -> clamp(sum + a*b)) 0.0 x y
 
         member this.PredictSingle (ratings : (int * float) array) target =
             let userFeatures = Array.init this.Features (fun _ -> defaultFeature)
@@ -114,4 +117,4 @@ module FunkSVD =
                         let error = (snd rating) - predicted
                         userFeatures.[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
             // userFeatures is now features vector for this user
-            Model.dot data.[target] userFeatures
+            Model.clampedDot data.[target] userFeatures

@@ -43,7 +43,7 @@ module RMSE =
         let mutable sum = 0.0
         let mutable count = 0
         for rating in ratings do
-            let error = rating.Score - (Vosen.Juiz.FunkSVD.Model.dot movieFeatures.[rating.Title] userFeatures.[rating.User])
+            let error = rating.Score - (Vosen.Juiz.FunkSVD.Model.clampedDot movieFeatures.[rating.Title] userFeatures.[rating.User])
             sum <- sum + (error*error)
             count <- count + 1
         sqrt (sum / float(count))
