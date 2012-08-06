@@ -78,16 +78,13 @@ module FunkSVD =
 
     let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) features feature =
         for i in 0..(epochs-1) do
-            let mutable sq = 0.0
             for rating in ratings do
                 let movieFeature = movieFeatures.[rating.Title].[feature]
                 let userFeature = userFeatures.[rating.User].[feature]
                 let predicted = predictRating rating.Score movieFeature userFeature features feature
                 let error = rating.Score - predicted
-                sq <- sq + (error * error)
                 movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
                 userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
-            printfn "epoch: %d, rmse: %f" i (sqrt(sq / float(ratings.Length)))
         // now update ratings based on trained values
         ratings |> Array.map (fun rating -> Rating(rating.Title, rating.User, clamp (rating.Score + movieFeatures.[rating.Title].[feature] * userFeatures.[rating.User].[feature])))
 
