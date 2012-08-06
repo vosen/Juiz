@@ -41,10 +41,15 @@
     <None Include="packages.config" />
     <Compile Include="FunkSVD.fs" />
     <None Include="graphing_test.fsx" />
+    <None Include="self_rmse.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.NUnit">
       <HintPath>..\packages\FsUnit.1.1.0.1\Lib\Net40\FsUnit.NUnit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.2.1.2\lib\Net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
@@ -56,8 +61,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="zlib.net">
+      <HintPath>..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <ProjectReference Include="..\FunkSVD.RMSE\FunkSVD.RMSE.fsproj">
       <Name>FunkSVD.RMSE</Name>
       <Project>{c1502016-b633-4b85-b9b9-a384b392d4ef}</Project>

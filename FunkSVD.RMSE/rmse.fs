@@ -19,7 +19,9 @@ module RMSE =
         testMatrix.RowEnumerator()
         |> Seq.collect (fun (i,row) ->
             let arr = row.ToArray() 
-            arr |> Array.mapi (fun j score -> (j, row.[j], copyExceptOne arr j)))
+            arr 
+            |> Array.mapi (fun j score -> if score = 0.0 then None else Some(j, row.[j], copyExceptOne arr j))
+            |> Array.choose id)
         |> Seq.toArray
 
     let pickRatings (sparse : SparseMatrix)=
@@ -35,6 +37,17 @@ module RMSE =
             sum <- sum + (error*error)
             count <- count + 1
         sqrt (sum / float(count))
+
+    let measureSelfRMSE (generator : Vosen.Juiz.FunkSVD.Rating array -> float[][] * float[][]) ratings  =
+        let movieFeatures, userFeatures = generator ratings
+        let mutable sum = 0.0
+        let mutable count = 0
+        for rating in ratings do
+            let error = rating.Score - (Vosen.Juiz.FunkSVD.Model.dot movieFeatures.[rating.Title] userFeatures.[rating.User])
+            sum <- sum + (error*error)
+            count <- count + 1
+        sqrt (sum / float(count))
+
 
     let exportDataGraph data path =
         let model = OxyPlot.PlotModel("RMSE in relation to features")
@@ -56,12 +69,14 @@ module RMSE =
         let trainSet = pickRatings trainMatrix
         let measured =
             [| start .. step .. stop |] 
-            |> Array.Parallel.map (fun features -> (features, FunkSVD.Model(FunkSVD.build FunkSVD.simplePredictBaseline trainSet features |> fst)))
-            |> Array.Parallel.map (fun (features, model) -> (features, measureRMSE model.PredictSingle probeSet))
+            |> Array.Parallel.map (fun features ->
+                let model = FunkSVD.Model(FunkSVD.build FunkSVD.simplePredictBaseline trainSet features |> fst)
+                let error = measureRMSE model.PredictSingle probeSet
+                (features, error))
         // dump the data to text file
         System.IO.File.WriteAllText(output + "-raw.txt", measuresToString measured)
         // graph measured data
-        exportDataGraph measured
+        exportDataGraph measured output
 
 
     [<EntryPoint>]
@@ -69,5 +84,5 @@ module RMSE =
         if args.Length <> 7 then
             printfn "USAGE: rmse.exe start step stop input.mat train_matrix test_matrix output"
             exit(0)
-        run (int args.[0]) (int args.[1]) (int args.[2]) args.[3] args.[4] args.[5] args.[6] |> ignore
+        run (int args.[0]) (int args.[1]) (int args.[2]) args.[3] args.[4] args.[5] args.[6]
         0
