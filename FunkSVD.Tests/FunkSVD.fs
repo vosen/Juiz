@@ -19,10 +19,10 @@ type FunkSVD ()=
     member test.``estimated values are correct`` () =
         let ratings = [| Rating(0, 0, 2.0) ; Rating(1, 0, 3.0) ; Rating(1, 1, 8.0) ; Rating(2, 1, 7.0) |]
         let estimates = Vosen.Juiz.FunkSVD.simplePredictBaseline ratings
-        estimates.Ratings.[0] |> should equal (Rating(0, 0, 3.25))
-        estimates.Ratings.[1] |> should equal (Rating(1, 0, 6.75))
-        estimates.Ratings.[2] |> should equal (Rating(1, 1, 4.25))
-        estimates.Ratings.[3] |> should equal (Rating(2, 1, 5.75))
+        estimates.Predicted.[0] |> should equal 3.25
+        estimates.Predicted.[1] |> should equal 6.75
+        estimates.Predicted.[2] |> should equal 4.25
+        estimates.Predicted.[3] |> should equal 5.75
 
     [<Test>]
     member test.``build works`` () =

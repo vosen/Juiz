@@ -38,12 +38,14 @@ module RMSE =
             count <- count + 1
         sqrt (sum / float(count))
 
-    let measureSelfRMSE (generator : Vosen.Juiz.FunkSVD.Rating array -> float[][] * float[][]) ratings  =
+    let measureSelfNullRMSE (generator : Vosen.Juiz.FunkSVD.Rating array -> float[][] * float[][]) ratings =
         let movieFeatures, userFeatures = generator ratings
         let mutable sum = 0.0
         let mutable count = 0
         for rating in ratings do
-            let error = rating.Score - (Vosen.Juiz.FunkSVD.Model.clampedDot movieFeatures.[rating.Title] userFeatures.[rating.User])
+            let predict = (Vosen.Juiz.FunkSVD.Model.clampedDot 1.0 movieFeatures.[rating.Title] userFeatures.[rating.User])
+            printfn "expected: %f, got: %f" rating.Score predict 
+            let error = rating.Score - predict
             sum <- sum + (error*error)
             count <- count + 1
         sqrt (sum / float(count))
