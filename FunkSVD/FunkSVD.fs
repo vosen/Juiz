@@ -11,6 +11,7 @@ module FunkSVD =
     let learningRate = 0.001
     let epochs = 100
     let regularization = 0.015
+    let minimumImprovement = 0.0001
 
     type Rating =
         struct
@@ -81,14 +82,21 @@ module FunkSVD =
 
     let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) estimates features feature =
         let zippedRatings = Array.zip ratings estimates
-        for i in 0..(epochs-1) do
+        let mutable epoch = 0
+        let mutable rmse, lastRmse = (0.0, infinity)
+        while (epoch < epochs) || (rmse <= lastRmse - minimumImprovement) do
+            lastRmse <- rmse
+            let mutable squaredError = 0.0
             for rating, estimate in zippedRatings do
                 let movieFeature = movieFeatures.[rating.Title].[feature]
                 let userFeature = userFeatures.[rating.User].[feature]
                 let predicted = predictRatingWithTrailing estimate movieFeature userFeature features feature
                 let error = rating.Score - predicted
+                squaredError <- squaredError + (error * error)
                 movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
                 userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+            rmse <- sqrt(squaredError / float(zippedRatings.Length))
+            epoch <- epoch + 1
         // now update estimates based on trained values
         zippedRatings |> Array.map (fun (rating, estimate) -> predictRating estimate movieFeatures.[rating.Title].[feature] userFeatures.[rating.User].[feature])
 

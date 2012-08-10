@@ -72,7 +72,7 @@ module RMSE =
         let measured =
             [| start .. step .. stop |] 
             |> Array.Parallel.map (fun features ->
-                let model = FunkSVD.Model(FunkSVD.build FunkSVD.simplePredictBaseline trainSet features |> fst)
+                let model = FunkSVD.Model(FunkSVD.build (FunkSVD.constantBaseline 1.0) trainSet features |> fst)
                 let error = measureRMSE model.PredictSingle probeSet
                 (features, error))
         // dump the data to text file
