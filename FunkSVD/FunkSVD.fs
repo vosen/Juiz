@@ -21,6 +21,13 @@ module FunkSVD =
             new(title, user, score) = { Title = title; User = user; Score = score }
         end
 
+    type RatingCache =
+        struct
+            val Rating : Rating
+            val mutable Estimate : float
+            new(rating, estimate) = { Rating = rating; Estimate = estimate }
+        end
+
     type Estimates = { Predicted : float array; MovieCount : int; UserCount : int }
 
     type Dictionary<'TKey, 'TValue> with
@@ -94,32 +101,33 @@ module FunkSVD =
     let predictRating score movieFeature userFeature =
         clamp (score + movieFeature * userFeature)
 
-    let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (ratings : Rating array) estimates features feature =
-        let zippedRatings = Array.zip ratings estimates
+    let trainFeature (movieFeatures : float[][]) (userFeatures : float[][]) (caches : RatingCache array) features feature =
         let mutable epoch = 0
         let mutable rmse, lastRmse = (0.0, infinity)
         while (epoch < epochs) || (rmse <= lastRmse - minimumImprovement) do
             lastRmse <- rmse
             let mutable squaredError = 0.0
-            for rating, estimate in zippedRatings do
-                let movieFeature = movieFeatures.[rating.Title].[feature]
-                let userFeature = userFeatures.[rating.User].[feature]
-                let predicted = predictRatingWithTrailing estimate movieFeature userFeature features feature
-                let error = rating.Score - predicted
+            for cache in caches do
+                let movieFeature = movieFeatures.[cache.Rating.Title].[feature]
+                let userFeature = userFeatures.[cache.Rating.User].[feature]
+                let predicted = predictRatingWithTrailing cache.Estimate movieFeature userFeature features feature
+                let error = cache.Rating.Score - predicted
                 squaredError <- squaredError + (error * error)
-                movieFeatures.[rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
-                userFeatures.[rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
-            rmse <- sqrt(squaredError / float(zippedRatings.Length))
+                movieFeatures.[cache.Rating.Title].[feature] <- movieFeature + (learningRate * (error * userFeature - regularization * movieFeature))
+                userFeatures.[cache.Rating.User].[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+            rmse <- sqrt(squaredError / float(caches.Length))
             epoch <- epoch + 1
         // now update estimates based on trained values
-        zippedRatings |> Array.map (fun (rating, estimate) -> predictRating estimate movieFeatures.[rating.Title].[feature] userFeatures.[rating.User].[feature])
+        for i = 0 to (caches.Length - 1) do
+            let cache = caches.[i]
+            caches.[i].Estimate <-  predictRating cache.Estimate movieFeatures.[cache.Rating.Title].[feature] userFeatures.[cache.Rating.User].[feature]
 
     let build (baseline : Rating array -> Estimates) (ratings : Rating array) features =
         let estimates = baseline ratings
         let movieFeatures, userFeatures = initializeFeatures estimates.MovieCount estimates.UserCount features
-        let mutable workEstimates = estimates.Predicted
+        let mutable cache = (ratings, estimates.Predicted) ||> Array.map2 (fun rating estimate -> RatingCache(rating, estimate))
         for i in 0..(features-1) do
-            workEstimates <- trainFeature movieFeatures userFeatures ratings workEstimates features i
+            trainFeature movieFeatures userFeatures cache features i
         (movieFeatures, userFeatures)
 
     type Model(data : float[][]) =
