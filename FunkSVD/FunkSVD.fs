@@ -50,6 +50,9 @@ module FunkSVD =
         let copied = copyBaseline data
         { Predicted = Array.init data.Length (fun _ -> x) ; MovieCount = copied.MovieCount; UserCount = copied.UserCount }
 
+    let userDeviation (movieAverages : float array) (ratings :  IList<int * float>) = 
+        (Seq.sumBy (fun (movie, rating) -> movieAverages.[movie] - float(rating)) ratings) / float(ratings.Count)
+
     let simplePredictBaseline (data : Rating array) =
         let movies = Dictionary<int, (int * float)>()
         let users = Dictionary<int, List<int * float>>()
@@ -62,14 +65,25 @@ module FunkSVD =
             snd tempTuple / float(fst tempTuple)
         let movieAverages = Array.init movies.Count (calculateMovieAverages movies)
         // now calculate user bias
-        let deviation (ratings :  List<int * float>) = 
-            (Seq.sumBy (fun (movie, rating) -> movieAverages.[movie] - float(rating)) ratings) / float(ratings.Count)
         let userDeviations = 
             users
-            |> Seq.map (fun userRatings -> (deviation userRatings.Value))
+            |> Seq.map (fun userRatings -> (userDeviation movieAverages userRatings.Value))
             |> Seq.toArray
         let newRatings = Array.map (fun (rating : Rating) -> clamp (movieAverages.[rating.Title] + userDeviations.[rating.User])) data
-        { Predicted = newRatings; MovieCount = movies.Count; UserCount = users.Count }
+        (movieAverages, { Predicted = newRatings; MovieCount = movies.Count; UserCount = users.Count })
+
+    let averagesBaseline (data : Rating array) =
+        let movies = Dictionary<int, (int * float)>()
+        let users = Dictionary<int, List<int * float>>()
+        for i in 0..(data.Length-1) do
+            movies.AddOrSet (fun _ -> (1, data.[i].Score)) (fun (oldCount, oldSum) -> (oldCount + 1, oldSum + data.[i].Score)) data.[i].Title
+            users.AddOrSet (fun _ -> List([| (data.[i].Title, data.[i].Score) |])) (fun ratingList -> ratingList.Add(data.[i].Title, data.[i].Score); ratingList) data.[i].User
+        let calculateMovieAverages (dic : Dictionary<_,_>) idx =
+            let tempTuple = dic.[idx]
+            snd tempTuple / float(fst tempTuple)
+        let movieAverages = Array.init movies.Count (calculateMovieAverages movies)
+        let newRatings = data |> Array.map (fun rating -> movieAverages.[rating.Title])
+        (movieAverages, { Predicted = newRatings; MovieCount = movies.Count; UserCount = users.Count })
 
     let predictRatingWithTrailing score movieFeature userFeature features feature =
         score + movieFeature * userFeature
@@ -109,25 +123,32 @@ module FunkSVD =
         (movieFeatures, userFeatures)
 
     type Model(data : float[][]) =
-        
-        member inline private this.Features = data.[0].Length
+
+        static member simplePredictBaseline (avgs : float array) (ratings : (int * float) array) =
+            let deviation = userDeviation avgs ratings
+            avgs |> Array.map ((+) deviation)
+
+        static member averagesBaseline (avgs : float array) (ratings : (int * float) array) =
+            avgs |> Array.copy
 
         static member clampedDot start x y =
             Array.fold2 (fun sum a b -> clamp(sum + a*b)) start x y
 
-        member this.PredictSingle (ratings : (int * float) array) target =
+        member this.Features = data.[0].Length
+
+        member this.PredictSingle (baseline : (int * float) array -> float array) (ratings : (int * float) array) target =
             let userFeatures = Array.init this.Features (fun _ -> defaultFeature)
-            let mutable estimates = Array.init ratings.Length (fun _ -> 1.0)
-            for feature in 0..(this.Features-1) do
-                let zippedRatings = Array.zip ratings estimates
+            let estimates = ref (baseline ratings)
+            for feature in 0..(this.Features - 1) do
                 for e in 0..(epochs-1) do
-                    for rating, estimate in zippedRatings do
-                        let movieFeature = data.[fst rating].[feature]
+                    for (id, score) in ratings do
+                        let movieFeature = data.[id].[feature]
                         let userFeature = userFeatures.[feature]
-                        let predicted = predictRatingWithTrailing estimate movieFeature userFeature this.Features feature
-                        let error = (snd rating) - predicted
+                        let predicted = predictRatingWithTrailing (!estimates).[id] movieFeature userFeature this.Features feature
+                        let error = score - predicted
                         userFeatures.[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
                 // update estimates
-                estimates <- zippedRatings |> Array.map (fun (rating, estimate) -> predictRating estimate data.[fst rating].[feature] userFeatures.[feature])
+                for (id, _) in ratings do
+                    (!estimates).[id] <- predictRating (!estimates).[id] data.[id].[feature] userFeatures.[feature]
             // userFeatures is now features vector for this user
-            Model.clampedDot 1.0 data.[target] userFeatures
+            Model.clampedDot (!estimates).[target] data.[target] userFeatures
