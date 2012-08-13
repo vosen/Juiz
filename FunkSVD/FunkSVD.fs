@@ -131,6 +131,12 @@ module FunkSVD =
             trainFeature movieFeatures userFeatures cache features i
         (movieFeatures, userFeatures)
 
+    let save (data : float[][]) =
+        data |> Array.map (fun line -> String.concat "\t" (line |> Array.map (fun v -> v.ToString("R")))) |> String.concat System.Environment.NewLine
+
+    let load (saved : string) =
+        saved.Split([| System.Environment.NewLine |], System.StringSplitOptions.None) |> Array.map (fun line -> line.Split('\t') |> Array.map (fun v -> System.Double.Parse(v)))
+
     type Model(data : float[][]) =
 
         static member simplePredictBaseline (avgs : float array) (ratings : (int * float) array) =

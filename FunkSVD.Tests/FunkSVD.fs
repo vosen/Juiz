@@ -30,6 +30,13 @@ type FunkSVD ()=
         let results = Vosen.Juiz.FunkSVD.build (fun ratings -> snd <| simplePredictBaseline ratings) ratings 20
         ignore()
 
+    [<Test>]
+    member test.``save and load round trip works for a float array``() =
+        let rand = System.Random(1735493430)
+        let data = Array.init 100 (fun _ -> Array.init 100 (fun _ -> rand.NextDouble()))
+        let loadedSaved = Vosen.Juiz.FunkSVD.load (Vosen.Juiz.FunkSVD.save data)
+        data |> should equal loadedSaved
+
 [<TestFixture>] 
 type RMSE ()=
 
