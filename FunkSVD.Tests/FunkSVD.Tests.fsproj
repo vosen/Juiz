@@ -43,6 +43,8 @@
     <None Include="graphing_test.fsx" />
     <None Include="self_rmse.fsx" />
     <None Include="rmse_average.fsx" />
+    <None Include="build_timing.fsx" />
+    <None Include="graph_compare.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.NUnit">
@@ -57,6 +59,14 @@
     <Reference Include="FSharp.Core" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.WindowsForms.2012.3.126.1\lib\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.WindowsForms">
+      <HintPath>..\packages\OxyPlot.WindowsForms.2012.3.126.1\lib\OxyPlot.WindowsForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

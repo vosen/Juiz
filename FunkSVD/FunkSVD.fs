@@ -9,9 +9,10 @@ module FunkSVD =
 
     let defaultFeature = 0.1
     let learningRate = 0.001
-    let epochs = 100
+    let epochs = 75
     let regularization = 0.015
     let minimumImprovement = 0.0001
+    let minimumPredictImprovement = 0.001
 
     type Rating =
         struct
@@ -148,13 +149,20 @@ module FunkSVD =
             let userFeatures = Array.init this.Features (fun _ -> defaultFeature)
             let estimates = ref (baseline ratings)
             for feature in 0..(this.Features - 1) do
-                for e in 0..(epochs-1) do
+                let mutable epoch = 0
+                let mutable rmse, lastRmse = (0.0, infinity)
+                while (epoch < epochs) || (rmse <= lastRmse - minimumPredictImprovement) do
+                    lastRmse <- rmse
+                    let mutable squaredError = 0.0
                     for (id, score) in ratings do
                         let movieFeature = data.[id].[feature]
                         let userFeature = userFeatures.[feature]
                         let predicted = predictRatingWithTrailing (!estimates).[id] movieFeature userFeature this.Features feature
                         let error = score - predicted
+                        squaredError <- squaredError + (error * error)
                         userFeatures.[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
+                    rmse <- sqrt(squaredError / float(ratings.Length))
+                    epoch <- epoch + 1
                 // update estimates
                 for (id, _) in ratings do
                     (!estimates).[id] <- predictRating (!estimates).[id] data.[id].[feature] userFeatures.[feature]
