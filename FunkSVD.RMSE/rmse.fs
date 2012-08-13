@@ -43,7 +43,7 @@ module RMSE =
         let mutable sum = 0.0
         let mutable count = 0
         for rating in ratings do
-            let predict = (Vosen.Juiz.FunkSVD.Model.clampedDot 1.0 movieFeatures.[rating.Title] userFeatures.[rating.User])
+            let predict = (Vosen.Juiz.FunkSVD.clampedDot 1.0 movieFeatures.[rating.Title] userFeatures.[rating.User])
             printfn "expected: %f, got: %f" rating.Score predict 
             let error = rating.Score - predict
             sum <- sum + (error*error)

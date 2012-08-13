@@ -4,6 +4,7 @@ open MathNet.Numerics.LinearAlgebra.Double
 open Vosen.Juiz.FunkSVD
 open NUnit.Framework
 open FsUnit
+open System
 
 [<TestFixture>] 
 type FunkSVD ()=
@@ -34,7 +35,7 @@ type FunkSVD ()=
     member test.``save and load round trip works for a float array``() =
         let rand = System.Random(1735493430)
         let data = Array.init 100 (fun _ -> Array.init 100 (fun _ -> rand.NextDouble()))
-        let loadedSaved = Vosen.Juiz.FunkSVD.load (Vosen.Juiz.FunkSVD.save data)
+        let loadedSaved = Vosen.Juiz.FunkSVD.loadArray float (Vosen.Juiz.FunkSVD.saveArray (fun (v : float) -> v.ToString("R", System.Globalization.CultureInfo.InvariantCulture)) data)
         data |> should equal loadedSaved
 
 [<TestFixture>] 
