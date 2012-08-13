@@ -1,0 +1,3 @@
+[submodule "dapper-dot-net"]
+	path = dapper-dot-net
+	url = https://github.com/vosen/dapper-dot-net.git
