@@ -147,7 +147,7 @@ module FunkSVD =
 
         member this.PredictSingle (baseline : (int * float) array -> float array) (ratings : (int * float) array) target =
             let userFeatures = Array.init this.Features (fun _ -> defaultFeature)
-            let estimates = ref (baseline ratings)
+            let estimates = baseline ratings
             for feature in 0..(this.Features - 1) do
                 let mutable epoch = 0
                 let mutable rmse, lastRmse = (0.0, infinity)
@@ -157,7 +157,7 @@ module FunkSVD =
                     for (id, score) in ratings do
                         let movieFeature = data.[id].[feature]
                         let userFeature = userFeatures.[feature]
-                        let predicted = predictRatingWithTrailing (!estimates).[id] movieFeature userFeature this.Features feature
+                        let predicted = predictRatingWithTrailing estimates.[id] movieFeature userFeature this.Features feature
                         let error = score - predicted
                         squaredError <- squaredError + (error * error)
                         userFeatures.[feature] <- userFeature + (learningRate * (error * movieFeature - regularization * userFeature))
@@ -165,6 +165,6 @@ module FunkSVD =
                     epoch <- epoch + 1
                 // update estimates
                 for (id, _) in ratings do
-                    (!estimates).[id] <- predictRating (!estimates).[id] data.[id].[feature] userFeatures.[feature]
+                    estimates.[id] <- predictRating estimates.[id] data.[id].[feature] userFeatures.[feature]
             // userFeatures is now features vector for this user
-            Model.clampedDot (!estimates).[target] data.[target] userFeatures
+            Model.clampedDot estimates.[target] data.[target] userFeatures
