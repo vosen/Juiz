@@ -76,14 +76,19 @@
       <HintPath>..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <ProjectReference Include="..\funksvd.core\FunkSVD\FunkSVD.fsproj">
+      <Name>FunkSVD</Name>
+      <Project>{decb42be-1d4e-4bc5-bc64-02c3e167c02a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\FunkSVD.ModelGenerator\FunkSVD.ModelGenerator.fsproj">
+      <Name>FunkSVD.ModelGenerator</Name>
+      <Project>{e5857ff7-4620-487e-839e-4e3c9bf30511}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\FunkSVD.RMSE\FunkSVD.RMSE.fsproj">
       <Name>FunkSVD.RMSE</Name>
       <Project>{c1502016-b633-4b85-b9b9-a384b392d4ef}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\FunkSVD\FunkSVD.fsproj">
-      <Name>FunkSVD</Name>
-      <Project>{decb42be-1d4e-4bc5-bc64-02c3e167c02a}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

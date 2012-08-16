@@ -73,7 +73,7 @@ module RMSE =
             [| start .. step .. stop |] 
             |> Array.Parallel.map (fun features ->
                 let avgs = ref Unchecked.defaultof<float array>
-                let model = FunkSVD.Model(FunkSVD.build (FunkSVD.averagesBaseline >> (fun (av, est) -> avgs := av; est)) trainSet features |> fst)
+                let model = FunkSVD.Model((FunkSVD.buildAsync (FunkSVD.averagesBaseline >> (fun (av, est) -> avgs := av; est)) trainSet features |> fst).Result |> fst)
                 let error = measureRMSE (model.PredictSingle (FunkSVD.Model.averagesBaseline !avgs)) probeSet
                 (features, error))
         // dump the data to text file

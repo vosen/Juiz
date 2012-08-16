@@ -39,7 +39,7 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <ItemGroup>
     <None Include="packages.config" />
-    <Compile Include="rmse.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
@@ -66,7 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FunkSVD\FunkSVD.fsproj">
+    <ProjectReference Include="..\funksvd.core\FunkSVD\FunkSVD.fsproj">
       <Name>FunkSVD</Name>
       <Project>{decb42be-1d4e-4bc5-bc64-02c3e167c02a}</Project>
       <Private>True</Private>

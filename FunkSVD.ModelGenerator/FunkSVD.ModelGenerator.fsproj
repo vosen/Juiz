@@ -65,6 +65,11 @@
       <Project>{daf737e1-05b5-4189-a5aa-dac6233b64d7}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\funksvd.core\FunkSVD\FunkSVD.fsproj">
+      <Name>FunkSVD</Name>
+      <Project>{decb42be-1d4e-4bc5-bc64-02c3e167c02a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

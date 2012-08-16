@@ -1,10 +1,14 @@
-﻿namespace Vosen.Juiz.Tests
+﻿module Vosen.Juiz.Tests
 
 open MathNet.Numerics.LinearAlgebra.Double
 open Vosen.Juiz.FunkSVD
+open Vosen.Juiz
 open NUnit.Framework
 open FsUnit
 open System
+
+let taskResult (task : Threading.Tasks.Task<'a>) =
+    task.Result
 
 [<TestFixture>] 
 type FunkSVD ()=
@@ -28,7 +32,7 @@ type FunkSVD ()=
     [<Test>]
     member test.``build works`` () =
         let ratings = [| Rating(0, 1, 5.0) ; Rating(1, 0, 4.0) ; Rating(1, 1, 2.0) ; Rating(2, 1, 4.0) |]
-        let results = Vosen.Juiz.FunkSVD.build (fun ratings -> snd <| simplePredictBaseline ratings) ratings 20
+        let results = Vosen.Juiz.FunkSVD.buildAsync (fun ratings -> snd <| simplePredictBaseline ratings) ratings 20 |> fst |> taskResult
         ignore()
 
     [<Test>]
@@ -84,7 +88,6 @@ type RMSE ()=
         probe5 |> should equal [| (0, 3.0); (1, 4.0) |]
 
     [<Test>]
-
     member test.``correct ratings are picked`` () =
         let scoreMatrix = SparseMatrix(2,4, [|2.0; 0.0; 3.0; 4.0; 0.0; 6.0; 0.0; 0.0|])
         let ratings = Vosen.Juiz.RMSE.pickRatings scoreMatrix
@@ -93,3 +96,20 @@ type RMSE ()=
         ratings |> should contain (Rating(1, 0, 3.0))
         ratings |> should contain (Rating(1, 1, 4.0))
         ratings |> should contain (Rating(2, 1, 6.0))
+
+[<TestFixture>] 
+type ModelGenerator () =
+
+    [<Test>]
+    member this.``built mappings are dense`` () =
+        let ratings = [| Rating(10, 12, 1.0); Rating(10, 3, 2.0); Rating(10, 2, 3.0); Rating(1, 3, 4.0); Rating(1, 1, 4.0) |]
+        let filteredRatings, docMap, titleMap = ModelGenerator.buildMapping ratings
+        filteredRatings |> should equal [| Rating(0,0,1.0); Rating(0,1,2.0); Rating(0,2,3.0); Rating(1,1,4.0); Rating(1,3,4.0) |]
+        docMap |> should equal [| -1; 1; -1; -1; -1; -1; -1; -1; -1; -1; 0; |]
+        titleMap |> should equal [| 10; 1; |]
+
+    [<Test>]
+    member this.``filtering fringe users work correctly`` () =
+        let ratings = [| Rating(10, 12, 1.0); Rating(10, 3, 2.0); Rating(10, 2, 3.0); Rating(1, 3, 4.0); Rating(10, 7, 2.0); Rating(1, 7, 2.0); Rating(1, 1, 4.0); Rating(9, 12, 4.0); |]
+        let filteredRatings = ModelGenerator.filterFringe 3 2 ratings |> Seq.toArray
+        filteredRatings |> should equal [| Rating(10, 12, 1.0); Rating(10, 3, 2.0); Rating(1, 3, 4.0); Rating(10, 7, 2.0); Rating(1, 7, 2.0); |]

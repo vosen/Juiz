@@ -68,7 +68,7 @@ module ModelGenerator =
     let run dbPath titleLimit userLimit featuresCount output =
         let ratings, titleToDocument, documentToTile = loadData dbPath |> (filterFringe titleLimit userLimit) |> Seq.toArray |> buildMapping
         let avgs = ref (Unchecked.defaultof<float array>)
-        let features = build (averagesBaseline >> (fun (av, est) -> avgs := av; est)) ratings featuresCount |> fst
+        let features = (buildAsync (averagesBaseline >> (fun (av, est) -> avgs := av; est)) ratings featuresCount |> fst).Result |> fst
         let saveFloat (v : float) = v.ToString("R", System.Globalization.CultureInfo.InvariantCulture)
         let saveInt (v:int) = v.ToString()
         System.IO.File.WriteAllText(output + "-features", (saveArray saveFloat features))
