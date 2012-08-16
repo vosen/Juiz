@@ -25,6 +25,7 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\FunkSVD.ModelGenerator.XML</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <StartArguments>"Server=127.0.0.1;Port=5432;Database=mal;User Id=vosen;Password=postgres;" 50 5 70 result</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

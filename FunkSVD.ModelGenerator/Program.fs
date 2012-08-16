@@ -8,14 +8,12 @@ open Vosen.Juiz.FunkSVD
 
 module ModelGenerator =
 
-    type SeenRecord = { Title : int; User: int; Score : int }
-
     let loadData str =
         use conn = new NpgsqlConnection(str)
         conn.Notice.Add(fun evArgs -> evArgs.Notice |> Console.WriteLine)
         conn.Open()
         use dbTrans = conn.BeginTransaction()
-        let records = conn.Query<Rating>("SELECT \"Anime_Id\" as \"Title\", \"User_Id\" as \"User\", \"Score\" FROM \"Seen\"")
+        let records = conn.Query<Rating>("SELECT \"Anime_Id\" as \"Title\", \"User_Id\" as \"User\", CAST(\"Score\" AS float8) FROM \"Seen\"")
         dbTrans.Commit()
         records
 
@@ -66,11 +64,16 @@ module ModelGenerator =
         (newRatings, finalTitleMap, finalDocMap)
 
     let run dbPath titleLimit userLimit featuresCount output =
+        printfn "Loading and preprocessing"
         let ratings, titleToDocument, documentToTile = loadData dbPath |> (filterFringe titleLimit userLimit) |> Seq.toArray |> buildMapping
         let avgs = ref (Unchecked.defaultof<float array>)
-        let features = (buildAsync (averagesBaseline >> (fun (av, est) -> avgs := av; est)) ratings featuresCount |> fst).Result |> fst
+        printfn "Calculating features: 0.00%%"
+        let task, progress = buildAsync (averagesBaseline >> (fun (av, est) -> avgs := av; est)) ratings featuresCount
+        progress.Progress.Add (fun (prog,sum) -> printfn "Calculating features: %.2f%%" (100.0 * (float(prog) / float(sum))))
+        let features = fst task.Result
         let saveFloat (v : float) = v.ToString("R", System.Globalization.CultureInfo.InvariantCulture)
         let saveInt (v:int) = v.ToString()
+        printfn "Saving results"
         System.IO.File.WriteAllText(output + "-features", (saveArray saveFloat features))
         System.IO.File.WriteAllText(output + "-averages", (saveArray saveFloat [| !avgs |]))
         System.IO.File.WriteAllText(output + "-titles", (saveArray saveInt [| titleToDocument |]))
