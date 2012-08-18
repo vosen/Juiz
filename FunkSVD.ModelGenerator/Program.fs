@@ -70,12 +70,13 @@ module ModelGenerator =
         printfn "Calculating features: 0.00%%"
         let task, progress = buildAsync (averagesBaseline >> (fun (av, est) -> avgs := av; est)) ratings featuresCount
         progress.Progress.Add (fun (prog,sum) -> printfn "Calculating features: %.2f%%" (100.0 * (float(prog) / float(sum))))
-        let features = fst task.Result
+        let features, featureAverages = task.Result
         let saveFloat (v : float) = v.ToString("R", System.Globalization.CultureInfo.InvariantCulture)
         let saveInt (v:int) = v.ToString()
         printfn "Saving results"
         System.IO.File.WriteAllText(output + "-features", (saveArray saveFloat features))
-        System.IO.File.WriteAllText(output + "-averages", (saveArray saveFloat [| !avgs |]))
+        System.IO.File.WriteAllText(output + "-feature-avgs", (saveArray saveFloat [| featureAverages |]))
+        System.IO.File.WriteAllText(output + "-movie-avgs", (saveArray saveFloat [| !avgs |]))
         System.IO.File.WriteAllText(output + "-titles", (saveArray saveInt [| titleToDocument |]))
         System.IO.File.WriteAllText(output + "-docs", (saveArray saveInt [| documentToTile |]))
 
@@ -83,7 +84,7 @@ module ModelGenerator =
     let main args =
         if args.Length <> 5 then
             printfn "USAGE: ModelGenerator.exe db_string title_low_limit user_low_limit features out_file"
-            printfn "ModelGenerator.exe \"Server=127.0.0.1;Port=5432;Database=mal;User Id=vosen;Password=postgres;\" 50 5 70 result"
+            printfn "ModelGenerator.exe \"Server=127.0.0.1;Port=5432;Database=mal;User Id=vosen;Password=postgres;\" 100 3 70 result"
             1
         else
             run args.[0] (int args.[1]) (int args.[2]) (int args.[3]) args.[4]

@@ -4,6 +4,7 @@ module RMSE =
 
     open MathNet.Numerics.LinearAlgebra.Generic
     open MathNet.Numerics.LinearAlgebra.Double
+    type pair<'a,'b> = System.Collections.Generic.KeyValuePair<'a,'b>
 
     let loadMatrices (file : string) train test =
         let reader = MathNet.Numerics.LinearAlgebra.Double.IO.MatlabMatrixReader(file)
@@ -15,7 +16,7 @@ module RMSE =
             let j = ref -1
             let newArray = Array.copy arr
             newArray.[i] <- 0.0
-            newArray |> Array.choose (fun v -> j := !j+1; if v = 0.0 then None else Some((!j,v)))
+            newArray |> Array.choose (fun v -> j := !j+1; if v = 0.0 then None else Some(pair(!j,v)))
         testMatrix.RowEnumerator()
         |> Seq.collect (fun (i,row) ->
             let arr = row.ToArray() 
@@ -29,7 +30,7 @@ module RMSE =
         |> Seq.choose (fun (i,j,v) -> if v = 0.0 then None else Some(FunkSVD.Rating(j,i,v)))
         |> Seq.toArray
 
-    let measureRMSE (predict : (int * float)[] -> int -> float) probeSet =
+    let measureRMSE (predict : pair<int, float>[] -> int -> float) probeSet =
         let mutable sum = 0.0
         let mutable count = 0
         for target, score, ratings in probeSet do
@@ -71,11 +72,12 @@ module RMSE =
         let trainSet = pickRatings trainMatrix
         let measured =
             [| start .. step .. stop |] 
-            |> Array.Parallel.map (fun features ->
+            |> Array.Parallel.map (fun featuresCount ->
                 let avgs = ref Unchecked.defaultof<float array>
-                let model = FunkSVD.Model((FunkSVD.buildAsync (FunkSVD.averagesBaseline >> (fun (av, est) -> avgs := av; est)) trainSet features |> fst).Result |> fst)
+                let features, userAvgs = ((FunkSVD.buildAsync (FunkSVD.averagesBaseline >> (fun (av, est) -> avgs := av; est)) trainSet featuresCount) |> fst).Result
+                let model = FunkSVD.Model(features, userAvgs)
                 let error = measureRMSE (model.PredictSingle (FunkSVD.Model.averagesBaseline !avgs)) probeSet
-                (features, error))
+                (featuresCount, error))
         // dump the data to text file
         System.IO.File.WriteAllText(output + "-raw.txt", measuresToString measured)
         // graph measured data

@@ -53,8 +53,8 @@ let graphWithAvg paths colors (model : OxyPlot.PlotModel) =
         model.Series.Add(ser)
     OxyPlot.WindowsForms.PngExporter.Export(model, "graph_compare.png_avg", 800, 600, System.Drawing.Brushes.White)
 
-let paths = [| "..\\FunkSVD.RMSE\\bin\\Release\\result-ep85-10-10-200-raw.txt"; "..\\FunkSVD.RMSE\\bin\\Release\\result-avg-e3-10-10-200-raw.txt"; "..\\FunkSVD.RMSE\\bin\\Release\\result-40-1-80-raw.txt"; "..\\FunkSVD.RMSE\\bin\\Release\\result-ep75-10-10-200-raw.txt" |]
-let colors = [| OxyPlot.OxyColors.Red; OxyPlot.OxyColors.Green; OxyPlot.OxyColors.Green; OxyPlot.OxyColors.Blue |]
+let paths = [| "..\\FunkSVD.RMSE\\bin\\Release\\result-fix3-raw.txt"; "..\\FunkSVD.RMSE\\bin\\Release\\result-avgfeat-raw.txt"; "..\\FunkSVD.RMSE\\bin\\Release\\result-avgfeat-nomin-raw.txt"; |]
+let colors = [| OxyPlot.OxyColors.Blue; OxyPlot.OxyColors.Red; OxyPlot.OxyColors.Green; |]
 let model = OxyPlot.PlotModel("RMSE in relation to features")
 graph paths colors model
 graphWithAvg paths colors model
