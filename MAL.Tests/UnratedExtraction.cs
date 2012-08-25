@@ -82,7 +82,7 @@ namespace Vosen.MAL.Tests
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
-            Assert.AreEqual(42, result.Ratings.Count);
+            Assert.AreEqual(37, result.Ratings.Count);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace Vosen.MAL.Tests
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
-            Assert.AreEqual(34, result.Ratings.Count);
+            Assert.AreEqual(0, result.Ratings.Count);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace Vosen.MAL.Tests
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
-            Assert.AreEqual(282, result.Ratings.Count);
+            Assert.AreEqual(248, result.Ratings.Count);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace Vosen.MAL.Tests
             var result = Extract.AllAnime(site);
             Assert.IsNotNull(result);
             Assert.AreEqual(AnimelistResponse.Successs, result.Response);
-            Assert.AreEqual(330, result.Ratings.Count);
+            Assert.AreEqual(195, result.Ratings.Count);
         }
     }
 }

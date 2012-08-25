@@ -179,14 +179,12 @@ namespace Vosen.MAL.Content
             Task<string> completedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=2");
             Task<string> onHoldTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=3");
             Task<string> droppedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=4");
-            Task<string> plannedTask = GetStringFromAsync("http://myanimelist.net/animelist/" + name + "&status=6");
-            Task<string>[] tasks = new Task<string>[] { watchingTask, completedTask, onHoldTask, droppedTask, plannedTask };
+            Task<string>[] tasks = new Task<string>[] { watchingTask, completedTask, onHoldTask, droppedTask };
             Task.WaitAll(tasks);
             watchingTask.Dispose();
             completedTask.Dispose();
             onHoldTask.Dispose();
             droppedTask.Dispose();
-            plannedTask.Dispose();
             var allAnime = tasks.Select(task => AllAnime(task.Result))
                                 .Where(result => result.Response == AnimelistResponse.Successs)
                                 .SelectMany(i => i.Ratings);
@@ -241,6 +239,7 @@ namespace Vosen.MAL.Content
             }
             // collect ratings
             var ratings = tableNode.ChildNodes
+                .TakeWhile(n => !(n.Attributes.Contains("class") && n.Attributes["class"].Value == "header_ptw"))
                 .Where(n => n.Name == "table" && !n.Attributes.Contains("class"))
                 .Select(n => ExtractPayload(n, mainIndices.Item1, mainIndices.Item2))
                 .Where(t => t != null)
