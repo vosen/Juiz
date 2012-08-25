@@ -7,6 +7,8 @@ open NUnit.Framework
 open FsUnit
 open System
 
+type pair <'a,'b> = System.Collections.Generic.KeyValuePair<'a,'b>
+
 let taskResult (task : Threading.Tasks.Task<'a>) =
     task.Result
 
@@ -65,27 +67,27 @@ type RMSE ()=
         let (target1, score1, probe1) = probe.[0]
         target1 |> should equal 1
         score1 |> should equal 1.0
-        probe1 |> should equal [| (2, 2.0) |]
+        probe1 |> should equal [| pair(2, 2.0) |]
         // item 2
         let (target2, score2, probe2) = probe.[1]
         target2 |> should equal 2
         score2 |> should equal 2.0
-        probe2 |> should equal [| (1, 1.0) |]
+        probe2 |> should equal [| pair(1, 1.0) |]
         // item 3
         let (target3, score3, probe3) = probe.[2]
         target3 |> should equal 0
         score3 |> should equal 3.0
-        probe3 |> should equal [| (1, 4.0); (2, 5.0) |]
+        probe3 |> should equal [| pair(1, 4.0); pair(2, 5.0) |]
         // item 4
         let (target4, score4, probe4) = probe.[3]
         target4 |> should equal 1
         score4 |> should equal 4.0
-        probe4 |> should equal [| (0, 3.0); (2, 5.0) |]
+        probe4 |> should equal [| pair(0, 3.0); pair(2, 5.0) |]
         // item 5
         let (target5, score5, probe5) = probe.[4]
         target5 |> should equal 2
         score5 |> should equal 5.0
-        probe5 |> should equal [| (0, 3.0); (1, 4.0) |]
+        probe5 |> should equal [| pair(0, 3.0); pair(1, 4.0) |]
 
     [<Test>]
     member test.``correct ratings are picked`` () =
