@@ -76,13 +76,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\funksvd.core\MAL.Content\MAL.Content.csproj">
+      <Project>{0AF0124F-6948-482C-BFCB-6097BD8291FC}</Project>
+      <Name>MAL.Content</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MAL.Shared\MAL.Shared.csproj">
       <Project>{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}</Project>
       <Name>MAL.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MAL.Content\MAL.Content.csproj">
-      <Project>{0AF0124F-6948-482C-BFCB-6097BD8291FC}</Project>
-      <Name>MAL.Content</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

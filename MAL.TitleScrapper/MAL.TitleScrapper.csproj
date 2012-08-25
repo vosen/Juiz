@@ -69,7 +69,7 @@
     <Compile Include="Scrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MAL.Content\MAL.Content.csproj">
+    <ProjectReference Include="..\funksvd.core\MAL.Content\MAL.Content.csproj">
       <Project>{0AF0124F-6948-482C-BFCB-6097BD8291FC}</Project>
       <Name>MAL.Content</Name>
     </ProjectReference>

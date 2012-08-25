@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{36B2E6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Tests", "MAL.Tests\MAL.Tests.csproj", "{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Content", "MAL.Content\MAL.Content.csproj", "{0AF0124F-6948-482C-BFCB-6097BD8291FC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Shared", "MAL.Shared\MAL.Shared.csproj", "{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.TitleScrapper", "MAL.TitleScrapper\MAL.TitleScrapper.csproj", "{F0C27DD1-8968-4EAA-BF5B-B8CA9160BDD7}"
@@ -32,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper", "dapper-dot-net\Dapper\Dapper.csproj", "{DAF737E1-05B5-4189-A5AA-DAC6233B64D7}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunkSVD", "funksvd.core\FunkSVD\FunkSVD.fsproj", "{DECB42BE-1D4E-4BC5-BC64-02C3E167C02A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAL.Content", "funksvd.core\MAL.Content\MAL.Content.csproj", "{0AF0124F-6948-482C-BFCB-6097BD8291FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,15 +76,6 @@ Global
 		{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A81F384A-6854-403C-A8AE-C9CA9AAA4BF0}.Release|x86.ActiveCfg = Release|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|x86.Build.0 = Debug|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{3C752A22-8EBE-4E87-9DC2-1EE612600F0E}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -159,6 +150,16 @@ Global
 		{DECB42BE-1D4E-4BC5-BC64-02C3E167C02A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DECB42BE-1D4E-4BC5-BC64-02C3E167C02A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DECB42BE-1D4E-4BC5-BC64-02C3E167C02A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0AF0124F-6948-482C-BFCB-6097BD8291FC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

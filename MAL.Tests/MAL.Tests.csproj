@@ -135,12 +135,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MAL.Content\MAL.Content.csproj">
+    <ProjectReference Include="..\funksvd.core\MAL.Content\MAL.Content.csproj">
       <Project>{0AF0124F-6948-482C-BFCB-6097BD8291FC}</Project>
       <Name>MAL.Content</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
