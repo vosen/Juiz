@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
+    <None Include="build_test_model.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Security">

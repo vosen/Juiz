@@ -5,8 +5,7 @@
 
 open Vosen.Juiz.RMSE
 
-let trainMatrix, testMatrix = loadMatrices @"C:\Users\vosen\Documents\Visual Studio 2010\Projects\Juiz\FunkSVD.RMSE\bin\Release\mal.mat" "train" "test"
-let ratings = pickRatings trainMatrix
-let probe = Vosen.Juiz.RMSE.buildProbe testMatrix
+let ratings = Vosen.Juiz.RMSE.loadTrainData @"C:\Users\vosen\Documents\Visual Studio 2010\Projects\Juiz\FunkSVD.ModelGenerator\probe-train"
+let probe = Vosen.Juiz.RMSE.loadTestData @"C:\Users\vosen\Documents\Visual Studio 2010\Projects\Juiz\FunkSVD.ModelGenerator\probe-test"
 let avgs, ests = Vosen.Juiz.FunkSVD.averagesBaseline ratings
 printfn "%f" (Vosen.Juiz.RMSE.measureRMSE (fun ratings id -> avgs.[id]) probe)

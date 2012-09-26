@@ -11,6 +11,22 @@ module RMSE =
         let matrices = reader.ReadMatrices()
         (matrices.[train] :?> SparseMatrix, matrices.[test] :?> SparseMatrix)
 
+    let readRating (str : string) =
+        let parts = str.Split(' ')
+        FunkSVD.Rating(int(parts.[0]), int(parts.[1]), float(parts.[2]))
+
+    let readPredict (str : string) =
+        let parts = str.Split(' ')
+        pair(int(parts.[0]), float(parts.[1]))
+
+    let loadTrainData (train : string) =
+        (FunkSVD.loadArray readRating (System.IO.File.ReadAllText(train))).[0]
+
+    let loadTestData (train : string) : (int * float * pair<int, float> array) array =
+        let testString = System.IO.File.ReadAllText(train)
+        let data = FunkSVD.loadArray readPredict testString
+        data |> Array.map (fun row -> (row.[0].Key, row.[0].Value, Array.sub row 1 (row.Length - 1)))
+
     let buildProbe (testMatrix : SparseMatrix) =
         let copyExceptOne (arr : float array) i =
             let j = ref -1
@@ -66,10 +82,9 @@ module RMSE =
     let measuresToString measured =
         measured |> Array.fold (fun acc (features,error) -> acc + (sprintf "%d, %.6f\n" features error)) ""
 
-    let run start step stop input train test output =
-        let trainMatrix, testMatrix = loadMatrices input train test
-        let probeSet = buildProbe testMatrix
-        let trainSet = pickRatings trainMatrix
+    let run start step stop train test output =
+        let trainSet = loadTrainData train
+        let probeSet = loadTestData test
         let measured =
             [| start .. step .. stop |] 
             |> Array.Parallel.map (fun featuresCount ->
@@ -86,8 +101,8 @@ module RMSE =
 
     [<EntryPoint>]
     let main args =
-        if args.Length <> 7 then
-            printfn "USAGE: rmse.exe start step stop input.mat train_matrix test_matrix output"
+        if args.Length <> 6 then
+            printfn "USAGE: rmse.exe start step stop train_probe test_probe output"
             exit(0)
-        run (int args.[0]) (int args.[1]) (int args.[2]) args.[3] args.[4] args.[5] args.[6]
+        run (int args.[0]) (int args.[1]) (int args.[2]) args.[3] args.[4] args.[5]
         0
