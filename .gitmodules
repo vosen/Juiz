@@ -3,4 +3,4 @@
 	url = https://github.com/vosen/dapper-dot-net.git
 [submodule "funksvd.core"]
 	path = funksvd.core
-	url = git@bitbucket.org:vosen/funksvd.git
+	url = git@github.com:vosen/Juiz.Shared.git
